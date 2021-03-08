@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="pub_adv_bg">#66000000</color>
+
+    <color name="adv_txt_col">#80353c46</color>
+    <color name="adv_txt_col_night">#A8A8A8</color>
+
+    <color name="col_tv_adv_normal">#353c46</color>
+    <color name="col_tv_adv_normal_night">#BAB9B9</color>
+
+    <color name="col_btn_adv_normal">#FFFFFF</color>
+    <color name="col_btn_adv_normal_night">#535353</color>
+
+</resources>

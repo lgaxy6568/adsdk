@@ -1,0 +1,16 @@
+<resources>
+    <item name="iv_adv_look_info" type="id"/>
+    <item name="layout_adv_for_bd_image_view" type="id"/>
+    <item name="layout_adv_for_tt_image_view" type="id"/>
+    <item name="layout_adv_for_tt_image_view_layout" type="id"/>
+    <item name="layout_adv_for_tt_bottom_layout" type="id"/>
+
+    <item name="layout_adv_for_gdt_media" type="id"/>
+    <item name="layout_adv_for_tt_tv_title" type="id"/>
+    <item name="layout_adv_for_tt_tv_desc" type="id"/>
+    <item name="adv_close_dyn_for_chapter" type="id"></item>
+    <item name="adv_close_dyn_for_chapter_middle" type="id"></item>
+    <item name="adv_close_dyn_for_page" type="id"></item>
+    <item name="rv_advert_container" type="id"/>
+    <item name="adv_card_root_layout" type="id"/>
+</resources>

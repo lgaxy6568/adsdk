@@ -1,0 +1,95 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_book_list_layout"
+    android:layout_width="match_parent"
+    android:layout_height="133dp"
+    android:descendantFocusability="blocksDescendants"
+    android:paddingStart="9dp"
+    android:paddingEnd="15dp">
+
+    <RelativeLayout
+        android:id="@+id/layout_list_img_container"
+        android:layout_width="85dp"
+        android:layout_height="115dp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/icon_insert_listad_bg">
+
+        <ImageView
+            android:id="@+id/layout_list_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@null"
+            android:scaleType="fitXY" />
+
+        <LinearLayout
+            android:id="@+id/layout_list_ad_flag_vg"
+            android:layout_alignBottom="@id/layout_list_img"
+            android:layout_alignEnd="@id/layout_list_img"
+            android:layout_width="27dp"
+            android:layout_height="11dp"
+            android:background="#66000000"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/layout_list_ad_flag"
+                android:layout_width="9dp"
+                android:layout_height="6dp"
+                android:contentDescription="@null"
+                android:scaleType="fitXY"
+                android:src="@drawable/ad_logo_tt"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="广告"
+                android:textSize="7sp"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="22dp"
+        android:layout_toEndOf="@id/layout_list_img_container"
+        android:id="@+id/layout_list_ad_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textColor="#353C46"
+        android:textSize="15dp"/>
+
+    <LinearLayout
+        android:layout_marginStart="6dp"
+        android:layout_toEndOf="@id/layout_list_img_container"
+        android:layout_marginBottom="23dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/layout_list_ad_title"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="#919191"
+            android:textSize="13dp"/>
+
+        <TextView
+            android:id="@+id/layout_list_ad_btn"
+            android:layout_width="56dp"
+            android:layout_height="27dp"
+            android:background="@drawable/sh_border_for_adv_inlist"
+            android:gravity="center"
+            android:text="查看详情"
+            android:textColor="#FFA13B"
+            android:textSize="11dp"/>
+    </LinearLayout>
+
+</RelativeLayout>

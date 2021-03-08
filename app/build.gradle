@@ -1,0 +1,82 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsSdkVersion
+
+    defaultConfig {
+        applicationId "cn.yq.days"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("gt.jks")
+            storePassword "killers8y"
+            keyAlias "gt"
+            keyPassword "killers8y"
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+        debug {
+            storeFile file("gt.jks")
+            storePassword "killers8y"
+            keyAlias "gt"
+            keyPassword "killers8y"
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        abortOnError false
+        disable 'GoogleAppIndexingWarning'
+    }
+
+    buildFeatures{
+        viewBinding = true
+    }
+}
+
+repositories{
+    flatDir{
+        dirs 'libs',rootProject.ext.COMMON_MODULE_DIR_PATH
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+
+    implementation("com.squareup.okhttp3:okhttp:4.9.0")
+    implementation("com.squareup.okio:okio:2.10.0")
+
+    implementation project(":ad")
+    implementation project(":ad_tt")
+    implementation project(":ad_gdt")
+}

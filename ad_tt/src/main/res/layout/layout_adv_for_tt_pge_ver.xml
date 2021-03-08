@@ -1,0 +1,159 @@
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="@dimen/pge_ver_img_width"
+                    android:layout_height="@dimen/pge_ver_img_height">
+
+                    <ImageView
+                        android:id="@id/layout_adv_for_tt_image_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@null"
+                        android:scaleType="centerCrop" />
+
+                    <LinearLayout
+                        android:id="@id/layout_adv_for_tt_image_view_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="@drawable/sh_border_for_adv_logo"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp"
+                        android:gravity="center_vertical"
+                        android:layout_height="14dp">
+                        <ImageView
+                            android:id="@+id/iv_adv_flag_image"
+                            android:layout_width="11dp"
+                            android:layout_height="7dp"
+                            android:contentDescription="@null"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ad_logo_tt_big" />
+                        <TextView
+                            android:id="@+id/iv_adv_flag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:lines="1"
+                            android:text="广告"
+                            android:textColor="@color/tt_white"
+                            android:textSize="8dp" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@id/layout_adv_for_tt_bottom_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="63dp"
+                    android:padding="9dp">
+
+                    <ImageView
+                        android:id="@+id/layout_adv_for_tt_icon_iv"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@null"
+                        android:scaleType="fitXY" />
+
+                    <TextView
+                        android:id="@+id/iv_adv_look_info"
+                        android:layout_width="41dp"
+                        android:layout_height="18dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="6dp"
+                        android:background="@drawable/sh_border_for_adv_detail"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:tag="sx:sh_border_for_adv_detail:background|sx:col_btn_adv_normal:textColor"
+                        android:text="查看详情"
+                        android:textColor="@color/col_btn_adv_normal"
+                        android:textSize="9dp" />
+
+                    <TextView
+                        android:id="@+id/layout_adv_for_tt_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="6dp"
+                        android:layout_toLeftOf="@id/iv_adv_look_info"
+                        android:layout_toRightOf="@id/layout_adv_for_tt_icon_iv"
+                        android:lineSpacingExtra="4dp"
+                        android:lines="2"
+                        android:gravity="center_vertical"
+                        android:tag="sx:col_tv_adv_normal:textColor"
+                        android:text="想看什么？\n告诉我"
+                        android:textColor="@color/col_tv_adv_normal"
+                        android:textSize="13dp" />
+
+                </RelativeLayout>
+
+                <!-- 废弃的 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="30dp"
+                        android:layout_height="15dp"
+                        android:background="@drawable/sh_border_for_adv_chapter"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:tag="sx:adv_txt_col:textColor|sx:sh_border_for_adv_chapter:background"
+                        android:text="广告"
+                        android:textColor="@color/adv_txt_col"
+                        android:textSize="10dp" />
+
+                    <TextView
+                        android:id="@id/layout_adv_for_tt_tv_desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:text="头条广告"
+                        android:textColor="#939393"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/layout_adv_for_tt_dis_like_tv"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="right"
+                        android:gravity="center_vertical"
+                        android:text="不喜欢"
+                        android:textColor="#919191"
+                        android:textSize="11dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:layout_width="72dp"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/sh_border_for_adv_detail"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:tag="sx:sh_border_for_adv_detail:background|sx:col_btn_adv_normal:textColor"
+                        android:text="查看详情"
+                        android:textColor="@color/col_btn_adv_normal"
+                        android:textSize="14dp" />
+                </LinearLayout>
+
+            </LinearLayout>

@@ -1,0 +1,28 @@
+<resources>
+    <dimen name="padding_for_adv_chapter_middle_top">5dp</dimen>
+    <dimen name="padding_for_adv_chapter_middle_bottom">5dp</dimen>
+    <dimen name="padding_for_adv_chapter_middle_left">5dp</dimen>
+    <dimen name="padding_for_adv_chapter_middle_right">10dp</dimen>
+
+
+    <dimen name="padding_for_adv_chapter_end_top">10dp</dimen>
+    <dimen name="padding_for_adv_chapter_end_bottom">10dp</dimen>
+    <dimen name="padding_for_adv_chapter_end_left">10dp</dimen>
+    <dimen name="padding_for_adv_chapter_end_right">10dp</dimen>
+
+    <dimen name="padding_for_adv_banner_top">8dp</dimen>
+    <dimen name="padding_for_adv_banner_bottom">8dp</dimen>
+    <dimen name="padding_for_adv_banner_left">6dp</dimen>
+    <dimen name="padding_for_adv_banner_right">6dp</dimen>
+
+    <dimen name="padding_for_adv_banner_top_normal">3dp</dimen>
+    <dimen name="padding_for_adv_banner_bottom_normal">3dp</dimen>
+    <dimen name="padding_for_adv_banner_left_normal">3dp</dimen>
+    <dimen name="padding_for_adv_banner_right_normal">10dp</dimen>
+
+    <dimen name="pge_ver_img_width">257dp</dimen>
+    <dimen name="pge_ver_img_height">385dp</dimen>
+    <dimen name="gdt_ad_min_valid_height">400dp</dimen>
+    <dimen name="pge_card_ad_height">395dp</dimen>
+
+</resources>
