@@ -6,12 +6,12 @@ import java.util.List;
 public class ShareRequestParam {
     private ShareRequestParam() {
     }
-    private static volatile cn.yq.ad.ShareRequestParam spp = null;
-    public static cn.yq.ad.ShareRequestParam getInstance(){
+    private static volatile ShareRequestParam spp = null;
+    public static ShareRequestParam getInstance(){
         if(spp == null){
-            synchronized (cn.yq.ad.ShareRequestParam.class){
+            synchronized (ShareRequestParam.class){
                 if(spp == null){
-                    spp = new cn.yq.ad.ShareRequestParam();
+                    spp = new ShareRequestParam();
                 }
             }
         }
@@ -56,7 +56,7 @@ public class ShareRequestParam {
         return sex;
     }
 
-    public cn.yq.ad.ShareRequestParam setSex(int sex) {
+    public ShareRequestParam setSex(int sex) {
         this.sex = sex;
         return this;
     }
@@ -65,7 +65,7 @@ public class ShareRequestParam {
         return pageTitle;
     }
 
-    public cn.yq.ad.ShareRequestParam setPageTitle(String pageTitle) {
+    public ShareRequestParam setPageTitle(String pageTitle) {
         this.pageTitle = pageTitle;
         return this;
     }
@@ -74,7 +74,7 @@ public class ShareRequestParam {
         return pageId;
     }
 
-    public cn.yq.ad.ShareRequestParam setPageId(String pageId) {
+    public ShareRequestParam setPageId(String pageId) {
         this.pageId = pageId;
         return this;
     }
@@ -83,7 +83,7 @@ public class ShareRequestParam {
         return contentCategory;
     }
 
-    public cn.yq.ad.ShareRequestParam setContentCategory(String contentCategory) {
+    public ShareRequestParam setContentCategory(String contentCategory) {
         this.contentCategory = contentCategory;
         return this;
     }
@@ -92,7 +92,7 @@ public class ShareRequestParam {
         return contentLabel;
     }
 
-    public cn.yq.ad.ShareRequestParam setContentLabel(String contentLabel) {
+    public ShareRequestParam setContentLabel(String contentLabel) {
         this.contentLabel = contentLabel;
         return this;
     }
@@ -101,12 +101,12 @@ public class ShareRequestParam {
         return favoriteBook;
     }
 
-    public cn.yq.ad.ShareRequestParam setFavoriteBook(List<String> favoriteBook) {
+    public ShareRequestParam setFavoriteBook(List<String> favoriteBook) {
         this.favoriteBook = favoriteBook;
         return this;
     }
 
-    public cn.yq.ad.ShareRequestParam putFavoriteBookId(String bookID){
+    public ShareRequestParam putFavoriteBookId(String bookID){
         if(bookID == null || bookID.trim().length() == 0){
             return this;
         }

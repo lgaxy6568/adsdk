@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.lang.reflect.Type;
 
-import cn.yq.ad.util.MyGsonUtils;
+import cn.yq.ad.util.AdGsonUtils;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
@@ -72,7 +72,7 @@ public class DefaultHandler implements HttpResponseHandler {
                     t = (T) jsonStr;
                 } else {
                     reader = responseBody.charStream();
-                    t = MyGsonUtils.getGson().fromJson(reader, resultType);
+                    t = AdGsonUtils.getGson().fromJson(reader, resultType);
                 }
             }
         }catch (JsonIOException | JsonSyntaxException e){

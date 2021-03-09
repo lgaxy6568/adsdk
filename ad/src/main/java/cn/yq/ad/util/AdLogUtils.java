@@ -4,11 +4,11 @@ import android.util.Log;
 
 import cn.yq.ad.proxy.AdConfigs;
 
-public class LogUtil {
+public class AdLogUtils {
 	private static boolean debug = AdConfigs.isDebugModel();
 
 	public static void setDebug(boolean debug) {
-		LogUtil.debug = debug;
+		AdLogUtils.debug = debug;
 	}
 
 	public static void d(String tag, String msg) {

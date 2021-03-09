@@ -2,7 +2,6 @@ package cn.yq.ad.gdt;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -31,15 +30,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import cn.yq.ad.ADStyle;
 import cn.yq.ad.Adv_Type;
-import cn.yq.ad.Conf;
-import cn.yq.ad.NativeAdResponse;
+import cn.yq.ad.AdConf;
+import cn.yq.ad.AdNativeResponse;
 import cn.yq.ad.ShowModel;
 import cn.yq.ad.impl.ADBaseImpl;
 import cn.yq.ad.impl.ADCallBackImpl;
 import cn.yq.ad.impl.ClickModel;
 import cn.yq.ad.impl.FailModel;
 import cn.yq.ad.impl.PresentModel;
-import cn.yq.ad.util.NetworkUtils;
+import cn.yq.ad.util.AdNetworkUtils;
 
 /**
  * Created by liguo on 2018/10/17.
@@ -75,7 +74,7 @@ public class ADBaseImplByGDT extends ADBaseImpl implements NativeADUnifiedListen
     }
 
     @Override
-    public final NativeAdResponse getAdvertEntity(String from, Map<String, String> map) {
+    public final AdNativeResponse getAdvertEntity(String from, Map<String, String> map) {
         synchronized (mQueue){
             final int sz = mQueue.size();
             if (sz <= 0) {
@@ -83,7 +82,7 @@ public class ADBaseImplByGDT extends ADBaseImpl implements NativeADUnifiedListen
                 startRequest("getAdvertEntity("+from+")");
                 return null;
             }
-            NativeAdResponse resp = mQueue.poll();
+            AdNativeResponse resp = mQueue.poll();
             final int freeSize = mQueue.size();
             if(resp != null){
                 Log.e(getTAG(), "getAdvertEntity("+from+"),成功，剩于广告条数="+freeSize+",resp.title=" + resp.getTitle());
@@ -151,7 +150,7 @@ public class ADBaseImplByGDT extends ADBaseImpl implements NativeADUnifiedListen
 
         if (ad.getAdPatternType() == AdPatternType.NATIVE_VIDEO && mediaView != null) {
 
-            VideoOption videoOption = getVideoOption(NetworkUtils.isWifi(act.get())
+            VideoOption videoOption = getVideoOption(AdNetworkUtils.isWifi(act.get())
                     ? VideoOption.AutoPlayPolicy.WIFI : VideoOption.AutoPlayPolicy.ALWAYS);
 
             ad.bindMediaView(mediaView, videoOption, new NativeADMediaListener() {
@@ -263,7 +262,7 @@ public class ADBaseImplByGDT extends ADBaseImpl implements NativeADUnifiedListen
         }
 
         while (true){
-            NativeAdResponse nar = mQueue.poll();
+            AdNativeResponse nar = mQueue.poll();
             if(nar == null){
                 break;
             }
@@ -287,7 +286,7 @@ public class ADBaseImplByGDT extends ADBaseImpl implements NativeADUnifiedListen
 
     final Map<String, NativeUnifiedADData> mNativeResponses = new HashMap<>();
     final Map<String, String> hashCode_imgUrl = new HashMap<>();
-    protected final Queue<NativeAdResponse> mQueue = new LinkedBlockingQueue<>();
+    protected final Queue<AdNativeResponse> mQueue = new LinkedBlockingQueue<>();
     @Override
     public final Adv_Type getAdvType() {
         return Adv_Type.gdt;
@@ -296,8 +295,8 @@ public class ADBaseImplByGDT extends ADBaseImpl implements NativeADUnifiedListen
     //==================================
 
     @Override
-    public Conf getCfg() {
-        Conf bd = new Conf();
+    public AdConf getCfg() {
+        AdConf bd = new AdConf();
         bd.setAppId(appId);
         bd.setAdId(adId);
         return bd;
@@ -319,13 +318,13 @@ public class ADBaseImplByGDT extends ADBaseImpl implements NativeADUnifiedListen
         if (list == null || list.size() == 0) {
             return;
         }
-        List<NativeAdResponse> lst = new ArrayList<>();
+        List<AdNativeResponse> lst = new ArrayList<>();
         for (NativeUnifiedADData response : list) {
             Map<String, String> pp = new HashMap<>();
             String hash_code = String.valueOf(response.hashCode());
             pp.put("hash_code",hash_code);
             String imgUrl = appendParams(response.getImgUrl(),pp);
-            NativeAdResponse nar = cloneAdData(response,imgUrl);
+            AdNativeResponse nar = cloneAdData(response,imgUrl);
 
             mQueue.add(nar);
             lst.add(nar);
@@ -345,9 +344,9 @@ public class ADBaseImplByGDT extends ADBaseImpl implements NativeADUnifiedListen
         }
     }
 
-    private NativeAdResponse cloneAdData(NativeUnifiedADData data, String imgUrl) {
+    private AdNativeResponse cloneAdData(NativeUnifiedADData data, String imgUrl) {
         String iconUrl = data.getIconUrl();
-        NativeAdResponse nar = new NativeAdResponse(imgUrl,adId,Adv_Type.gdt);
+        AdNativeResponse nar = new AdNativeResponse(imgUrl,adId,Adv_Type.gdt);
         //ad.getAdPatternType() == AdPatternType.NATIVE_VIDEO 视频类型广告
         int img_w = data.getPictureWidth();
         int img_h = data.getPictureHeight();

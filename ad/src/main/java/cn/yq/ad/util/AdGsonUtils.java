@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 
 import java.lang.reflect.Modifier;
 
-public class MyGsonUtils {
+public class AdGsonUtils {
     private static Gson GSON = null;
     static{
     	GSON = createGson();

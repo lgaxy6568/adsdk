@@ -18,7 +18,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import cn.yq.ad.Adv_Type;
-import cn.yq.ad.Conf;
+import cn.yq.ad.AdConf;
 import cn.yq.ad.impl.ADBaseImpl;
 import cn.yq.ad.impl.ClickModel;
 import cn.yq.ad.impl.DismissModel;
@@ -28,7 +28,7 @@ import cn.yq.ad.impl.PresentModel;
 import cn.yq.ad.tt.config.TTUtil;
 import cn.yq.ad.tt.utils.TToast;
 import cn.yq.ad.util.ADHelper;
-import cn.yq.ad.util.Size;
+import cn.yq.ad.util.AdSize;
 import cn.yq.ad.util.SizeUtil;
 
 /**
@@ -61,7 +61,7 @@ public class SplashForTT extends ADBaseImpl {
      */
     public void load() {
         //step3:创建开屏广告请求参数AdSlot,具体参数含义参考文档
-        Size sz = SizeUtil.getScreenSize(act);
+        AdSize sz = SizeUtil.getScreenSize(act);
         final int accept_width = sz.getWidth();
         final int accept_height = sz.getHeight();
         AdSlot adSlot = new AdSlot.Builder()
@@ -187,8 +187,8 @@ public class SplashForTT extends ADBaseImpl {
     }
 
     @Override
-    public Conf getCfg() {
-        Conf bd = new Conf();
+    public AdConf getCfg() {
+        AdConf bd = new AdConf();
         bd.setAppId(appId);
         bd.setAdId(adId);
         return bd;

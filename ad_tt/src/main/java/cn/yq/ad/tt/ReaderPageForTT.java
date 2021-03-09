@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import cn.yq.ad.ADCallback;
 import cn.yq.ad.ADStyle;
 import cn.yq.ad.Adv_Type;
-import cn.yq.ad.NativeAdResponse;
+import cn.yq.ad.AdNativeResponse;
 import cn.yq.ad.ShowModel;
 import cn.yq.ad.impl.ClickModel;
 import cn.yq.ad.impl.FailModel;
@@ -66,8 +66,8 @@ public class ReaderPageForTT extends ADBaseImplByTT<TTFeedAd> {
     protected boolean NEED_USE_REMOVE_MODE(){
         return false;
     }
-    private volatile NativeAdResponse tmpLastResp = null;
-    private void setLastResp(NativeAdResponse resp) {
+    private volatile AdNativeResponse tmpLastResp = null;
+    private void setLastResp(AdNativeResponse resp) {
         if(NEED_USE_REMOVE_MODE()) {
             this.tmpLastResp = resp;
         }
@@ -88,7 +88,7 @@ public class ReaderPageForTT extends ADBaseImplByTT<TTFeedAd> {
         }
     }
     @Override
-    public final NativeAdResponse getAdvertEntity(String from, Map<String, String> map) {
+    public final AdNativeResponse getAdvertEntity(String from, Map<String, String> map) {
         synchronized (mQueue){
             final int sz = mQueue.size();
             if (sz <= 0) {
@@ -96,7 +96,7 @@ public class ReaderPageForTT extends ADBaseImplByTT<TTFeedAd> {
                 startRequest("getAdvertEntity("+from+")");
                 return null;
             }
-            NativeAdResponse resp ;
+            AdNativeResponse resp ;
             if(NEED_USE_REMOVE_MODE()){
                 resp = mQueue.peek();
             }else {
@@ -118,11 +118,11 @@ public class ReaderPageForTT extends ADBaseImplByTT<TTFeedAd> {
 
     @Override
     public View getAdvertEntityView(View view, Object obj) {
-        if(!(obj instanceof NativeAdResponse)){
+        if(!(obj instanceof AdNativeResponse)){
             Log.e(getTAG(), "getAdvertEntityView(),obj="+obj);
             return null;
         }
-        final NativeAdResponse nar = (NativeAdResponse)obj;
+        final AdNativeResponse nar = (AdNativeResponse)obj;
         TTFeedAd ad = mNativeResponses.get(nar.getImageUrl());
         if(ad == null){
             Log.e(getTAG(), "getAdvertEntityView(),ad is null");
@@ -169,10 +169,10 @@ public class ReaderPageForTT extends ADBaseImplByTT<TTFeedAd> {
     @Override
     public void show(View vv, Object obj) {
         Log.e(getTAG(), "show()");
-        if (obj instanceof NativeAdResponse) {
+        if (obj instanceof AdNativeResponse) {
 //            show_tmp_nar = (NativeAdResponse)obj;
 //            show_view = vv;
-            show_imp(vv,(NativeAdResponse)obj);
+            show_imp(vv,(AdNativeResponse)obj);
         }
     }
 
@@ -214,7 +214,7 @@ public class ReaderPageForTT extends ADBaseImplByTT<TTFeedAd> {
     public void destroy() {
         mNativeResponses.clear();
         while (true){
-            NativeAdResponse nar = mQueue.poll();
+            AdNativeResponse nar = mQueue.poll();
             if(nar == null){
                 break;
             }
@@ -254,7 +254,7 @@ public class ReaderPageForTT extends ADBaseImplByTT<TTFeedAd> {
                         return;
                     }
                     Log.e(getTAG(), "onFeedAdLoad(),ads.size()="+ads.size()+",adId="+adId);
-                    List<NativeAdResponse> lst = new ArrayList<>();
+                    List<AdNativeResponse> lst = new ArrayList<>();
                     //信息流广告的样式，有大图、小图、组图和视频，通过ad.getImageMode()来判断
                     for (TTFeedAd response : ads) {
                         if(response == null){
@@ -269,7 +269,7 @@ public class ReaderPageForTT extends ADBaseImplByTT<TTFeedAd> {
 //                    response.setActivityForDownloadApp(wrAct.get());
                         String imgUrl = ttList.get(0).getImageUrl();
                         String iconUrl = response.getIcon().getImageUrl();
-                        NativeAdResponse nar = new NativeAdResponse(imgUrl,adId, Adv_Type.tt);
+                        AdNativeResponse nar = new AdNativeResponse(imgUrl,adId, Adv_Type.tt);
                         int type = response.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD ? 1 : 0;
                         nar.setAdvType(type);
                         int img_mode = response.getImageMode();
@@ -332,7 +332,7 @@ public class ReaderPageForTT extends ADBaseImplByTT<TTFeedAd> {
     }
 
     //==================bindEvent=================
-    protected final void bindData(ViewGroup convertView, TTFeedAd ad, final NativeAdResponse nar) {
+    protected final void bindData(ViewGroup convertView, TTFeedAd ad, final AdNativeResponse nar) {
         if(ad == null){
             Log.e(getTAG(), "bindData(),ad is null");
             return;
@@ -502,7 +502,7 @@ public class ReaderPageForTT extends ADBaseImplByTT<TTFeedAd> {
 //    }
 
     private final AtomicLong load_fail_time = new AtomicLong(0);
-    private void show_imp(View vv, NativeAdResponse tmp_nar){
+    private void show_imp(View vv, AdNativeResponse tmp_nar){
         removeLastResp();
         TTFeedAd ad = mNativeResponses.get(tmp_nar.getImageUrl());
         if (ad == null) {
@@ -549,12 +549,12 @@ public class ReaderPageForTT extends ADBaseImplByTT<TTFeedAd> {
     }
 
     private static class MyNativeAdListener implements TTNativeAd.AdInteractionListener{
-        private final NativeAdResponse nar;
+        private final AdNativeResponse nar;
         private final String adId;
         private final String TAG;
         private final WeakReference<ADCallback> wr;
         private final AtomicBoolean ab_show_suc = new AtomicBoolean(false);
-        public MyNativeAdListener(NativeAdResponse nar, String adId, String TAG, ADCallback cb) {
+        public MyNativeAdListener(AdNativeResponse nar, String adId, String TAG, ADCallback cb) {
             this.nar = nar;
             this.adId = adId;
             this.TAG = TAG;

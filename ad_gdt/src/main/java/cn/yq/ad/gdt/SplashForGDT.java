@@ -15,7 +15,7 @@ import com.qq.e.comm.util.AdError;
 import java.util.Locale;
 
 import cn.yq.ad.Adv_Type;
-import cn.yq.ad.Conf;
+import cn.yq.ad.AdConf;
 import cn.yq.ad.impl.ADBaseImpl;
 import cn.yq.ad.impl.ClickModel;
 import cn.yq.ad.impl.DismissModel;
@@ -132,8 +132,8 @@ public class SplashForGDT extends ADBaseImpl {
     }
 
     @Override
-    public Conf getCfg() {
-        Conf bd = new Conf();
+    public AdConf getCfg() {
+        AdConf bd = new AdConf();
         bd.setAppId(appId);
         bd.setAdId(posId);
         return bd;

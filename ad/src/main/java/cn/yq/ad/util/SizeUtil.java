@@ -11,13 +11,13 @@ import android.util.DisplayMetrics;
  */
 public class SizeUtil {
 
-    public static Size getScreenSize(Context context){
+    public static AdSize getScreenSize(Context context){
         Resources resources = context.getResources();
         DisplayMetrics dm = resources.getDisplayMetrics();
         float density = dm.density;
         int width = dm.widthPixels;
         int height = dm.heightPixels;
-        Size sz = new Size(width,height);
+        AdSize sz = new AdSize(width,height);
         sz.setDensity(density);
         return sz;
     }

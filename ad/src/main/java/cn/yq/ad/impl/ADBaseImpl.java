@@ -17,8 +17,8 @@ import java.util.concurrent.atomic.AtomicLong;
 import cn.yq.ad.ADCallback;
 import cn.yq.ad.ADRunnable;
 import cn.yq.ad.Adv_Type;
-import cn.yq.ad.Conf;
-import cn.yq.ad.NativeAdResponse;
+import cn.yq.ad.AdConf;
+import cn.yq.ad.AdNativeResponse;
 import cn.yq.ad.ShowModel;
 
 /**
@@ -97,7 +97,7 @@ public abstract class ADBaseImpl implements ADRunnable{
     }
 
     @Override
-    public NativeAdResponse getAdvertEntity(String from, Map<String, String> map) {
+    public AdNativeResponse getAdvertEntity(String from, Map<String, String> map) {
         return null;
     }
 
@@ -107,7 +107,7 @@ public abstract class ADBaseImpl implements ADRunnable{
     }
 
     @Override
-    public Conf getCfg() {
+    public AdConf getCfg() {
         return null;
     }
 
@@ -123,7 +123,7 @@ public abstract class ADBaseImpl implements ADRunnable{
         iv.setLayoutParams(lp);
     }
 
-   public final void updateBtnText(View vv, NativeAdResponse tmp_nar){
+   public final void updateBtnText(View vv, AdNativeResponse tmp_nar){
         if(vv == null || tmp_nar == null){
             return;
         }

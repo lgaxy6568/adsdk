@@ -11,7 +11,7 @@ import com.qq.e.ads.nativ.NativeUnifiedADData;
 import com.qq.e.ads.nativ.widget.NativeAdContainer;
 
 import cn.yq.ad.ADStyle;
-import cn.yq.ad.NativeAdResponse;
+import cn.yq.ad.AdNativeResponse;
 import cn.yq.ad.ShowModel;
 
 /**
@@ -29,10 +29,10 @@ public class ReaderPageForGDT extends ADBaseImplByGDT {
 
     @Override
     public View getAdvertEntityView(View view, Object obj) {
-        if (!(obj instanceof NativeAdResponse)) {
+        if (!(obj instanceof AdNativeResponse)) {
             return null;
         }
-        final NativeAdResponse nar = (NativeAdResponse) obj;
+        final AdNativeResponse nar = (AdNativeResponse) obj;
         View vv;
         if (nar.getAdvStyle() == ADStyle.READER_PAGE_VERTICAL) {
             vv = LayoutInflater.from(getContextFromView(view)).inflate(R.layout.layout_adv_for_gdt_pge_ver, null);
@@ -61,8 +61,8 @@ public class ReaderPageForGDT extends ADBaseImplByGDT {
 
     @Override
     public void show(View vv, Object obj) {
-        if (obj instanceof NativeAdResponse) {
-            NativeAdResponse nar = (NativeAdResponse) obj;
+        if (obj instanceof AdNativeResponse) {
+            AdNativeResponse nar = (AdNativeResponse) obj;
             NativeUnifiedADData response = mNativeResponses.get(nar.getImageUrl());
             if(response == null){
                 Log.e(getTAG(), "show(),response == null");

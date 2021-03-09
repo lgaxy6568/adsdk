@@ -8,14 +8,14 @@ import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
-public class MyGlideUtils {
+public class AdGlideUtils {
     private final Context ctx;
-    private MyGlideUtils(Context ctx) {
+    private AdGlideUtils(Context ctx) {
         this.ctx = ctx.getApplicationContext();
     }
 
-    public static MyGlideUtils get(Context ctx){
-        return new MyGlideUtils(ctx);
+    public static AdGlideUtils get(Context ctx){
+        return new AdGlideUtils(ctx);
     }
 
     public void show(String url, ImageView iv){

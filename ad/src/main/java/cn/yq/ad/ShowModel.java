@@ -2,26 +2,26 @@ package cn.yq.ad;
 
 public class ShowModel {
 
-    public ShowModel(cn.yq.ad.NativeAdResponse nar) {
+    public ShowModel(AdNativeResponse nar) {
         this.nar = nar;
     }
 
-    private cn.yq.ad.NativeAdResponse nar;
+    private AdNativeResponse nar;
 
-    public cn.yq.ad.NativeAdResponse getNar() {
+    public AdNativeResponse getNar() {
         return nar;
     }
 
-    public void setNar(cn.yq.ad.NativeAdResponse nar) {
+    public void setNar(AdNativeResponse nar) {
         this.nar = nar;
     }
-    private cn.yq.ad.Adv_Type adv_type;
+    private Adv_Type adv_type;
 
-    public cn.yq.ad.Adv_Type getAdv_type() {
+    public Adv_Type getAdv_type() {
         return adv_type;
     }
 
-    public void setAdv_type(cn.yq.ad.Adv_Type adv_type) {
+    public void setAdv_type(Adv_Type adv_type) {
         this.adv_type = adv_type;
     }
 }

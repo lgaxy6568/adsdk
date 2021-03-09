@@ -4,14 +4,14 @@ package cn.yq.ad.util;
  * Created by liguo on 2019/1/28.
  * desc
  */
-public class Size {
+public class AdSize {
     private int width;
     private int height;
     private float density;
-    public Size() {
+    public AdSize() {
     }
 
-    public Size(int width, int height) {
+    public AdSize(int width, int height) {
         this.width = width;
         this.height = height;
     }

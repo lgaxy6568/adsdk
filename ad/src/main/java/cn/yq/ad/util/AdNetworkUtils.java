@@ -10,7 +10,7 @@ import android.telephony.TelephonyManager;
  * Created by zhuyuanshuo on 2017/4/5.
  */
 
-public class NetworkUtils {
+public class AdNetworkUtils {
 
     @SuppressLint("MissingPermission")
     public static boolean checkWifiAndGPRS(Context context) {
@@ -94,10 +94,10 @@ public class NetworkUtils {
     }
 
     public static boolean isWifi(Context context) {
-        return NetworkUtils.getNetworkType(context) == NetworkType.WIFI;
+        return AdNetworkUtils.getNetworkType(context) == NetworkType.WIFI;
     }
 
     public static boolean isMobile4G(Context context){
-        return NetworkUtils.getNetworkType(context) == NetworkType.MOBILE_4G;
+        return AdNetworkUtils.getNetworkType(context) == NetworkType.MOBILE_4G;
     }
 }

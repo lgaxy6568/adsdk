@@ -6,7 +6,7 @@ import java.util.List;
  * Created by liguo on 2018/12/6.
  * desc
  */
-public class Conf {
+public class AdConf {
     private String appId;
     private String adId;
     private List<String> adIdLst;

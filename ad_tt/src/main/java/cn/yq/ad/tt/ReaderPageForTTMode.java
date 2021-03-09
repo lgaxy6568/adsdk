@@ -28,14 +28,14 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import cn.yq.ad.ADStyle;
 import cn.yq.ad.Adv_Type;
-import cn.yq.ad.NativeAdResponse;
+import cn.yq.ad.AdNativeResponse;
 import cn.yq.ad.ShowModel;
 import cn.yq.ad.impl.ClickModel;
 import cn.yq.ad.impl.FailModel;
 import cn.yq.ad.impl.PresentModel;
 import cn.yq.ad.tt.config.TTUtil;
 import cn.yq.ad.tt.utils.TToast;
-import cn.yq.ad.util.Size;
+import cn.yq.ad.util.AdSize;
 import cn.yq.ad.util.SizeUtil;
 
 /**
@@ -62,7 +62,7 @@ public class ReaderPageForTTMode extends ADBaseImplByTT<TTNativeExpressAd> imple
         super(act, appId, adId);
         Log.e(getTAG(),"构造方法(),appId="+appId+",adId="+adId);
         try {
-            Size sz = SizeUtil.getScreenSize(act);
+            AdSize sz = SizeUtil.getScreenSize(act);
             request_width = SizeUtil.px2dip(act,sz.getWidth());
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,7 +75,7 @@ public class ReaderPageForTTMode extends ADBaseImplByTT<TTNativeExpressAd> imple
     }
 
     @Override
-    public final NativeAdResponse getAdvertEntity(String from, Map<String, String> map) {
+    public final AdNativeResponse getAdvertEntity(String from, Map<String, String> map) {
         synchronized (mQueue){
             final int sz = mQueue.size();
             if (sz <= 0) {
@@ -83,7 +83,7 @@ public class ReaderPageForTTMode extends ADBaseImplByTT<TTNativeExpressAd> imple
                 startRequest("getAdvertEntity("+from+")_A");
                 return null;
             }
-            NativeAdResponse resp ;
+            AdNativeResponse resp ;
             resp = mQueue.poll();
             final int freeSize = mQueue.size();
             String tmp_msg = resp != null ? "返回成功" : "返回失败";
@@ -94,11 +94,11 @@ public class ReaderPageForTTMode extends ADBaseImplByTT<TTNativeExpressAd> imple
 
     @Override
     public View getAdvertEntityView(View view, Object obj) {
-        if(!(obj instanceof NativeAdResponse)){
+        if(!(obj instanceof AdNativeResponse)){
             Log.e(getTAG(), "getAdvertEntityView(),obj="+obj);
             return null;
         }
-        final NativeAdResponse nar = (NativeAdResponse)obj;
+        final AdNativeResponse nar = (AdNativeResponse)obj;
         TTNativeExpressAd ad = mNativeResponses.get(nar.getImageUrl());
         if(ad == null){
             Log.e(getTAG(), "getAdvertEntityView(),ad is null");
@@ -132,8 +132,8 @@ public class ReaderPageForTTMode extends ADBaseImplByTT<TTNativeExpressAd> imple
     @Override
     public void show(View vv, Object obj) {
         Log.e(getTAG(), "show()");
-        if (obj instanceof NativeAdResponse) {
-            NativeAdResponse tmp_nar = (NativeAdResponse)obj;
+        if (obj instanceof AdNativeResponse) {
+            AdNativeResponse tmp_nar = (AdNativeResponse)obj;
             TTNativeExpressAd ad = mNativeResponses.get(tmp_nar.getImageUrl());
             if (ad == null) {
                 Log.e(getTAG(),"show(),ad is null");
@@ -195,7 +195,7 @@ public class ReaderPageForTTMode extends ADBaseImplByTT<TTNativeExpressAd> imple
     public void destroy() {
         mNativeResponses.clear();
         while (true){
-            NativeAdResponse nar = mQueue.poll();
+            AdNativeResponse nar = mQueue.poll();
             if(nar == null){
                 break;
             }
@@ -292,7 +292,7 @@ public class ReaderPageForTTMode extends ADBaseImplByTT<TTNativeExpressAd> imple
         }
 
         String imgUrl = getTAG() + "_" + response.hashCode();
-        NativeAdResponse nar = new NativeAdResponse(imgUrl, adId, Adv_Type.tt);
+        AdNativeResponse nar = new AdNativeResponse(imgUrl, adId, Adv_Type.tt);
         int type = response.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD ? 1 : 0;
         nar.setAdvType(type);
         int img_mode = response.getImageMode();

@@ -13,7 +13,7 @@ import java.util.Map;
 public interface ADRunnable {
 
     /** 获取一些配置信息 */
-    Conf getCfg();
+    AdConf getCfg();
 
     /** 产次加载 */
     void load();
@@ -41,7 +41,7 @@ public interface ADRunnable {
     void click(View view, Object obj);
 
     /** 客户端回调SDK */
-    NativeAdResponse getAdvertEntity(String from, Map<String, String> map);
+    AdNativeResponse getAdvertEntity(String from, Map<String, String> map);
 
     /** 客户端回调SDK */
     View getAdvertEntityView(View view, Object obj);

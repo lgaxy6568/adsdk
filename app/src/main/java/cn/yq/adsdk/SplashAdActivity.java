@@ -17,11 +17,10 @@ import cn.yq.ad.impl.FailModel;
 import cn.yq.ad.impl.PresentModel;
 import cn.yq.ad.proxy.AdConfigs;
 import cn.yq.ad.proxy.AsyncTask;
-import cn.yq.ad.proxy.model.AdConstants;
 import cn.yq.ad.proxy.model.GetAdsModel;
 import cn.yq.ad.proxy.model.GetAdsResponseListApiResult;
-import cn.yq.ad.util.LogUtil;
-import cn.yq.ad.util.MyGsonUtils;
+import cn.yq.ad.util.AdLogUtils;
+import cn.yq.ad.util.AdGsonUtils;
 import cn.yq.adsdk.http.OKHttpUtil;
 import okhttp3.MediaType;
 import okhttp3.Request;
@@ -54,7 +53,7 @@ public class SplashAdActivity extends AppCompatActivity implements AbstractADCal
                 am.setAppId("ecb693649cef10af");
                 am.setVersion("1.1.3");
                 am.setBrand("oppo");
-                String ps = MyGsonUtils.getGson().toJson(am);
+                String ps = AdGsonUtils.getGson().toJson(am);
                 Request req = new Request.Builder().url(url).post(RequestBody.create(ps,MediaType.parse("application/json"))).build();
                 return OKHttpUtil.execute(req,new TypeToken<GetAdsResponseListApiResult>(){}.getType());
             }
@@ -62,13 +61,13 @@ public class SplashAdActivity extends AppCompatActivity implements AbstractADCal
             @Override
             protected void onException(Exception e) {
                 super.onException(e);
-                LogUtil.e(TAG,"onException(),errMsg="+e.getMessage());
+                AdLogUtils.e(TAG,"onException(),errMsg="+e.getMessage());
             }
 
             @Override
             protected void onSuccess(GetAdsResponseListApiResult result) {
                 super.onSuccess(result);
-                LogUtil.i(TAG,"onSuccess(),result="+ MyGsonUtils.getGson().toJson(result));
+                AdLogUtils.i(TAG,"onSuccess(),result="+ AdGsonUtils.getGson().toJson(result));
                 startLoadAd(result);
             }
 
@@ -89,36 +88,36 @@ public class SplashAdActivity extends AppCompatActivity implements AbstractADCal
 
     @Override
     public void onAdPresent(@NonNull PresentModel result) {
-        LogUtil.i(TAG,"onAdPresent()");
+        AdLogUtils.i(TAG,"onAdPresent()");
     }
 
     @Override
     public void onAdFailed(@NonNull FailModel result) {
-        LogUtil.e(TAG,"onAdFailed()");
+        AdLogUtils.e(TAG,"onAdFailed()");
     }
 
     @Override
     public void onAdClick(@NonNull ClickModel result) {
-        LogUtil.d(TAG,"onAdClick()");
+        AdLogUtils.d(TAG,"onAdClick()");
     }
 
     @Override
     public void onAdDismissed(DismissModel dm) {
-        LogUtil.d(TAG,"onAdDismissed()");
+        AdLogUtils.d(TAG,"onAdDismissed()");
     }
 
     @Override
     public void onADExposed(PresentModel pm) {
-        LogUtil.i(TAG,"onADExposed()");
+        AdLogUtils.i(TAG,"onADExposed()");
     }
 
     @Override
     public void onDisLike(PresentModel pm) {
-        LogUtil.d(TAG,"onDisLike()");
+        AdLogUtils.d(TAG,"onDisLike()");
     }
 
     @Override
     public void onAdSkip(PresentModel pm) {
-        LogUtil.d(TAG,"onAdSkip()");
+        AdLogUtils.d(TAG,"onAdSkip()");
     }
 }

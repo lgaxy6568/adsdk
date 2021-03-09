@@ -8,7 +8,7 @@ import android.widget.TextView;
  * Created by liguo on 2018/10/17.
  * desc
  */
-public class ADUtil {
+public class ADUtils {
     /** 广点通 */
     private static volatile ADFactory mFactory_gdt = null;
     private static volatile boolean inited_gdt = false;
@@ -17,7 +17,7 @@ public class ADUtil {
             return mFactory_gdt;
         }
         if(mFactory_gdt == null){
-            synchronized (ADUtil.class){
+            synchronized (ADUtils.class){
                 if(mFactory_gdt == null){
                     try {
                         Class<?> cls_var = Class.forName("cn.yq.ad.gdt.ADFactoryImplByGDT");
@@ -41,7 +41,7 @@ public class ADUtil {
             return mFactory_tt;
         }
         if(mFactory_tt == null){
-            synchronized (ADUtil.class){
+            synchronized (ADUtils.class){
                 if(mFactory_tt == null){
                     try {
                         Class<?> cls_var = Class.forName("cn.yq.ad.tt.ADFactoryImplByTT");
@@ -62,7 +62,7 @@ public class ADUtil {
     }
 
     public static ADRunnable getSplashADForTT(Activity act, String appId, String adId, ViewGroup adContainer, ADCallback callback){
-        ADFactory factory = ADUtil.getFactoryByTT();
+        ADFactory factory = ADUtils.getFactoryByTT();
         if(factory == null){
             return null;
         }
@@ -71,7 +71,7 @@ public class ADUtil {
         return ar;
     }
     public static ADRunnable getSplashADForGDT(Activity act, String appId, String adId, ViewGroup adContainer, ADCallback callback, TextView tvSkip){
-        ADFactory factory = ADUtil.getFactoryByGDT();
+        ADFactory factory = ADUtils.getFactoryByGDT();
         if(factory == null){
             return null;
         }

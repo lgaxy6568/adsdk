@@ -3,7 +3,7 @@ package cn.yq.ad.proxy.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.yq.ad.util.StringUtils;
+import cn.yq.ad.util.AdStringUtils;
 
 public class AdResponse {
     private int widget;
@@ -42,13 +42,13 @@ public class AdResponse {
         }
         if(AdConstants.PARTNER_KEY_BY_SELF.equalsIgnoreCase(type)){
             AdRespItem item = toItem("人工配置_"+title);
-            if(StringUtils.isEmpty(item.getAdPartnerKey())){
+            if(AdStringUtils.isEmpty(item.getAdPartnerKey())){
                 item.setAdPartnerKey(AdConstants.PARTNER_KEY_BY_SELF);
             }
-            if(StringUtils.isEmpty(item.getAdPartnerAppId())){
+            if(AdStringUtils.isEmpty(item.getAdPartnerAppId())){
                 item.setAdPartnerAppId("xxx");
             }
-            if(StringUtils.isEmpty(item.getAdId())){
+            if(AdStringUtils.isEmpty(item.getAdId())){
                 item.setAdId("xxx");
             }
             tmpLst.add(item);

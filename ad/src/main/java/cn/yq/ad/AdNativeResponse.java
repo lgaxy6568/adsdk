@@ -7,13 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NativeAdResponse {
+public class AdNativeResponse {
 
-    public NativeAdResponse() {
+    public AdNativeResponse() {
     }
 
     private String adId;
-    public NativeAdResponse(String imageUrl, String adId,Adv_Type at) {
+    public AdNativeResponse(String imageUrl, String adId, Adv_Type at) {
         this.imageUrl = imageUrl;
         this.adId = adId;
         this.adPlatform = at.getValue();
@@ -160,7 +160,7 @@ public class NativeAdResponse {
         return extMap;
     }
 
-    public final NativeAdResponse setExtMap(Map<String, String> extMap) {
+    public final AdNativeResponse setExtMap(Map<String, String> extMap) {
         if(extMap == null || extMap.size() == 0){
             return this;
         }
@@ -172,7 +172,7 @@ public class NativeAdResponse {
         return this;
     }
 
-    public final NativeAdResponse put(final String key, final String value){
+    public final AdNativeResponse put(final String key, final String value){
         if(key == null || key.trim().length() == 0){
             return this;
         }

@@ -3,7 +3,7 @@ package cn.yq.adsdk;
 import android.content.Context;
 
 import cn.yq.ad.ADFactory;
-import cn.yq.ad.ADUtil;
+import cn.yq.ad.ADUtils;
 
 /**
  * 初始化广告SDK
@@ -19,7 +19,7 @@ public class InitAdFactoryTask implements Runnable {
     @Override
     public void run() {
         try {
-            ADFactory af = ADUtil.getFactoryByGDT();
+            ADFactory af = ADUtils.getFactoryByGDT();
             if(af != null){
                 af.init(mCtx);
             }
@@ -27,7 +27,7 @@ public class InitAdFactoryTask implements Runnable {
             e.printStackTrace();
         }
         try {
-            ADFactory af = ADUtil.getFactoryByTT();
+            ADFactory af = ADUtils.getFactoryByTT();
             if(af != null){
                 af.init(mCtx);
             }

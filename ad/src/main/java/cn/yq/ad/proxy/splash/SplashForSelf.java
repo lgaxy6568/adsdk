@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import cn.yq.ad.Adv_Type;
-import cn.yq.ad.Conf;
+import cn.yq.ad.AdConf;
 import cn.yq.ad.R;
 import cn.yq.ad.impl.ADBaseImpl;
 import cn.yq.ad.impl.ClickModel;
@@ -36,8 +36,8 @@ import cn.yq.ad.impl.ExtraKey;
 import cn.yq.ad.impl.FailModel;
 import cn.yq.ad.impl.PresentModel;
 import cn.yq.ad.proxy.model.AdRespItem;
-import cn.yq.ad.util.LogUtil;
-import cn.yq.ad.util.MyGsonUtils;
+import cn.yq.ad.util.AdLogUtils;
+import cn.yq.ad.util.AdGsonUtils;
 
 public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
     private ViewGroup gdtContainer;
@@ -106,9 +106,9 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
     public void load() {
         Bundle bd = getExtra();
         String str = bd.getString(ExtraKey.KP_AD_CONFIG);
-        param = MyGsonUtils.getGson().fromJson(str, new TypeToken<AdRespItem>() {
+        param = AdGsonUtils.getGson().fromJson(str, new TypeToken<AdRespItem>() {
         }.getType());
-        LogUtil.i(TAG, "load(),param=" + MyGsonUtils.getGson().toJson(param));
+        AdLogUtils.i(TAG, "load(),param=" + AdGsonUtils.getGson().toJson(param));
 
         layoutSplashForSelfIv.setOnClickListener(this);
         layoutSplashForSkipView.setOnClickListener(this);
@@ -139,8 +139,8 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
     }
 
     @Override
-    public Conf getCfg() {
-        Conf bd = new Conf();
+    public AdConf getCfg() {
+        AdConf bd = new AdConf();
         bd.setAppId(appId);
         bd.setAdId(posId);
         return bd;

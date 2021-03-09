@@ -5,7 +5,7 @@ import java.util.Random;
 import cn.yq.ad.Adv_Type;
 import cn.yq.ad.impl.ExtraKey;
 import cn.yq.ad.util.ADHelper;
-import cn.yq.ad.util.StringUtils;
+import cn.yq.ad.util.AdStringUtils;
 
 public class AdRespItem implements Comparable<AdRespItem> {
     private int widget;
@@ -164,7 +164,7 @@ public class AdRespItem implements Comparable<AdRespItem> {
         if (AdConstants.PARTNER_KEY_BY_SELF.equalsIgnoreCase(type)) {
             return Adv_Type.self.name();
         }
-        if (StringUtils.isEmpty(adPartnerKey)) {
+        if (AdStringUtils.isEmpty(adPartnerKey)) {
             return Adv_Type.none.name();
         }
         if (AdConstants.PARTNER_KEY_BY_TT.equalsIgnoreCase(adPartnerKey)) {
@@ -186,7 +186,7 @@ public class AdRespItem implements Comparable<AdRespItem> {
 
     public boolean isNotValid() {
         boolean valid = false;
-        if (StringUtils.isNotEmpty(type)) {
+        if (AdStringUtils.isNotEmpty(type)) {
             if (type.trim().equalsIgnoreCase(AdConstants.PARTNER_KEY_BY_SELF)) {
                 String format = "yyyy-MM-dd HH:mm:ss";
                 long now = System.currentTimeMillis();

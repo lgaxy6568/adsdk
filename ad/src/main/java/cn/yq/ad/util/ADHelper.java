@@ -77,7 +77,7 @@ public class ADHelper {
         return null;
     }
     public static long getMillisByDateStr(String dateStr,String pattern){
-        if(StringUtils.isEmpty(dateStr)){
+        if(AdStringUtils.isEmpty(dateStr)){
             throw new IllegalArgumentException("dateStr is null");
         }
         long mill = 0;

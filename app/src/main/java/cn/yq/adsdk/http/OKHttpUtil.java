@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
@@ -21,9 +20,9 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import cn.yq.ad.util.LogUtil;
-import cn.yq.ad.util.MyGsonUtils;
-import cn.yq.ad.util.StringUtils;
+import cn.yq.ad.util.AdLogUtils;
+import cn.yq.ad.util.AdGsonUtils;
+import cn.yq.ad.util.AdStringUtils;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -40,7 +39,7 @@ public class OKHttpUtil {
 		try {
 			response = getOkHttpClient().newCall(request).execute();
 		} catch (Exception e) {
-			LogUtil.e(TAG,"execute("+request.url().toString()+")->err:",e);
+			AdLogUtils.e(TAG,"execute("+request.url().toString()+")->err:",e);
 			throw new Exception(request.url().toString(),e);
 		}
 		if (resultType == null || resultType == Response.class) {
@@ -56,7 +55,7 @@ public class OKHttpUtil {
 			byte[] bytes = response.body().bytes();
 			return (T) BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 		}
-		return MyGsonUtils.getGson().fromJson(response.body().charStream(), resultType);
+		return AdGsonUtils.getGson().fromJson(response.body().charStream(), resultType);
 	}
 	
 	public static <T> Request buildRequest(String url, HttpMethod method, Map<String,T> params, Map<String, String> headers){
@@ -139,14 +138,14 @@ public class OKHttpUtil {
 				if(obj instanceof String){
 					value = obj.toString();
 				}else if((obj instanceof List) || (obj instanceof Map)){
-					value = MyGsonUtils.getGson().toJson(obj);
+					value = AdGsonUtils.getGson().toJson(obj);
 				}else if(clsMap.containsKey(pkgName)){
 					value = obj.toString();
 				}else{
 					throw new RuntimeException("unSupport cls :"+pkgName);
 				}
 
-				if(StringUtils.isEmpty(value) || StringUtils.isEmpty(key))
+				if(AdStringUtils.isEmpty(value) || AdStringUtils.isEmpty(key))
 					continue;
 				if(hasQuery){
 					sb.append("&");

@@ -12,8 +12,8 @@ import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import cn.yq.ad.Adv_Type;
-import cn.yq.ad.Conf;
-import cn.yq.ad.NativeAdResponse;
+import cn.yq.ad.AdConf;
+import cn.yq.ad.AdNativeResponse;
 import cn.yq.ad.ShowModel;
 import cn.yq.ad.impl.ADBaseImpl;
 
@@ -60,7 +60,7 @@ public abstract class ADBaseImplByTT<T> extends ADBaseImpl {
     }
 
     protected final Map<String, T> mNativeResponses = new LinkedHashMap<>();
-    protected final Queue<NativeAdResponse> mQueue = new LinkedBlockingQueue<>();
+    protected final Queue<AdNativeResponse> mQueue = new LinkedBlockingQueue<>();
 
     @Override
     public final Adv_Type getAdvType() {
@@ -74,8 +74,8 @@ public abstract class ADBaseImplByTT<T> extends ADBaseImpl {
         mQueue.clear();
     }
     @Override
-    public Conf getCfg() {
-        Conf bd = new Conf();
+    public AdConf getCfg() {
+        AdConf bd = new AdConf();
         bd.setAppId(appId);
         bd.setAdId(adId);
         bd.setAdIdLst(adIdLst);

@@ -14,7 +14,7 @@ import cn.yq.ad.impl.ADBaseImpl;
 import cn.yq.ad.impl.BaseModel;
 import cn.yq.ad.impl.ExtraKey;
 import cn.yq.ad.proxy.model.AdRespItem;
-import cn.yq.ad.util.StringUtils;
+import cn.yq.ad.util.AdStringUtils;
 
 public abstract class AdvProxyByKaiPinAbstract extends ADBaseImpl {
     public static final String TARGET_NAME = "开屏";
@@ -275,7 +275,7 @@ public abstract class AdvProxyByKaiPinAbstract extends ADBaseImpl {
         for (AdRespItem ap : apLst) {
             //self_1,self_2,sdk
             String kk = ap.getType();
-            if(StringUtils.isEmpty(kk)){
+            if(AdStringUtils.isEmpty(kk)){
                 continue;
             }
             index ++;
