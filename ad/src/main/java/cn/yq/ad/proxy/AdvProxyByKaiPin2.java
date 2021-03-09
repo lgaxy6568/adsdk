@@ -64,6 +64,10 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
         initAd();
     }
 
+    public Activity getSelfActivity(){
+        return wrAct.get();
+    }
+
     private boolean inited = false;
 
     final Map<String, AdRespItem> adAdvPosMap = new LinkedHashMap<>();

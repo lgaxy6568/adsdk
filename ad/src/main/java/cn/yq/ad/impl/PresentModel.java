@@ -1,7 +1,5 @@
 package cn.yq.ad.impl;
 
-import java.util.Locale;
-
 import cn.yq.ad.Adv_Type;
 
 /**
