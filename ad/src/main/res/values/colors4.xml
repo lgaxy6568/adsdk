@@ -12,4 +12,6 @@
     <color name="col_btn_adv_normal">#FFFFFF</color>
     <color name="col_btn_adv_normal_night">#535353</color>
 
+    <color name="white">#FFFFFFFF</color>
+    <color name="tt_white">#FFFFFFFF</color>
 </resources>
