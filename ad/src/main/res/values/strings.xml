@@ -13,4 +13,6 @@
     <item name="adv_close_dyn_for_page" type="id"></item>
     <item name="rv_advert_container" type="id"/>
     <item name="adv_card_root_layout" type="id"/>
+    <string name="app_name">倒数321</string>
+    <string name="tt_sdk_app_id">5009442</string>
 </resources>
