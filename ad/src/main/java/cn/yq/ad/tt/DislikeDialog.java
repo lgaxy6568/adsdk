@@ -19,6 +19,8 @@ import com.bytedance.sdk.openadsdk.dislike.TTDislikeListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.yq.ad.R;
+
 /**
  * Create by hanweiwei on 14/12/2018
  */

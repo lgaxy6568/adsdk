@@ -12,6 +12,7 @@ import com.qq.e.ads.nativ.widget.NativeAdContainer;
 
 import cn.yq.ad.ADStyle;
 import cn.yq.ad.AdNativeResponse;
+import cn.yq.ad.R;
 import cn.yq.ad.ShowModel;
 
 /**

@@ -29,6 +29,7 @@ import cn.yq.ad.ADCallback;
 import cn.yq.ad.ADStyle;
 import cn.yq.ad.Adv_Type;
 import cn.yq.ad.AdNativeResponse;
+import cn.yq.ad.R;
 import cn.yq.ad.ShowModel;
 import cn.yq.ad.impl.ClickModel;
 import cn.yq.ad.impl.FailModel;
