@@ -30,4 +30,7 @@ ext {
     targetSdkVersion = 26
     compileSdkVersion = 29
     buildToolsSdkVersion = "29.0.2"
+    COMMON_MODULE_DIR_PATH = [
+            projectDir.getPath() + "/ad/libs"
+    ]
 }
