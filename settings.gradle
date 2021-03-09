@@ -1,5 +1,2 @@
-include ':app'
 include ':ad'
-include ':ad_gdt'
-include ':ad_tt'
 rootProject.name = "AdSDK"

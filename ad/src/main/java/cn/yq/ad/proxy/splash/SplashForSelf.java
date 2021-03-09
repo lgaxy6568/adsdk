@@ -106,8 +106,7 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
     public void load() {
         Bundle bd = getExtra();
         String str = bd.getString(ExtraKey.KP_AD_CONFIG);
-        param = AdGsonUtils.getGson().fromJson(str, new TypeToken<AdRespItem>() {
-        }.getType());
+        param = AdGsonUtils.getGson().fromJson(str, new TypeToken<AdRespItem>() {}.getType());
         AdLogUtils.i(TAG, "load(),param=" + AdGsonUtils.getGson().toJson(param));
 
         layoutSplashForSelfIv.setOnClickListener(this);
@@ -130,7 +129,6 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
                 return false;
             }
         }).preload();
-
     }
 
     @Override

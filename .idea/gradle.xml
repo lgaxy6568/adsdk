@@ -13,9 +13,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/ad" />
-            <option value="$PROJECT_DIR$/ad_gdt" />
-            <option value="$PROJECT_DIR$/ad_tt" />
-            <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
