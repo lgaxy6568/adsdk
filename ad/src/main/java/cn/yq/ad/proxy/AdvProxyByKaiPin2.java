@@ -22,10 +22,9 @@ import java.util.concurrent.atomic.AtomicLong;
 import cn.yq.ad.ADCallback;
 import cn.yq.ad.ADRunnable;
 import cn.yq.ad.ADUtils;
-import cn.yq.ad.Adv_Status;
-import cn.yq.ad.Adv_Type;
 import cn.yq.ad.AdConf;
 import cn.yq.ad.AdNativeResponse;
+import cn.yq.ad.Adv_Type;
 import cn.yq.ad.impl.AbstractADCallback;
 import cn.yq.ad.impl.ClickModel;
 import cn.yq.ad.impl.DismissModel;
@@ -37,15 +36,14 @@ import cn.yq.ad.proxy.model.AdRespItem;
 import cn.yq.ad.proxy.model.AdResponse;
 import cn.yq.ad.proxy.model.GetAdsResponse;
 import cn.yq.ad.proxy.model.GetAdsResponseListApiResult;
-import cn.yq.ad.util.AdLogUtils;
 import cn.yq.ad.util.AdGsonUtils;
+import cn.yq.ad.util.AdLogUtils;
 import cn.yq.ad.util.AdStringUtils;
 
 public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runnable {
 
     private static final String TAG = AdvProxyByKaiPin2.class.getSimpleName();
     private final AtomicBoolean is_time_out = new AtomicBoolean(false);
-    private final Map<String, List<KaiPinStatus>> id_status = new LinkedHashMap<>();
 
     private final ViewGroup adParentContainer;
     private volatile ScheduledExecutorService es;
@@ -264,10 +262,8 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
                     if(adType == null){
                         adType = Adv_Type.none;
                     }
-                    // FIXME: 2021/3/8 WAIT_LIGUO 埋点
-//                    Map<String, Object> tmp = SFHelper.INSTANCE.createMap(adId,adType,true,null);
-//                    GuideActivity.Companion.tj_load_status_for_all(TARGET_NAME,StatActionType.pull,PAGE_NAME, true, tmp);
-//                    uploadToUmeng(adType,adId, Adv_Status.start,null);
+                    callBackByOnAdStartLoad(adId,adType);
+                    //uploadToUmeng(adType,adId, Adv_Status.start,null);
                 }
             }
             es.schedule(this, load_time_out, TimeUnit.MILLISECONDS);
@@ -464,7 +460,6 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
                     if(pm != null) {
                         AdLogUtils.i(TAG, "checkResult(6_A_1),from=" + from + ",tmpLst.size()="+tmpLst.size()+",sel_ad_id="+sel_ad_id+",sel_adv_type="+sel_adv_type);
                         callback.onAdPresent(pm);
-                        uploadToUmeng(Adv_Type.valueOf(sel_adv_type),sel_ad_id,Adv_Status.show_last,null);
                         //切换到主线程去显示广告
                         AsyncTask.getTaskHandler().post(new Runnable() {
                             @Override
@@ -599,6 +594,11 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
             callback.onAdSkip(result);
             callBackByOnAdSkip(result);
         }
+    }
+
+
+    public void callBackByOnAdStartLoad(String adId,Adv_Type adType){
+
     }
 
     public void callBackByOnAdPresent(PresentModel pm){

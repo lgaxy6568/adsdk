@@ -207,50 +207,6 @@ public abstract class AdvProxyByKaiPinAbstract extends ADBaseImpl {
 
     }
 
-    public static void uploadToUmeng(Adv_Type adType,String adId,Adv_Status st,Map<String,Object> paramsMap){
-        // FIXME: 2021/3/8 WAIT_LIGUO
-//        try {
-//            String paramValue = null;
-//            if(adType == Adv_Type.gdt){
-//                paramValue = "广点通-"+adId;
-//            }else if(adType == Adv_Type.tt){
-//                paramValue = "穿山甲-"+adId;
-//            }
-//            if(StringUtils.isEmpty(paramValue)){
-//                return;
-//            }
-//            final String eventId = EventA.KaiPingAD.EVENT_ID;
-//            String paramId = null;
-//            if(st == Adv_Status.start){
-//                paramId = EventA.KaiPingAD.ParamIds.splash_ad_request;
-//            }else if(st == Adv_Status.suc){
-//                paramId = EventA.KaiPingAD.ParamIds.splash_ad_succeed;
-//            }else if(st == Adv_Status.fail){
-//                paramId = EventA.KaiPingAD.ParamIds.splash_ad_fail;
-//                if(paramsMap != null && paramsMap.containsKey("err_msg")){
-//                    try {
-//                        String msg = (String) paramsMap.get("err_msg");
-//                        paramValue += msg;
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }else if(st == Adv_Status.show){
-//                paramId = EventA.KaiPingAD.ParamIds.splash_ad_view;
-//            }else if(st == Adv_Status.click){
-//                paramId = EventA.KaiPingAD.ParamIds.splash_ad_click;
-//            }else if(st == Adv_Status.show_last){
-//                paramId = EventA.KaiPingAD.ParamIds.splash_ad_view_last;
-//            }
-//            if(StringUtil.isEmpty(paramId)){
-//                return;
-//            }
-//            UU.INSTANCE.add(eventId,paramId,paramValue);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-    }
-
     private static AdRespItem selectOne(List<AdRespItem> apLst) {
         int adSdkSortType = AdConfigs.getAdSdkSortType();
         if(adSdkSortType == 1){
