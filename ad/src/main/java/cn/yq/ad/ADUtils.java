@@ -1,6 +1,7 @@
 package cn.yq.ad;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -78,5 +79,25 @@ public class ADUtils {
         ADRunnable ar = factory.createSplashForGDT(act,adContainer,tvSkip,appId,adId);
         ar.addCallback(callback);
         return ar;
+    }
+
+    public static void init(Context ctx){
+        Context mCtx = ctx.getApplicationContext();
+        try {
+            ADFactory af = ADUtils.getFactoryByGDT();
+            if(af != null){
+                af.init(mCtx);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            ADFactory af = ADUtils.getFactoryByTT();
+            if(af != null){
+                af.init(mCtx);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

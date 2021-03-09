@@ -1,12 +1,14 @@
 package cn.yq.ad.impl;
 
+import java.util.Locale;
+
 import cn.yq.ad.Adv_Type;
 
 /**
  * Created by liguo on 2018/12/28.
  * desc
  */
-public class PresentModel extends BaseModel<cn.yq.ad.impl.PresentModel>{
+public class PresentModel extends BaseModel<PresentModel>{
 
     private Object data;
     private String adId;
@@ -23,7 +25,7 @@ public class PresentModel extends BaseModel<cn.yq.ad.impl.PresentModel>{
         return data;
     }
 
-    public cn.yq.ad.impl.PresentModel setData(Object data) {
+    public PresentModel setData(Object data) {
         this.data = data;
         return this;
     }
@@ -33,7 +35,7 @@ public class PresentModel extends BaseModel<cn.yq.ad.impl.PresentModel>{
         return adId;
     }
 
-    public cn.yq.ad.impl.PresentModel setAdId(String adId) {
+    public PresentModel setAdId(String adId) {
         this.adId = adId;
         return this;
     }
@@ -47,12 +49,13 @@ public class PresentModel extends BaseModel<cn.yq.ad.impl.PresentModel>{
         this.advType = advType;
     }
 
-    public static cn.yq.ad.impl.PresentModel getInstance(String adId, Adv_Type at){
-        return new cn.yq.ad.impl.PresentModel(adId,at.name());
+    public static PresentModel getInstance(String adId, Adv_Type at){
+        return new PresentModel(adId,at.name());
     }
 
     @Override
     public Adv_Type getAdv_Type(){
         return Adv_Type.valueOf(this.advType);
     }
+
 }
