@@ -25,7 +25,6 @@ import cn.yq.ad.ADUtils;
 import cn.yq.ad.AdConf;
 import cn.yq.ad.AdNativeResponse;
 import cn.yq.ad.Adv_Type;
-import cn.yq.ad.impl.AbstractADCallback;
 import cn.yq.ad.impl.ClickModel;
 import cn.yq.ad.impl.DismissModel;
 import cn.yq.ad.impl.ExtraKey;
@@ -47,12 +46,12 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
 
     private final ViewGroup adParentContainer;
     private volatile ScheduledExecutorService es;
-    private final AbstractADCallback callback;
+    private final ADCallback callback;
     private WeakReference<Activity> wrAct;
     private final Map<String, ADRunnable> adRunnableMap;
     private TextView tvSkip;
     private final GetAdsResponseListApiResult result;
-    public AdvProxyByKaiPin2(Activity act, AbstractADCallback cb, ViewGroup adContainer, TextView tvSkip,GetAdsResponseListApiResult result) {
+    public AdvProxyByKaiPin2(Activity act, ADCallback cb, ViewGroup adContainer, TextView tvSkip,GetAdsResponseListApiResult result) {
         callback = cb;
         wrAct = new WeakReference<>(act);
         this.adParentContainer = adContainer;

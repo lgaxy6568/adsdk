@@ -8,12 +8,14 @@ public class AdConstants {
     /**
      * 0：none | 1：广点通 | 2：穿山甲 | 3：百度 | 4：API
      */
-    private static final AtomicInteger ab_test_ad_platform = new AtomicInteger(1);
+    private static final AtomicInteger ab_test_ad_platform = new AtomicInteger(0);
     public static final String PAGE_BY_KAI_PING = "KP";
     public static final String PARTNER_KEY_BY_TT = "CSJ";
     public static final String PARTNER_KEY_BY_SELF = "Config";
     public static final String PARTNER_KEY_BY_GDT = "GDT";
-
+    public static void setDebugAdPlatform(int platform){
+        ab_test_ad_platform.set(platform);
+    }
     public static boolean is_test_api_adv() {
         if (AdConfigs.isDebugModel()) {
             return ab_test_ad_platform.get() == 4;

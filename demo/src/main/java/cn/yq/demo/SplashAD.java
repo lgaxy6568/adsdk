@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import cn.yq.ad.impl.AbstractADCallback;
+import cn.yq.ad.ADCallback;
 import cn.yq.ad.impl.ClickModel;
 import cn.yq.ad.impl.DismissModel;
 import cn.yq.ad.impl.FailModel;
@@ -13,7 +13,7 @@ import cn.yq.ad.proxy.AdvProxyByKaiPin2;
 import cn.yq.ad.proxy.model.GetAdsResponseListApiResult;
 
 public class SplashAD extends AdvProxyByKaiPin2 {
-    public SplashAD(Activity act, AbstractADCallback cb, ViewGroup adContainer, TextView tvSkip, GetAdsResponseListApiResult result) {
+    public SplashAD(Activity act, ADCallback cb, ViewGroup adContainer, TextView tvSkip, GetAdsResponseListApiResult result) {
         super(act, cb, adContainer, tvSkip, result);
     }
 

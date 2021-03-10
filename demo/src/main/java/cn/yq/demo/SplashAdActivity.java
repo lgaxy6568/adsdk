@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.reflect.TypeToken;
 
+import cn.yq.ad.ADCallback;
 import cn.yq.ad.ADRunnable;
-import cn.yq.ad.impl.AbstractADCallback;
 import cn.yq.ad.impl.ClickModel;
 import cn.yq.ad.impl.DismissModel;
 import cn.yq.ad.impl.FailModel;
@@ -26,7 +26,7 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
-public class SplashAdActivity extends AppCompatActivity implements AbstractADCallback {
+public class SplashAdActivity extends AppCompatActivity implements ADCallback {
     private static final String TAG = SplashAdActivity.class.getSimpleName();
 
     @Override
