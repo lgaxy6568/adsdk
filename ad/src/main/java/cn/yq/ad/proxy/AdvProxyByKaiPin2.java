@@ -139,29 +139,29 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
                 boolean e = Adv_Type.self.name().equalsIgnoreCase(ad_type);   //运营配置~全屏
                 if(AdConstants.is_test_gdt_adv()){
                     if(!a){
-                        AdLogUtils.d(TAG, "initAd(),跳过_A,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight());
+                        AdLogUtils.d(TAG, "initAd(),跳过_A,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight()+",sort="+ap.getSort());
                         continue;
                     }
                 }else if(AdConstants.is_test_tt_adv()){
                     if(!c){
-                        AdLogUtils.d(TAG, "initAd(),跳过_B,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight());
+                        AdLogUtils.d(TAG, "initAd(),跳过_B,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight()+",sort="+ap.getSort());
                         continue;
                     }
                 }else if(AdConstants.is_test_baidu_adv()){
                     if(!b){
-                        AdLogUtils.d(TAG, "initAd(),跳过_C,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight());
+                        AdLogUtils.d(TAG, "initAd(),跳过_C,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight()+",sort="+ap.getSort());
                         continue;
                     }
                 }else if(AdConstants.is_test_api_adv()){
                     if(!d){
-                        AdLogUtils.d(TAG, "initAd(),跳过_C,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight());
+                        AdLogUtils.d(TAG, "initAd(),跳过_C,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight()+",sort="+ap.getSort());
                         continue;
                     }
                 }else{
                     if(a || c || b || d || e){
 
                     }else{
-                        AdLogUtils.d(TAG, "initAd(),跳过,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight());
+                        AdLogUtils.d(TAG, "initAd(),跳过,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight()+",sort="+ap.getSort());
                         continue;
                     }
                 }
