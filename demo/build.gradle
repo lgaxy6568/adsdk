@@ -77,7 +77,7 @@ dependencies {
     implementation("com.squareup.okio:okio:2.10.0")
 
     implementation project(":ad")
-//    implementation 'com.github.lgaxy6568:adsdk:1.0.4'
+//    implementation 'com.github.lgaxy6568:adsdk:1.0.7'
     implementation (name: 'open_ad_sdk', ext: 'aar')
     implementation (name: 'GDTSDK_unionNormal_4_332_1202', ext: 'aar')
 }
