@@ -29,9 +29,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import cn.yq.ad.ADStyle;
-import cn.yq.ad.Adv_Type;
 import cn.yq.ad.AdConf;
 import cn.yq.ad.AdNativeResponse;
+import cn.yq.ad.Adv_Type;
 import cn.yq.ad.ShowModel;
 import cn.yq.ad.impl.ADBaseImpl;
 import cn.yq.ad.impl.ADCallBackImpl;
@@ -218,19 +218,6 @@ public class ADBaseImplByGDT extends ADBaseImpl implements NativeADUnifiedListen
     }
 
     @Override
-    public final void click(View view, Object obj) {
-//        if (obj instanceof NativeAdResponse) {
-//            NativeAdResponse nar = (NativeAdResponse) obj;
-//            NativeUnifiedADData dataRef = mNativeResponses.get(nar.getImageUrl());
-//            adCallback.onAdClick(nar);
-//            if (dataRef != null) {
-//                Log.e(getTAG(),"click(),title="+dataRef.getTitle());
-//                dataRef.onClicked(view);
-//            }
-//        }
-    }
-
-    @Override
     public void load() {
         startRequest("load()");
     }
@@ -281,7 +268,7 @@ public class ADBaseImplByGDT extends ADBaseImpl implements NativeADUnifiedListen
             nativeAD.setMaxVideoDuration(30);   //5~60之间
         }
         Log.e(getTAG(),"startRequest(),from="+from+",appId="+appId+",adId="+adId);
-        nativeAD.loadData(getRequestCount());
+        nativeAD.loadData(1);
     }
 
     final Map<String, NativeUnifiedADData> mNativeResponses = new HashMap<>();
@@ -295,10 +282,11 @@ public class ADBaseImplByGDT extends ADBaseImpl implements NativeADUnifiedListen
     //==================================
 
     @Override
-    public AdConf getCfg() {
+    public final AdConf getCfg() {
         AdConf bd = new AdConf();
         bd.setAppId(appId);
         bd.setAdId(adId);
+        bd.setAdRespItem(getAdParamItem());
         return bd;
     }
 
@@ -401,11 +389,6 @@ public class ADBaseImplByGDT extends ADBaseImpl implements NativeADUnifiedListen
                 button.setText("查看详情");
                 break;
         }
-    }
-
-    @Override
-    public int getDataSize() {
-        return mQueue.size();
     }
 
     private static class MyNativeADEventListener implements NativeADEventListener{

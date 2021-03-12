@@ -74,17 +74,12 @@ public abstract class ADBaseImplByTT<T> extends ADBaseImpl {
         mQueue.clear();
     }
     @Override
-    public AdConf getCfg() {
+    public final AdConf getCfg() {
         AdConf bd = new AdConf();
         bd.setAppId(appId);
         bd.setAdId(adId);
         bd.setAdIdLst(adIdLst);
+        bd.setAdRespItem(getAdParamItem());
         return bd;
     }
-
-    @Override
-    public int getDataSize() {
-        return mQueue != null ? mQueue.size() : 0;
-    }
-
 }

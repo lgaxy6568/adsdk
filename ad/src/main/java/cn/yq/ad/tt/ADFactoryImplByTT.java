@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.ViewGroup;
 
+import java.util.Map;
+
 import cn.yq.ad.ADRunnable;
 import cn.yq.ad.impl.BaseADFactoryImpl;
 import cn.yq.ad.tt.config.TTUtil;
@@ -21,5 +23,10 @@ public class ADFactoryImplByTT extends BaseADFactoryImpl {
     @Override
     public ADRunnable createSplashForTT(Activity act, String appId, String adId, ViewGroup adContainer) {
         return new SplashForTT(act, appId, adId, adContainer);
+    }
+
+    @Override
+    public ADRunnable createTTRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra, String advPos) {
+        return new RewardVideoForTT(act,appId,adId,extra,advPos);
     }
 }

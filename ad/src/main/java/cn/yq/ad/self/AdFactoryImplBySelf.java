@@ -1,4 +1,4 @@
-package cn.yq.ad.proxy;
+package cn.yq.ad.self;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 
 import cn.yq.ad.ADRunnable;
 import cn.yq.ad.impl.BaseADFactoryImpl;
-import cn.yq.ad.proxy.splash.SplashForSelf;
 
 public class AdFactoryImplBySelf extends BaseADFactoryImpl {
     @Override

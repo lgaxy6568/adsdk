@@ -40,10 +40,10 @@ public class AdResponse {
                 tmpLst.add(toItem(s));
             }
         }
-        if(AdConstants.PARTNER_KEY_BY_SELF.equalsIgnoreCase(type)){
+        if(AdConstants.SDK_TYPE_BY_SELF.equalsIgnoreCase(type)){
             AdRespItem item = toItem("人工配置_"+title);
             if(AdStringUtils.isEmpty(item.getAdPartnerKey())){
-                item.setAdPartnerKey(AdConstants.PARTNER_KEY_BY_SELF);
+                item.setAdPartnerKey(AdConstants.SDK_TYPE_BY_SELF);
             }
             if(AdStringUtils.isEmpty(item.getAdPartnerAppId())){
                 item.setAdPartnerAppId("xxx");

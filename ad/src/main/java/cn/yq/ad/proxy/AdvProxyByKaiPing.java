@@ -25,6 +25,7 @@ import cn.yq.ad.ADUtils;
 import cn.yq.ad.AdConf;
 import cn.yq.ad.AdNativeResponse;
 import cn.yq.ad.Adv_Type;
+import cn.yq.ad.StatCallbackByKaiPing;
 import cn.yq.ad.impl.ClickModel;
 import cn.yq.ad.impl.DismissModel;
 import cn.yq.ad.impl.ExtraKey;
@@ -35,41 +36,49 @@ import cn.yq.ad.proxy.model.AdRespItem;
 import cn.yq.ad.proxy.model.AdResponse;
 import cn.yq.ad.proxy.model.GetAdsResponse;
 import cn.yq.ad.proxy.model.GetAdsResponseListApiResult;
+import cn.yq.ad.self.AdFactoryImplBySelf;
 import cn.yq.ad.util.AdGsonUtils;
 import cn.yq.ad.util.AdLogUtils;
 import cn.yq.ad.util.AdStringUtils;
 
-public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runnable {
+public final class AdvProxyByKaiPing extends AdvProxyAbstract implements Runnable {
 
-    private static final String TAG = AdvProxyByKaiPin2.class.getSimpleName();
+    private static final String TAG = AdvProxyByKaiPing.class.getSimpleName();
     private final AtomicBoolean is_time_out = new AtomicBoolean(false);
 
     private final ViewGroup adParentContainer;
-    private volatile ScheduledExecutorService es;
+    private ScheduledExecutorService es;
     private final ADCallback callback;
     private WeakReference<Activity> wrAct;
     private final Map<String, ADRunnable> adRunnableMap;
-    private TextView tvSkip;
+    private final TextView tvSkip;
     private final GetAdsResponseListApiResult result;
-    public AdvProxyByKaiPin2(Activity act, ADCallback cb, ViewGroup adContainer, TextView tvSkip,GetAdsResponseListApiResult result) {
-        callback = cb;
-        wrAct = new WeakReference<>(act);
+    private StatCallbackByKaiPing statCallback;
+
+    public AdvProxyByKaiPing setStatCallback(StatCallbackByKaiPing statCallback) {
+        this.statCallback = statCallback;
+        return this;
+    }
+
+    public AdvProxyByKaiPing(Activity act, ADCallback cb, ViewGroup adContainer, TextView tvSkip, GetAdsResponseListApiResult result) {
+        this.callback = cb;
+        this.wrAct = new WeakReference<>(act);
         this.adParentContainer = adContainer;
-        adRunnableMap = new LinkedHashMap<>();
+        this.adRunnableMap = new LinkedHashMap<>();
         this.tvSkip = tvSkip;
         this.result = result;
         initAd();
     }
 
-    public Activity getSelfActivity(){
+    public final Activity getSelfActivity(){
         return wrAct.get();
     }
 
     private boolean inited = false;
 
-    final Map<String, AdRespItem> adAdvPosMap = new LinkedHashMap<>();
-    final Map<String, PresentModel> adPresentModeMap = new LinkedHashMap<>();
-    final Map<String, FailModel> adFailModeMap = new LinkedHashMap<>();
+    private final Map<String, AdRespItem> adAdvPosMap = new LinkedHashMap<>();
+    private final Map<String, PresentModel> adPresentModeMap = new LinkedHashMap<>();
+    private final Map<String, FailModel> adFailModeMap = new LinkedHashMap<>();
     private void initAd() {
         List<GetAdsResponse> dataLst = (result != null) ? result.getData() : null;
         if(dataLst == null || dataLst.size() == 0){
@@ -78,8 +87,8 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
         }
         final List<AdRespItem> apLst = new ArrayList<>();
         for (GetAdsResponse adsResponse : dataLst) {
-            String page = adsResponse.getPage();
-            if(!AdConstants.PAGE_BY_KAI_PING.equalsIgnoreCase(page)){
+            String location = adsResponse.getLocation();
+            if(!AdConstants.LOCATION_BY_KAI_PING.equalsIgnoreCase(location)){
                 continue;
             }
             List<AdResponse> ads = adsResponse.getAds();
@@ -108,7 +117,6 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
                 if (tmpLst.size() > 0) {
                     AdLogUtils.d(TAG, "initAd(),partnerKey="+ad.getAdPartnerKey()+",ad.size="+tmpLst.size());
                     for (AdRespItem item : tmpLst) {
-                        //item.setKpSizeType(AdRespItem.KP_1);
                         if(item.getWidget() <= 0){
                             AdLogUtils.w(TAG, "initAd(),adType="+item.getAdv_type_name()+",adId="+ad.getAdPartnerAdId()+",ad.weight=0");
                             continue;
@@ -120,7 +128,6 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
             break;
         }
         AdLogUtils.d(TAG, "initAd(),=============================================================");
-//        adApLst = new ArrayList<>();
         adAdvPosMap.clear();
         for (AdRespItem ap : apLst) {
             String app_id = ap.getAppId();
@@ -172,12 +179,12 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
                 try {
                     ar = ADUtils.getSplashADForTT(wrAct.get(), app_id, tmpIds, adParentContainer, null);
                     if (ar != null) {
-                        ADCallbackImpl cb = new ADCallbackImpl(Adv_Type.tt, PAGE_NAME, ap);
+                        ADCallbackImpl cb = new ADCallbackImpl(Adv_Type.tt, ap);
                         ar.addCallback(cb);
 
                         Bundle bd = new Bundle();
-                        bd.putString(ExtraKey.KP_AD_SIZE_TYPE_KEY,ap.getKpSizeTypeDesc());
                         bd.putInt(ExtraKey.KP_AD_REQUEST_TIME_OUT, REQUEST_TIME_OUT_BY_CSJ());
+                        bd.putString(ExtraKey.KP_AD_CONFIG, AdGsonUtils.getGson().toJson(ap));
                         ar.setExtra(bd);
                     }
                 } catch (Exception e) {
@@ -188,23 +195,22 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
                 AdLogUtils.i(TAG, "initAd(),广点通,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight()+",sort=" + ap.getSort());
                 ar = ADUtils.getSplashADForGDT(wrAct.get(), app_id, tmpIds, adParentContainer, null,tvSkip);
                 if (ar != null) {
-                    ADCallbackImpl cb = new ADCallbackImpl(Adv_Type.gdt, PAGE_NAME, ap);
+                    ADCallbackImpl cb = new ADCallbackImpl(Adv_Type.gdt,  ap);
                     ar.addCallback(cb);
 
                     Bundle bd = new Bundle();
-                    bd.putString(ExtraKey.KP_AD_SIZE_TYPE_KEY,ap.getKpSizeTypeDesc());
                     bd.putInt(ExtraKey.KP_AD_REQUEST_TIME_OUT, REQUEST_TIME_OUT_BY_GDT());
+                    bd.putString(ExtraKey.KP_AD_CONFIG, AdGsonUtils.getGson().toJson(ap));
                     ar.setExtra(bd);
                 }
             } else if (Adv_Type.self.name().equalsIgnoreCase(ad_type)) {
                 AdLogUtils.i(TAG, "initAd(),人工配置,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight()+",sort=" + ap.getSort());
                 ar = new AdFactoryImplBySelf().createSplashForSelf(wrAct.get(), app_id, tmpIds, adParentContainer);
                 if (ar != null) {
-                    ADCallbackImpl cb = new ADCallbackImpl(Adv_Type.self, PAGE_NAME, ap);
+                    ADCallbackImpl cb = new ADCallbackImpl(Adv_Type.self, ap);
                     ar.addCallback(cb);
 
                     Bundle bd = new Bundle();
-                    bd.putString(ExtraKey.KP_AD_SIZE_TYPE_KEY,ap.getKpSizeTypeDesc());
                     bd.putInt(ExtraKey.KP_AD_REQUEST_TIME_OUT, REQUEST_TIME_OUT_BY_GDT());
                     bd.putString(ExtraKey.KP_AD_CONFIG, AdGsonUtils.getGson().toJson(ap));
                     ar.setExtra(bd);
@@ -235,10 +241,9 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
     }
 
     private final AtomicLong start_load_time = new AtomicLong(0);
-//    private final AtomicInteger ad_load_index = new AtomicInteger(0);
 
     @Override
-    public void load() {
+    public final void load() {
         int sz = adRunnableMap.size();
         final long load_time_out = REQUEST_TIME_OUT_BY_TOTAL();
         if(sz > 0){
@@ -261,8 +266,9 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
                     if(adType == null){
                         adType = Adv_Type.none;
                     }
-                    callBackByOnAdStartLoad(adId,adType);
-                    //uploadToUmeng(adType,adId, Adv_Status.start,null);
+                    if(statCallback != null) {
+                        statCallback.callBackByOnAdStartLoad(adId, adType,ar.getCfg().getAdRespItem());
+                    }
                 }
             }
             es.schedule(this, load_time_out, TimeUnit.MILLISECONDS);
@@ -271,7 +277,7 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
     }
 
     @Override
-    public void destroy() {
+    public final void destroy() {
         super.destroy();
         for (ADRunnable adr : adRunnableMap.values()) {
             try {
@@ -283,7 +289,7 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
     }
 
     @Override
-    public void removeCallBack(ADCallback callback) {
+    public final void removeCallBack(ADCallback callback) {
         super.removeCallBack(callback);
         for (ADRunnable adr : adRunnableMap.values()) {
             adr.removeCallBack(callback);
@@ -291,7 +297,7 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
     }
 
     @Override
-    public void removeAll() {
+    public final void removeAll() {
         super.removeAll();
         for (ADRunnable adr : adRunnableMap.values()) {
             adr.removeAll();
@@ -299,12 +305,12 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
     }
 
     @Override
-    public Adv_Type getAdvType() {
+    public final Adv_Type getAdvType() {
         return ar_last == null ? Adv_Type.none : ar_last.getAdvType();
     }
 
     @Override
-    public void show(View view, Object obj) {
+    public final void show(View view, Object obj) {
         super.show(view, obj);
         if (ar_last == null) {
             return;
@@ -313,16 +319,7 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
     }
 
     @Override
-    public void click(View view, Object extra) {
-        super.click(view, extra);
-        if (ar_last == null) {
-            return;
-        }
-        ar_last.click(view, extra);
-    }
-
-    @Override
-    public AdNativeResponse getAdvertEntity(String from, Map<String, String> map) {
+    public final AdNativeResponse getAdvertEntity(String from, Map<String, String> map) {
         if (ar_last == null) {
             return null;
         }
@@ -330,7 +327,7 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
     }
 
     @Override
-    public View getAdvertEntityView(View view, Object obj) {
+    public final View getAdvertEntityView(View view, Object obj) {
         if (ar_last == null) {
             return null;
         }
@@ -338,7 +335,7 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
     }
 
     @Override
-    public List<ADCallback> getCallBackList() {
+    public final List<ADCallback> getCallBackList() {
         if (ar_last == null) {
             return null;
         }
@@ -346,14 +343,14 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
     }
 
     @Override
-    public void setExtra(Bundle bd) {
+    public final void setExtra(Bundle bd) {
         for (ADRunnable adr : adRunnableMap.values()) {
             adr.setExtra(bd);
         }
     }
 
     @Override
-    public Bundle getExtra() {
+    public final Bundle getExtra() {
         if (ar_last == null) {
             return null;
         }
@@ -361,7 +358,7 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
     }
 
     @Override
-    public void reload() {
+    public final void reload() {
         for (ADRunnable adr : adRunnableMap.values()) {
             try {
                 adr.reload();
@@ -372,7 +369,7 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
     }
 
     @Override
-    public AdConf getCfg() {
+    public final AdConf getCfg() {
         if (ar_last == null) {
             return null;
         }
@@ -383,7 +380,7 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
 
     private final String FROM_RUN = "run";
     @Override
-    public void run() {
+    public final void run() {
         //说明已经有广告返回了
         synchronized (tmp_lock) {
             if (ar_last != null || ab_checked.get()) {
@@ -492,49 +489,35 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
         }
     }
 
-    public boolean isTimeOut() {
+    public final boolean isTimeOut() {
         return is_time_out.get();
     }
 
-    private class ADCallbackImpl implements ADCallback {
+    private final class ADCallbackImpl implements ADCallback {
         private Adv_Type advType;
-        private String pageName;
         private final AdRespItem ap;
 
-        private final AtomicBoolean AB_IS_GDT_FULLSCREEN;
-        public ADCallbackImpl(Adv_Type advType, String pageName, AdRespItem ap) {
+        public ADCallbackImpl(Adv_Type advType, AdRespItem ap) {
             this.advType = advType;
-            this.pageName = pageName;
             this.ap = ap;
-            AB_IS_GDT_FULLSCREEN = new AtomicBoolean(advType == Adv_Type.gdt);
         }
 
         @Override
         public void onAdPresent(PresentModel result) {
             adPresentModeMap.put(ap.getAdId(),result);
             checkResult("onAdPresent(" + result.getAdvType() + "_"+result.getAdId()+")");
-            callBackByOnAdPresent(result);
-//            Map<String, Object> tmp = SFHelper.INSTANCE.createMap(result.getAdId(),result.getAdv_Type(),true,null);
-//
-//            if(extraMap != null && extraMap.size() > 0) {
-//                tmp.putAll(extraMap);
-//            }
-//            GuideActivity.Companion.tj_load_status_for_all(TARGET_NAME, StatActionType.access,pageName, true, tmp);
+            if(statCallback != null) {
+                statCallback.callBackByOnAdPresent(result);
+            }
         }
 
         @Override
         public void onADExposed(PresentModel pm) {
             AdLogUtils.i(TAG, "onADExposed(" + pm.getAdvType() + "_"+pm.getAdId()+"),曝光成功");
             callback.onADExposed(pm);
-//            Map<String, Object> tmp = SFHelper.INSTANCE.createMap(pm.getAdId(),pm.getAdv_Type(),true,null);
-//            if(extraMap != null && extraMap.size() > 0) {
-//                tmp.putAll(extraMap);
-//            }
-//            GuideActivity.Companion.tj_load_status_for_all(TARGET_NAME, StatActionType.view,pageName, true,tmp);
-//            if(AB_IS_GDT_FULLSCREEN.get()){
-//                addKaiPinStatus(ap.getAdId(),new KaiPinStatus(2));
-//            }
-            callBackByOnADExposed(pm);
+            if(statCallback != null) {
+                statCallback.callBackByOnADExposed(pm);
+            }
         }
 
         @Override
@@ -546,85 +529,43 @@ public class AdvProxyByKaiPin2 extends AdvProxyByKaiPinAbstract implements Runna
                 AdLogUtils.e(TAG, "onAdFailed(" + advType.name() + "_"+fm.getAdId()+"),msg="+fm.toFullMsg());
                 checkResult("onAdFailed(" + advType.name() + ")");
             }
-//            Map<String, Object> tmp = SFHelper.INSTANCE.createMap(fm.getAdId(),fm.getAdv_Type(),false,fm.toFullMsg());
-//            if(extraMap != null && extraMap.size() > 0) {
-//               tmp.putAll(extraMap);
-//            }
-//            GuideActivity.Companion.tj_load_status_for_all(TARGET_NAME,StatActionType.access,pageName, false, tmp);
-//            if(AB_IS_GDT_FULLSCREEN.get()){
-//                addKaiPinStatus(ap.getAdId(),new KaiPinStatus(3));
-//            }
-            callBackByOnAdFailed(fm);
+            if(statCallback != null) {
+                statCallback.callBackByOnAdFailed(fm);
+            }
         }
 
         @Override
         public void onAdClick(ClickModel result) {
-//            if(result != null) {
-//                uploadToUmeng(result.getAdv_Type(), result.getAdId(),Adv_Status.click,null);
-//            }
-//            Map<String, Object> tmp = SFHelper.INSTANCE.createMap(result.getAdId(),result.getAdv_Type(),true,null);
-//            if(extraMap != null && extraMap.size() > 0) {
-//                tmp.putAll(extraMap);
-//            }
-//            GuideActivity.Companion.tj_load_status_for_all(TARGET_NAME, StatActionType.click,pageName, true, tmp);
             callback.onAdClick(result);
-            callBackByOnAdClick(result);
+            if(statCallback != null) {
+                statCallback.callBackByOnAdClick(result);
+            }
         }
 
         @Override
         public void onAdDismissed(DismissModel dm) {
             callback.onAdDismissed(dm);
-            callBackByOnAdDismissed(dm);
+            if(statCallback != null) {
+                statCallback.callBackByOnAdDismissed(dm);
+            }
         }
 
         @Override
         public void onDisLike(PresentModel pm) {
             callback.onDisLike(pm);
-            callBackByOnDisLike(pm);
+            if(statCallback != null) {
+                statCallback.callBackByOnDisLike(pm);
+            }
         }
 
         @Override
         public void onAdSkip(PresentModel result) {
-//            Map<String, Object> tmp = SFHelper.INSTANCE.createMap(result.getAdId(),result.getAdv_Type(),true,null);
-//            if(extraMap != null && extraMap.size() > 0) {
-//                tmp.putAll(extraMap);
-//            }
-//            GuideActivity.Companion.tj_load_status_for_all(TARGET_NAME, StatActionType.click,pageName, true, tmp);
             callback.onAdSkip(result);
-            callBackByOnAdSkip(result);
+            if(statCallback != null) {
+                statCallback.callBackByOnAdSkip(result);
+            }
         }
     }
 
 
-    public void callBackByOnAdStartLoad(String adId,Adv_Type adType){
-
-    }
-
-    public void callBackByOnAdPresent(PresentModel pm){
-
-    }
-
-    public void callBackByOnAdFailed(FailModel fm){
-
-    }
-
-    public void callBackByOnADExposed(PresentModel pm){
-
-    }
-
-    public void callBackByOnAdClick(ClickModel cm){
-
-    }
-
-    public void callBackByOnAdDismissed(DismissModel dm){
-
-    }
-
-    public void callBackByOnAdSkip(PresentModel pm){
-
-    }
-
-    public void callBackByOnDisLike(PresentModel pm){
-
-    }
 }

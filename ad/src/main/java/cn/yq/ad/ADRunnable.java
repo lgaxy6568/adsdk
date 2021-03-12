@@ -28,17 +28,11 @@ public interface ADRunnable {
 
     void  removeAll();
 
-    void showTj(ShowModel sm);
-    //=========
-
     /** 重新加载 */
     void reload();
 
     /** 发送展示 */
     void show(View view, Object obj);
-
-    /** 客户端回调SDK */
-    void click(View view, Object obj);
 
     /** 客户端回调SDK */
     AdNativeResponse getAdvertEntity(String from, Map<String, String> map);
@@ -51,13 +45,10 @@ public interface ADRunnable {
 
     List<ADCallback> getCallBackList();
 
-    void setExtra(Bundle bd);
-    Bundle getExtra();
-
-    //=========20190710============
+    //=========不太重要的方法============
     void resume(Object obj);
     void pause(Object obj);
-    int getDataSize();
-    int getRequestCount();
-
+    void showTj(ShowModel sm);
+    void setExtra(Bundle bd);
+    Bundle getExtra();
 }

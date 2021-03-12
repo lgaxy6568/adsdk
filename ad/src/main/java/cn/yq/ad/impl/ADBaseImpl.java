@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.reflect.TypeToken;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,10 +18,13 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import cn.yq.ad.ADCallback;
 import cn.yq.ad.ADRunnable;
-import cn.yq.ad.Adv_Type;
 import cn.yq.ad.AdConf;
 import cn.yq.ad.AdNativeResponse;
+import cn.yq.ad.Adv_Type;
 import cn.yq.ad.ShowModel;
+import cn.yq.ad.proxy.model.AdRespItem;
+import cn.yq.ad.util.AdGsonUtils;
+import cn.yq.ad.util.AdStringUtils;
 
 /**
  * Created by liguo on 2018/10/17.
@@ -64,7 +69,7 @@ public abstract class ADBaseImpl implements ADRunnable{
     private final Bundle bd = new Bundle();
     @Override
     public void setExtra(Bundle bd) {
-        if(bd == null){
+        if(bd == null || bd.size() == 0){
             return;
         }
         this.bd.putAll(bd);
@@ -90,12 +95,6 @@ public abstract class ADBaseImpl implements ADRunnable{
 
     }
 
-    //客户端回调广告SDK的方法
-    @Override
-    public void click(View view, Object extra) {
-
-    }
-
     @Override
     public AdNativeResponse getAdvertEntity(String from, Map<String, String> map) {
         return null;
@@ -103,11 +102,6 @@ public abstract class ADBaseImpl implements ADRunnable{
 
     @Override
     public View getAdvertEntityView(View view, Object obj) {
-        return null;
-    }
-
-    @Override
-    public AdConf getCfg() {
         return null;
     }
 
@@ -241,16 +235,6 @@ public abstract class ADBaseImpl implements ADRunnable{
 
     }
 
-    @Override
-    public int getDataSize() {
-        return 0;
-    }
-
-    @Override
-    public final int getRequestCount() {
-        return 1;
-    }
-
     public final String getMaxStr(String s1, String s2){
         int lengthA = 0,lengthB=0;
         if(s1 != null){
@@ -344,5 +328,20 @@ public abstract class ADBaseImpl implements ADRunnable{
             return 6000;
         }
         return tmpTimeout;
+    }
+
+    public final AdRespItem getAdParamItem(){
+        final String str = getExtra().getString(ExtraKey.KP_AD_CONFIG);
+        if(AdStringUtils.isEmpty(str)){
+            return null;
+        }
+
+        AdRespItem param = null;
+        try {
+            param = AdGsonUtils.getGson().fromJson(str, new TypeToken<AdRespItem>() {}.getType());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return param;
     }
 }

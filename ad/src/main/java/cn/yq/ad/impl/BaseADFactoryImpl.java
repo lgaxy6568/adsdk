@@ -1,9 +1,10 @@
 package cn.yq.ad.impl;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.util.Map;
 
 import cn.yq.ad.ADFactory;
 import cn.yq.ad.ADRunnable;
@@ -26,6 +27,16 @@ public abstract class BaseADFactoryImpl implements ADFactory {
 
     @Override
     public ADRunnable createSplashForSelf(Activity act, String appId, String adId, ViewGroup adContainer) {
+        return null;
+    }
+
+    @Override
+    public ADRunnable createTTRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra, String advPos) {
+        return null;
+    }
+
+    @Override
+    public ADRunnable createGDTRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra, String advPos) {
         return null;
     }
 }

@@ -8,17 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import cn.yq.ad.Adv_Status;
 import cn.yq.ad.Adv_Type;
 import cn.yq.ad.impl.ADBaseImpl;
-import cn.yq.ad.impl.BaseModel;
-import cn.yq.ad.impl.ExtraKey;
 import cn.yq.ad.proxy.model.AdRespItem;
 import cn.yq.ad.util.AdStringUtils;
 
-public abstract class AdvProxyByKaiPinAbstract extends ADBaseImpl {
-    public static final String TARGET_NAME = "开屏";
-    public static final String PAGE_NAME = "开屏";
+public abstract class AdvProxyAbstract extends ADBaseImpl {
     protected Map<String, String> extraMap;
     public final void setExtraMap(Map<String, String> extraMap) {
         this.extraMap = extraMap;
@@ -141,72 +136,6 @@ public abstract class AdvProxyByKaiPinAbstract extends ADBaseImpl {
         return REQUEST_TIME_OUT_BY_PLATFORM(Adv_Type.tt);
     }
 
-    /** 是否全屏广告 */
-    public static boolean adIsFullScreen(BaseModel pm){
-        if(pm == null){
-            return false;
-        }
-        String ad_size_type = pm.get(ExtraKey.KP_AD_SIZE_TYPE_KEY);
-        if(ExtraKey.KP_AD_SIZE_TYPE_VALUE_BAN_PING.equalsIgnoreCase(ad_size_type)){
-            return false;
-        }else{
-            return true;
-        }
-    }
-
-    public static String getTypeStr(Adv_Type ai_adv_type, BaseModel pm_adv){
-        if (ai_adv_type == Adv_Type.gdt){
-            if(adIsFullScreen(pm_adv)){
-                return "广点通全屏";
-            }else{
-                return "广点通半屏";
-            }
-        }else if (ai_adv_type == Adv_Type.tt){
-            if(adIsFullScreen(pm_adv)) {
-                return "穿山甲全屏";
-            }else{
-                return "穿山甲半屏";
-            }
-        }else if (ai_adv_type == Adv_Type.api_magic_mobile){
-            if(adIsFullScreen(pm_adv)) {
-                return "API全屏";
-            }else{
-                return "API半屏";
-            }
-        }else if(ai_adv_type == Adv_Type.bai_du){
-            return "百度全屏";
-        }else{
-            return ai_adv_type != null ? ai_adv_type.name() : "unknown2";
-        }
-    }
-
-    public static String buildUmKey(Adv_Type at, Adv_Status status){
-        if(at == Adv_Type.gdt){
-            if(status == Adv_Status.fail){
-                return "gdt_req_num_fail";
-            }else if(status == Adv_Status.suc){
-                return "gdt_req_num_suc";
-            }else if(status == Adv_Status.start){
-                return "gdt_req_num_total";
-            }else if(status == Adv_Status.show){
-                return "gdt_req_num_show";
-            }
-        }
-        if(at == Adv_Type.tt){
-            if(status == Adv_Status.fail){
-                return "csj_req_num_fail";
-            }else if(status == Adv_Status.suc){
-                return "csj_req_num_suc";
-            }else if(status == Adv_Status.start){
-                return "csj_req_num_total";
-            }else if(status == Adv_Status.show){
-                return "csj_req_num_show";
-            }
-        }
-        return at.name()+"_"+status.name();
-
-    }
-
     private static AdRespItem selectOne(List<AdRespItem> apLst) {
         int adSdkSortType = AdConfigs.getAdSdkSortType();
         if(adSdkSortType == 1){
@@ -226,7 +155,7 @@ public abstract class AdvProxyByKaiPinAbstract extends ADBaseImpl {
         Map<String,String> adTypeWeightMap = new LinkedHashMap<>();
         Map<String,List<AdRespItem>> mpLst = new HashMap<>();
         int index = 0;
-        int maxWeight = 100;
+        final int maxWeight = 100;
         int totalSelfWeight = 0;
         for (AdRespItem ap : apLst) {
             //self_1,self_2,sdk
@@ -266,12 +195,13 @@ public abstract class AdvProxyByKaiPinAbstract extends ADBaseImpl {
             cur_num += weight;
             if (cur_num >= ran) {
                 List<AdRespItem> childList = mpLst.get(kk);
+                if(childList == null || childList.size() <=  0){
+                    continue;
+                }
                 if(childList.size() > 1){
                     result = selectOne(childList);
-                }else if(childList.size() == 1){
+                }else {
                     result = childList.get(0);
-                }else{
-                    continue;
                 }
                 break;
             }

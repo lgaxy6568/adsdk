@@ -5,6 +5,11 @@ import android.content.Context;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Map;
+
+import cn.yq.ad.gdt.ADFactoryImplByGDT;
+import cn.yq.ad.tt.ADFactoryImplByTT;
+
 /**
  * Created by liguo on 2018/10/17.
  * desc
@@ -21,8 +26,7 @@ public class ADUtils {
             synchronized (ADUtils.class){
                 if(mFactory_gdt == null){
                     try {
-                        Class<?> cls_var = Class.forName("cn.yq.ad.gdt.ADFactoryImplByGDT");
-                        mFactory_gdt = (ADFactory) cls_var.newInstance();
+                        mFactory_gdt = new ADFactoryImplByGDT();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }finally {
@@ -45,8 +49,7 @@ public class ADUtils {
             synchronized (ADUtils.class){
                 if(mFactory_tt == null){
                     try {
-                        Class<?> cls_var = Class.forName("cn.yq.ad.tt.ADFactoryImplByTT");
-                        mFactory_tt = (ADFactory) cls_var.newInstance();
+                        mFactory_tt = new ADFactoryImplByTT();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }finally {
@@ -99,5 +102,29 @@ public class ADUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /* 穿山甲~激励视频广告 */
+    public static ADRunnable getTTRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra, VideoADCallback cb, String advPos) {
+        ADFactory factory = ADUtils.getFactoryByTT();
+        if(factory == null){
+            return null;
+        }
+        ADRunnable ar = factory.createTTRewardVideo(act, appId, adId, extra,advPos);
+        ar.addCallback(cb);
+        return ar;
+    }
+
+    /* 广点通~激励视频广告 */
+    public static ADRunnable getGDTRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra, VideoADCallback cb, String advPos) {
+        ADFactory factory = ADUtils.getFactoryByGDT();
+        if(factory == null){
+            return null;
+        }
+        ADRunnable ar = factory.createGDTRewardVideo(act, appId, adId, extra,advPos);
+        if(ar != null) {
+            ar.addCallback(cb);
+        }
+        return ar;
     }
 }

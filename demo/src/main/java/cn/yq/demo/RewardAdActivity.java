@@ -1,7 +1,6 @@
 package cn.yq.demo;
 
 import android.os.Bundle;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,16 +8,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.reflect.TypeToken;
 
-import cn.yq.ad.ADCallback;
-import cn.yq.ad.ADRunnable;
 import cn.yq.ad.Adv_Type;
-import cn.yq.ad.StatCallbackByKaiPing;
+import cn.yq.ad.StatCallbackByRewardVideo;
+import cn.yq.ad.VideoADCallback;
 import cn.yq.ad.impl.ClickModel;
 import cn.yq.ad.impl.DismissModel;
 import cn.yq.ad.impl.FailModel;
 import cn.yq.ad.impl.PresentModel;
+import cn.yq.ad.impl.ShowParam;
 import cn.yq.ad.proxy.AdConfigs;
-import cn.yq.ad.proxy.AdvProxyByKaiPing;
+import cn.yq.ad.proxy.AdvProxyByRewardVideo;
 import cn.yq.ad.proxy.AsyncTask;
 import cn.yq.ad.proxy.model.AdRespItem;
 import cn.yq.ad.proxy.model.GetAdsModel;
@@ -30,24 +29,20 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
-public class SplashAdActivity extends AppCompatActivity implements ADCallback, StatCallbackByKaiPing {
-    private static final String TAG = SplashAdActivity.class.getSimpleName();
+public class RewardAdActivity extends AppCompatActivity implements VideoADCallback, StatCallbackByRewardVideo {
+    private static final String TAG = RewardAdActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ad_splash);
-        // FIXME: 2021/3/8 注意事项
-        /*
-         * （1）确认包名及签名正确
-         */
+        setContentView(R.layout.activity_ad_reward);
         loadAdConfigs();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(adr != null) {
+        if(adr != null){
             adr.destroy();
         }
     }
@@ -85,18 +80,20 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
 
         }.execute();
     }
-    AdvProxyByKaiPing adr = null;
+
+    private AdvProxyByRewardVideo adr = null;
     private void startLoadAd(GetAdsResponseListApiResult result){
         //步骤3：开始加载广告
-        ViewGroup adContainer = findViewById(R.id.act_ad_container_view);
-        adr = new AdvProxyByKaiPing(this,this,adContainer,null,result);
-        adr.setStatCallback(this);
-        adr.load();
+       adr = new AdvProxyByRewardVideo(this,this,result,null,"AdvPos_test");
+       adr.setStatCallback(this);
+       adr.load();
     }
 
     @Override
     public void onAdPresent(@NonNull PresentModel result) {
         AdLogUtils.i(TAG,"onAdPresent(),广告加载成功,adId="+result.getAdId()+",adType="+result.getAdvType());
+        ShowParam sp = new ShowParam(1);
+        adr.show(null,sp);
     }
 
     @Override
@@ -127,6 +124,26 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
     @Override
     public void onAdSkip(PresentModel result) {
         AdLogUtils.i(TAG,"onAdSkip(),用户点击了跳过,adId="+result.getAdId()+",adType="+result.getAdvType());
+    }
+
+    @Override
+    public void onPreLoad() {
+        AdLogUtils.i(TAG,"onPreLoad()");
+    }
+
+    @Override
+    public void onVideoStartPlay(@NonNull PresentModel model) {
+        AdLogUtils.i(TAG,"onVideoStartPlay(),result="+model.getInfo());
+    }
+
+    @Override
+    public void onVideoPlayComplete(@NonNull PresentModel model) {
+        AdLogUtils.i(TAG,"onVideoPlayComplete(),result="+model.getInfo());
+    }
+
+    @Override
+    public void onRewardVerify(boolean rewardVerify, PresentModel model) {
+        AdLogUtils.i(TAG,"onRewardVerify(),rewardVerify="+rewardVerify+",result="+model.getInfo());
     }
 
     //================================埋点统计回调 begin=============================
@@ -170,5 +187,26 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
     public void callBackByOnDisLike(PresentModel pm) {
 
     }
+
+    @Override
+    public void callBackByOnPreLoad() {
+
+    }
+
+    @Override
+    public void callBackOnVideoStartPlay(PresentModel model) {
+
+    }
+
+    @Override
+    public void callBackOnVideoPlayComplete(PresentModel model) {
+
+    }
+
+    @Override
+    public void callBackOnRewardVerify(boolean rewardVerify, PresentModel model) {
+
+    }
+
     //================================埋点统计回调 end=============================
 }

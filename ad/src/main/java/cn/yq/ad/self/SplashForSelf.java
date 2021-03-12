@@ -1,4 +1,4 @@
-package cn.yq.ad.proxy.splash;
+package cn.yq.ad.self;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
@@ -21,13 +21,11 @@ import com.bumptech.glide.request.target.Target;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.ref.WeakReference;
-import java.util.LinkedHashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import cn.yq.ad.Adv_Type;
 import cn.yq.ad.AdConf;
+import cn.yq.ad.Adv_Type;
 import cn.yq.ad.R;
 import cn.yq.ad.impl.ADBaseImpl;
 import cn.yq.ad.impl.ClickModel;
@@ -36,8 +34,8 @@ import cn.yq.ad.impl.ExtraKey;
 import cn.yq.ad.impl.FailModel;
 import cn.yq.ad.impl.PresentModel;
 import cn.yq.ad.proxy.model.AdRespItem;
-import cn.yq.ad.util.AdLogUtils;
 import cn.yq.ad.util.AdGsonUtils;
+import cn.yq.ad.util.AdLogUtils;
 
 public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
     private ViewGroup gdtContainer;
@@ -56,13 +54,6 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
         this.layoutSplashForSkipView = rootView.findViewById(R.id.layout_splash_for_skip_view);
     }
 
-    private String getAdvSizeType() {
-        Bundle bd = getExtra();
-        if (bd != null && bd.containsKey(ExtraKey.KP_AD_SIZE_TYPE_KEY)) {
-            return bd.getString(ExtraKey.KP_AD_SIZE_TYPE_KEY);
-        }
-        return ExtraKey.KP_AD_SIZE_TYPE_VALUE_QUAN_PING;
-    }
     private TextView layoutSplashForSkipView;
     private ImageView layoutSplashForSelfIv;
     private View rootView;
@@ -70,34 +61,12 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
     public void onClick(View v) {
         if(v == layoutSplashForSkipView){
             isSkiped.set(true);
-            defaultCallback.onAdSkip(PresentModel.getInstance(posId, getAdvType()).put(ExtraKey.KP_AD_SIZE_TYPE_KEY,getAdvSizeType()));
+            defaultCallback.onAdSkip(PresentModel.getInstance(posId, getAdvType()).setAdRespItem(getAdParamItem()));
             return;
         }
-        try {
-//            String url = param.getUrl();
-//            if (StringUtils.isEmpty(url)) {
-//                return;
-//            }
-//            Uri uri = Uri.parse(url);
-//            String schema = StringUtils.toLowerCase(uri.getScheme()).trim();
-//            if (schema.startsWith("http")) {
-//                act.startActivity(WebViewActivity.Companion.createIntent(act, url, param.getTitle()));
-//            } else if ("days".equals(schema)) {
-//                //days://cn.yq.days/main?action=OpenVIP
-//                String page = GuideActivity.class.getName();
-//                MainActivity.Companion.handUri(uri, null, page, act);
-//            }else{
-//                LogUtil.e(TAG,"not supported uri=" + uri.toString());
-//            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            ClickModel cm = ClickModel.getInstance(0, -1, posId, getAdvType()).put(ExtraKey.KP_AD_SIZE_TYPE_KEY, getAdvSizeType());
-            Map<String, String> map = new LinkedHashMap<>();
-            map.put("ad_config",getExtra().getString(ExtraKey.KP_AD_CONFIG));
-            cm.setExtMap(map);
-            defaultCallback.onAdClick(cm);
-        }
+        ClickModel cm = ClickModel.getInstance(0, -1, posId, getAdvType());
+        cm.setAdRespItem(getAdParamItem());
+        defaultCallback.onAdClick(cm);
     }
 
     private AdRespItem param;
@@ -115,9 +84,8 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                 FailModel fm = FailModel.toStr(-1,"图片加载失败~",posId,getAdvType());
-                fm.put(ExtraKey.KP_AD_SIZE_TYPE_KEY,getAdvSizeType());
                 Log.e(TAG,"onLoadFailed(),err_msg="+fm.toFullMsg());
-                defaultCallback.onAdFailed(fm);
+                defaultCallback.onAdFailed(fm.setAdRespItem(getAdParamItem()));
                 return false;
             }
 
@@ -125,7 +93,7 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
             public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                 Log.e(TAG,"onResourceReady()");
                 layoutSplashForSelfIv.setImageDrawable(resource);
-                defaultCallback.onAdPresent(PresentModel.getInstance(posId, getAdvType()).put(ExtraKey.KP_AD_SIZE_TYPE_KEY,getAdvSizeType()));
+                defaultCallback.onAdPresent(PresentModel.getInstance(posId, getAdvType()).setAdRespItem(getAdParamItem()));
                 return false;
             }
         }).preload();
@@ -137,10 +105,11 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
     }
 
     @Override
-    public AdConf getCfg() {
+    public final AdConf getCfg() {
         AdConf bd = new AdConf();
         bd.setAppId(appId);
         bd.setAdId(posId);
+        bd.setAdRespItem(getAdParamItem());
         return bd;
     }
 
@@ -154,7 +123,7 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
         }
         Log.e(TAG, "show()");
         gdtContainer.addView(rootView);
-        defaultCallback.onADExposed(PresentModel.getInstance(posId, getAdvType()).put(ExtraKey.KP_AD_SIZE_TYPE_KEY,getAdvSizeType()));
+        defaultCallback.onADExposed(PresentModel.getInstance(posId, getAdvType()).setAdRespItem(getAdParamItem()));
         if(adShowTimer != null){
             adShowTimer.cancel();
         }
@@ -200,7 +169,7 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
             if(sfs.isSkiped.get()){
                 if(!isCalledDismissedMethod){
                     isCalledDismissedMethod = true;
-                    sfs.defaultCallback.onAdDismissed(DismissModel.newInstance(sfs.posId, sfs.getAdvType()).put(ExtraKey.KP_AD_SIZE_TYPE_KEY,sfs.getAdvSizeType()));
+                    sfs.defaultCallback.onAdDismissed(DismissModel.newInstance(sfs.posId, sfs.getAdvType()).setAdRespItem(sfs.getAdParamItem()));
                 }
                 cancel();
             }
@@ -214,7 +183,7 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
             }
             if(!isCalledDismissedMethod){
                 isCalledDismissedMethod = true;
-                sfs.defaultCallback.onAdDismissed(DismissModel.newInstance(sfs.posId, sfs.getAdvType()).put(ExtraKey.KP_AD_SIZE_TYPE_KEY,sfs.getAdvSizeType()));
+                sfs.defaultCallback.onAdDismissed(DismissModel.newInstance(sfs.posId, sfs.getAdvType()).setAdRespItem(sfs.getAdParamItem()));
             }
         }
     }

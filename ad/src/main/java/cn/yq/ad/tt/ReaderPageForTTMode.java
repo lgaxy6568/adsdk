@@ -27,8 +27,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 import cn.yq.ad.ADStyle;
-import cn.yq.ad.Adv_Type;
 import cn.yq.ad.AdNativeResponse;
+import cn.yq.ad.Adv_Type;
 import cn.yq.ad.R;
 import cn.yq.ad.ShowModel;
 import cn.yq.ad.impl.ClickModel;
@@ -176,10 +176,6 @@ public class ReaderPageForTTMode extends ADBaseImplByTT<TTNativeExpressAd> imple
             List<String> keyLst = new ArrayList<>(key_view_set);
             view_map.remove(keyLst.get(0));
         }
-    }
-
-    @Override
-    public void click(View view, Object obj) {
     }
 
     @Override

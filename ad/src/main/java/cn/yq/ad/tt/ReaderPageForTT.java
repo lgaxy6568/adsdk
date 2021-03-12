@@ -27,8 +27,8 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import cn.yq.ad.ADCallback;
 import cn.yq.ad.ADStyle;
-import cn.yq.ad.Adv_Type;
 import cn.yq.ad.AdNativeResponse;
+import cn.yq.ad.Adv_Type;
 import cn.yq.ad.R;
 import cn.yq.ad.ShowModel;
 import cn.yq.ad.impl.ClickModel;
@@ -186,24 +186,8 @@ public class ReaderPageForTT extends ADBaseImplByTT<TTFeedAd> {
     }
 
     @Override
-    public void click(View view, Object obj) {
-//        if (obj instanceof NativeAdResponse) {
-//            NativeAdResponse nar = (NativeAdResponse) obj;
-//            TTFeedAd dataRef = mNativeResponses.get(nar.getImageUrl());
-//            adCallback.onAdClick(nar);
-//            if (dataRef != null) {
-//                Log.e(TAG,"click(),title="+dataRef.getTitle());
-//            }
-//        }
-    }
-
-    @Override
     public void load() {
-        //【分多次请求，每次请求一条】 or 【一次请求多条】
-        int rq = getRequestCount();
-        for (int i = 1;i <= rq; i++) {
-            startRequest("load("+i+")");
-        }
+        startRequest("load()");
     }
 
     @Override

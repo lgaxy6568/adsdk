@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import cn.yq.ad.Adv_Type;
+import cn.yq.ad.proxy.model.AdRespItem;
 
 public abstract class BaseModel<T extends BaseModel> {
     private final Map<String, String> extMap = new LinkedHashMap<>();
@@ -47,5 +48,14 @@ public abstract class BaseModel<T extends BaseModel> {
     public String getInfo(){
         return "adId="+getAdId()+",adType="+getAdv_Type().name();
     }
+    private AdRespItem adRespItem;
 
+    public AdRespItem getAdRespItem() {
+        return adRespItem;
+    }
+
+    public T setAdRespItem(AdRespItem adRespItem) {
+        this.adRespItem = adRespItem;
+        return (T)this;
+    }
 }

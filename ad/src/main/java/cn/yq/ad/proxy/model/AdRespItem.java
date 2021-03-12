@@ -3,7 +3,6 @@ package cn.yq.ad.proxy.model;
 import java.util.Random;
 
 import cn.yq.ad.Adv_Type;
-import cn.yq.ad.impl.ExtraKey;
 import cn.yq.ad.util.ADHelper;
 import cn.yq.ad.util.AdStringUtils;
 
@@ -30,6 +29,13 @@ public class AdRespItem implements Comparable<AdRespItem> {
     private String expire;
 
     public AdRespItem() {
+    }
+
+    public AdRespItem(int widget, int sort, String type,String adPartnerKey) {
+        this.widget = widget;
+        this.sort = sort;
+        this.type = type;
+        this.adPartnerKey = adPartnerKey;
     }
 
     public AdRespItem(int widget, int sort, String type, String adPartnerKey, String adPartnerAppId, String adId, String title, String imageUrl, String url, String fire, String expire) {
@@ -150,18 +156,37 @@ public class AdRespItem implements Comparable<AdRespItem> {
     public int compareTo(AdRespItem other) {
         int a = sort;
         int b = other.sort;
-        //数值大的在前面
+        //数值小的在前面
         if (a < b) {
-            return 1;
-        } else if (a > b) {
             return -1;
+        } else if (a > b) {
+            return 1;
         }
-        final int ran = new Random().nextInt(100) + 1;
-        return (ran % 2 == 0) ? 1 : -1;
+        int a1 = getWeight();
+        int b1 = other.getWeight();
+
+        final int ran = new Random().nextInt(a1+b1) + 1;
+
+        int cur_num = 0;
+        int[] ws = {a1,b1};
+        int result = 0; //只能为1 or -1
+        for (int i = 0; i < ws.length; i++) {
+            int weight = ws[i];
+            cur_num += weight;
+            if (cur_num >= ran) {
+                if(i == 0){
+                    result = -1;
+                }else{
+                    result = 1;
+                }
+                break;
+            }
+        }
+        return result;
     }
 
     public String getAdv_type_name() {
-        if (AdConstants.PARTNER_KEY_BY_SELF.equalsIgnoreCase(type)) {
+        if (AdConstants.SDK_TYPE_BY_SELF.equalsIgnoreCase(type)) {
             return Adv_Type.self.name();
         }
         if (AdStringUtils.isEmpty(adPartnerKey)) {
@@ -176,18 +201,10 @@ public class AdRespItem implements Comparable<AdRespItem> {
         return Adv_Type.none.name();
     }
 
-    public String getKpSizeTypeDesc() {
-        if (kpSizeType == KP_1) {
-            return ExtraKey.KP_AD_SIZE_TYPE_VALUE_QUAN_PING;
-        } if (kpSizeType == KP_3) {
-            return ExtraKey.KP_AD_SIZE_TYPE_VALUE_BAN_PING;
-        } return "unknown_" + kpSizeType;
-    }
-
     public boolean isNotValid() {
         boolean valid = false;
         if (AdStringUtils.isNotEmpty(type)) {
-            if (type.trim().equalsIgnoreCase(AdConstants.PARTNER_KEY_BY_SELF)) {
+            if (type.trim().equalsIgnoreCase(AdConstants.SDK_TYPE_BY_SELF)) {
                 String format = "yyyy-MM-dd HH:mm:ss";
                 long now = System.currentTimeMillis();
                 long startTime = ADHelper.getMillisByDateStr(fire, format);

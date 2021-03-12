@@ -1,7 +1,6 @@
 package cn.yq.ad.gdt;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +13,12 @@ import com.qq.e.comm.util.AdError;
 
 import java.util.Locale;
 
-import cn.yq.ad.Adv_Type;
 import cn.yq.ad.AdConf;
+import cn.yq.ad.Adv_Type;
 import cn.yq.ad.R;
 import cn.yq.ad.impl.ADBaseImpl;
 import cn.yq.ad.impl.ClickModel;
 import cn.yq.ad.impl.DismissModel;
-import cn.yq.ad.impl.ExtraKey;
 import cn.yq.ad.impl.FailModel;
 import cn.yq.ad.impl.PresentModel;
 
@@ -52,14 +50,6 @@ public class SplashForGDT extends ADBaseImpl {
         }
     }
 
-    private String getAdvSizeType(){
-        Bundle bd = getExtra();
-        if(bd != null && bd.containsKey(ExtraKey.KP_AD_SIZE_TYPE_KEY)){
-            return bd.getString(ExtraKey.KP_AD_SIZE_TYPE_KEY);
-        }
-        return ExtraKey.KP_AD_SIZE_TYPE_VALUE_QUAN_PING;
-    }
-
     @Override
     public void load() {
         Log.e(TAG,"load(),appId=["+appId+"],adId=["+posId+"]");
@@ -70,7 +60,7 @@ public class SplashForGDT extends ADBaseImpl {
             e.printStackTrace();
         }
         final int AD_TIME_OUT = getRequestTimeOutFromExtra();
-        Log.e(TAG, "load(),kp_size_type="+getAdvSizeType()+",超时时间="+AD_TIME_OUT);
+        Log.e(TAG, "load(),超时时间="+AD_TIME_OUT);
         ad = new SplashAD(act, tvSkip, posId, a_splashAdListener , AD_TIME_OUT);
         ad.fetchAdOnly();
     }
@@ -80,15 +70,14 @@ public class SplashForGDT extends ADBaseImpl {
        @Override
        public void onADDismissed() {
            Log.e(TAG,"onADDismissed(),lastAdTick="+lastAdTick);
-           defaultCallback.onAdDismissed(DismissModel.newInstance(posId, Adv_Type.gdt).put(ExtraKey.KP_AD_SIZE_TYPE_KEY,getAdvSizeType()));
+           defaultCallback.onAdDismissed(DismissModel.newInstance(posId, Adv_Type.gdt).setAdRespItem(getAdParamItem()));
        }
 
        @Override
        public void onNoAD(AdError adError) {
            FailModel fm = FailModel.toStr(adError.getErrorCode(),adError.getErrorMsg(),posId,Adv_Type.gdt);
-           fm.put(ExtraKey.KP_AD_SIZE_TYPE_KEY,getAdvSizeType());
            Log.e(TAG,"onNoAD(),err_msg="+fm.toFullMsg());
-           defaultCallback.onAdFailed(fm);
+           defaultCallback.onAdFailed(fm.setAdRespItem(getAdParamItem()));
        }
 
        @Override
@@ -99,7 +88,7 @@ public class SplashForGDT extends ADBaseImpl {
        @Override
        public void onADClicked() {
            Log.e(TAG,"onADClicked()");
-           defaultCallback.onAdClick(ClickModel.getInstance(0,-1,posId,Adv_Type.gdt).put(ExtraKey.KP_AD_SIZE_TYPE_KEY,getAdvSizeType()));
+           defaultCallback.onAdClick(ClickModel.getInstance(0,-1,posId,Adv_Type.gdt).setAdRespItem(getAdParamItem()));
        }
 
        @Override
@@ -116,27 +105,28 @@ public class SplashForGDT extends ADBaseImpl {
        @Override
        public void onADExposure() {
            Log.e(TAG,"onADExposure(),暴光成功");
-           defaultCallback.onADExposed(PresentModel.getInstance(posId,Adv_Type.gdt).put(ExtraKey.KP_AD_SIZE_TYPE_KEY,getAdvSizeType()));
+           defaultCallback.onADExposed(PresentModel.getInstance(posId,Adv_Type.gdt).setAdRespItem(getAdParamItem()));
        }
 
        @Override
        public void onADLoaded(long l) {
            int gdt_container_height = gdtContainer != null ? gdtContainer.getHeight() : 0;
            Log.e(TAG,"onADLoaded(),广告加载成功,valid_height="+valid_height+",gdt_container_height="+gdt_container_height);
-           defaultCallback.onAdPresent(PresentModel.getInstance(posId, Adv_Type.gdt).put(ExtraKey.KP_AD_SIZE_TYPE_KEY,getAdvSizeType()));
+           defaultCallback.onAdPresent(PresentModel.getInstance(posId, Adv_Type.gdt).setAdRespItem(getAdParamItem()));
        }
    };
 
     @Override
-    public Adv_Type getAdvType() {
+    public final Adv_Type getAdvType() {
         return Adv_Type.gdt;
     }
 
     @Override
-    public AdConf getCfg() {
+    public final AdConf getCfg() {
         AdConf bd = new AdConf();
         bd.setAppId(appId);
         bd.setAdId(posId);
+        bd.setAdRespItem(getAdParamItem());
         return bd;
     }
 

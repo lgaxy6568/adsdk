@@ -2,7 +2,6 @@ package cn.yq.ad.tt;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +16,11 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import cn.yq.ad.Adv_Type;
 import cn.yq.ad.AdConf;
+import cn.yq.ad.Adv_Type;
 import cn.yq.ad.impl.ADBaseImpl;
 import cn.yq.ad.impl.ClickModel;
 import cn.yq.ad.impl.DismissModel;
-import cn.yq.ad.impl.ExtraKey;
 import cn.yq.ad.impl.FailModel;
 import cn.yq.ad.impl.PresentModel;
 import cn.yq.ad.tt.config.TTUtil;
@@ -76,7 +74,7 @@ public class SplashForTT extends ADBaseImpl {
         //step4:请求广告，调用开屏广告异步请求接口，对请求回调的广告作渲染处理
         call_back_count.set(1);
         final int AD_TIME_OUT = getRequestTimeOutFromExtra();
-        Log.e(TAG, "load(),accept_width="+accept_width+",accept_height="+accept_height+",kp_size_type="+getAdvSizeType()+",超时时间="+AD_TIME_OUT);
+        Log.e(TAG, "load(),accept_width="+accept_width+",accept_height="+accept_height+",超时时间="+AD_TIME_OUT);
         mTTAdNative.loadSplashAd(adSlot,new TempAdListener(), AD_TIME_OUT);
     }
 
@@ -88,13 +86,6 @@ public class SplashForTT extends ADBaseImpl {
         TToast.show(act, msg);
     }
 
-    private String getAdvSizeType(){
-        Bundle bd = getExtra();
-        if(bd != null && bd.containsKey(ExtraKey.KP_AD_SIZE_TYPE_KEY)){
-            return bd.getString(ExtraKey.KP_AD_SIZE_TYPE_KEY);
-        }
-        return ExtraKey.KP_AD_SIZE_TYPE_VALUE_QUAN_PING;
-    }
     private class TempAdListener implements TTAdNative.SplashAdListener{
         private final String randomUUID;
         private final Map<String,String> mmp;
@@ -106,11 +97,11 @@ public class SplashForTT extends ADBaseImpl {
 
         @Override
         public void onError(int code, String message) {
-            FailModel fm= FailModel.toStr(code,"ERROR_"+message,adId, Adv_Type.tt).put(ExtraKey.KP_AD_SIZE_TYPE_KEY,getAdvSizeType());
+            FailModel fm= FailModel.toStr(code,"ERROR_"+message,adId, Adv_Type.tt);
             Log.e(TAG, "onError(),err_msg="+fm.toFullMsg());
             if(mmp.containsKey(randomUUID)) {
                 mmp.remove(randomUUID);
-                defaultCallback.onAdFailed(fm);
+                defaultCallback.onAdFailed(fm.setAdRespItem(getAdParamItem()));
             }else{
                 Log.e(TAG,"onError(),已经回调过了onTimeout()方法");
             }
@@ -118,11 +109,11 @@ public class SplashForTT extends ADBaseImpl {
 
         @Override
         public void onTimeout() {
-            FailModel fm = FailModel.toStr(-1,"TIMEOUT_广告加载超时",adId,Adv_Type.tt).put(ExtraKey.KP_AD_SIZE_TYPE_KEY,getAdvSizeType());
+            FailModel fm = FailModel.toStr(-1,"TIMEOUT_广告加载超时",adId,Adv_Type.tt);
             Log.e(TAG, "onTimeout(),err_msg="+fm.toFullMsg());
             if(mmp.containsKey(randomUUID)) {
                 mmp.remove(randomUUID);
-                defaultCallback.onAdFailed(fm);
+                defaultCallback.onAdFailed(fm.setAdRespItem(getAdParamItem()));
             }else{
                 Log.e(TAG,"onTimeout(),已经回调过了onError()方法");
             }
@@ -139,14 +130,14 @@ public class SplashForTT extends ADBaseImpl {
             //检查Activity是否已销毁
             Activity act = ADHelper.getActivityFromView(mSplashContainer);
             if(act != null && (act.isFinishing() || act.isDestroyed())){
-                FailModel fm = FailModel.toStr(-2,"加载成功_但Activity已销毁~",adId,Adv_Type.tt).put(ExtraKey.KP_AD_SIZE_TYPE_KEY,getAdvSizeType());
+                FailModel fm = FailModel.toStr(-2,"加载成功_但Activity已销毁~",adId,Adv_Type.tt);
                 Log.e(TAG, "onSplashAdLoad()"+fm.toFullMsg());
-                defaultCallback.onAdFailed(fm);
+                defaultCallback.onAdFailed(fm.setAdRespItem(getAdParamItem()));
                 return;
             }
             //设置不开启开屏广告倒计时功能以及不显示跳过按钮,如果这么设置，您需要自定义倒计时逻辑
             //ad.setNotAllowSdkCountdown();
-            defaultCallback.onAdPresent(PresentModel.getInstance(adId, Adv_Type.tt).setData(ad).put(ExtraKey.KP_AD_SIZE_TYPE_KEY,getAdvSizeType()));
+            defaultCallback.onAdPresent(PresentModel.getInstance(adId, Adv_Type.tt).setData(ad).setAdRespItem(getAdParamItem()));
             //设置SplashView的交互监听器
             ad.setSplashInteractionListener(new TTSplashAd.AdInteractionListener() {
                 @Override
@@ -154,7 +145,7 @@ public class SplashForTT extends ADBaseImpl {
                     Log.e(TAG, "onAdClicked,type="+type);
                     showToast("开屏广告点击");
                     int adType = type == 4 ? 1 : 2;
-                    defaultCallback.onAdClick(ClickModel.getInstance(0,adType,adId,Adv_Type.tt).put(ExtraKey.KP_AD_SIZE_TYPE_KEY,getAdvSizeType()));
+                    defaultCallback.onAdClick(ClickModel.getInstance(0,adType,adId,Adv_Type.tt).setAdRespItem(getAdParamItem()));
                 }
 
                 @Override
@@ -163,7 +154,7 @@ public class SplashForTT extends ADBaseImpl {
                     showToast("开屏广告展示");
                     if(call_back_count.get() == 1) {
                         call_back_count.set(0);
-                        defaultCallback.onADExposed(PresentModel.getInstance(adId, Adv_Type.tt).put(ExtraKey.KP_AD_SIZE_TYPE_KEY,getAdvSizeType()));
+                        defaultCallback.onADExposed(PresentModel.getInstance(adId, Adv_Type.tt).setAdRespItem(getAdParamItem()));
                     }
                 }
 
@@ -171,16 +162,14 @@ public class SplashForTT extends ADBaseImpl {
                 public void onAdSkip() {
                     Log.e(TAG, "onAdSkip");
                     showToast("开屏广告跳过");
-//                        goToMainActivity();
-                    defaultCallback.onAdSkip(PresentModel.getInstance(adId, Adv_Type.tt).put(ExtraKey.KP_AD_SIZE_TYPE_KEY,getAdvSizeType()));
+                    defaultCallback.onAdSkip(PresentModel.getInstance(adId, Adv_Type.tt).setAdRespItem(getAdParamItem()));
                 }
 
                 @Override
                 public void onAdTimeOver() {
                     Log.e(TAG, "onAdTimeOver");
                     showToast("开屏广告倒计时结束");
-//                        goToMainActivity();
-                    defaultCallback.onAdDismissed(DismissModel.newInstance(adId,Adv_Type.tt,2));
+                    defaultCallback.onAdDismissed(DismissModel.newInstance(adId,Adv_Type.tt,2).setAdRespItem(getAdParamItem()));
                 }
             });
         }
@@ -191,6 +180,7 @@ public class SplashForTT extends ADBaseImpl {
         AdConf bd = new AdConf();
         bd.setAppId(appId);
         bd.setAdId(adId);
+        bd.setAdRespItem(getAdParamItem());
         return bd;
     }
 
