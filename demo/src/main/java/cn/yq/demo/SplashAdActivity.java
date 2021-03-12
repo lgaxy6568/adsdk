@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.gson.reflect.TypeToken;
 
 import cn.yq.ad.ADCallback;
-import cn.yq.ad.ADRunnable;
 import cn.yq.ad.Adv_Type;
 import cn.yq.ad.StatCallbackByKaiPing;
 import cn.yq.ad.impl.ClickModel;
@@ -30,6 +29,9 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
+/**
+ * 【开屏广告】测试
+ */
 public class SplashAdActivity extends AppCompatActivity implements ADCallback, StatCallbackByKaiPing {
     private static final String TAG = SplashAdActivity.class.getSimpleName();
 
@@ -37,10 +39,6 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ad_splash);
-        // FIXME: 2021/3/8 注意事项
-        /*
-         * （1）确认包名及签名正确
-         */
         loadAdConfigs();
     }
 

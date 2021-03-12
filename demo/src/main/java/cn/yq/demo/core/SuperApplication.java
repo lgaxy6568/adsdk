@@ -10,10 +10,11 @@ public class SuperApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        //步骤2：初始化广告SDK
+        //初始化广告SDK
         AdConfigs.setAppIdByCSJ("5133118");
         AdConfigs.setAppIdByGDT("1111386088");
         AdConfigs.setDebugModel(true);
+        //单独调试某个SDK，0：调试所有，1：只调试广点通，2：只调试穿山甲
         AdConstants.setDebugAdPlatform(0);  // 1:gdt 2:csj
         ADUtils.init(this);
     }

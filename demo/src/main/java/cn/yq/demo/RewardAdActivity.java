@@ -29,6 +29,9 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
+/**
+ * 【激励视频广告】测试
+ */
 public class RewardAdActivity extends AppCompatActivity implements VideoADCallback, StatCallbackByRewardVideo {
     private static final String TAG = RewardAdActivity.class.getSimpleName();
 
