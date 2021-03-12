@@ -37,20 +37,13 @@ import okhttp3.RequestBody;
 public class SplashAdActivity extends AppCompatActivity implements ADCallback, StatCallbackByKaiPing {
     private static final String TAG = SplashAdActivity.class.getSimpleName();
     private static final String TAG_STAT = "STAT_KAI_PING";
-    GetAdsResponseListApiResult apiResult;
+    private ViewGroup adContainer;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ad_splash);
+        adContainer = findViewById(R.id.act_ad_splash_container_view);
         loadAdConfigs();
-    }
-
-    public void handBtnStart(View vv){
-        if(apiResult == null){
-            Toast.makeText(this,"apiResult is null",Toast.LENGTH_LONG).show();
-            return;
-        }
-        startLoadAd(apiResult);
     }
 
     @Override
@@ -89,7 +82,7 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
             protected void onSuccess(GetAdsResponseListApiResult result) {
                 super.onSuccess(result);
                 AdLogUtils.i(TAG,"onSuccess(),result="+ AdGsonUtils.getGson().toJson(result));
-                apiResult = result;
+                startLoadAd(result);
             }
 
         }.execute();
@@ -97,7 +90,6 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
     AdvProxyByKaiPing adr = null;
     private void startLoadAd(GetAdsResponseListApiResult result){
         //步骤3：开始加载广告
-        ViewGroup adContainer = findViewById(R.id.act_ad_container_view);
         adr = new AdvProxyByKaiPing(this,this,adContainer,null,result);
         adr.setStatCallback(this);
         adr.load();
@@ -111,6 +103,7 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
     @Override
     public void onAdFailed(@NonNull FailModel result) {
         AdLogUtils.e(TAG,"onAdFailed(),广告加载失败,adId="+result.getAdId()+",adType="+result.getAdvType());
+        finish();
     }
 
     @Override
@@ -121,6 +114,7 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
     @Override
     public void onAdDismissed(DismissModel result) {
         AdLogUtils.i(TAG,"onAdDismissed(),广告页关闭,adId="+result.getAdId()+",adType="+result.getAdvType());
+        finish();
     }
 
     @Override
@@ -136,6 +130,7 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
     @Override
     public void onAdSkip(PresentModel result) {
         AdLogUtils.i(TAG,"onAdSkip(),用户点击了跳过,adId="+result.getAdId()+",adType="+result.getAdvType());
+        finish();
     }
 
     //================================埋点统计回调 begin=============================
