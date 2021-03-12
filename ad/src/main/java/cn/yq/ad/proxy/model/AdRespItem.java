@@ -7,25 +7,60 @@ import cn.yq.ad.util.ADHelper;
 import cn.yq.ad.util.AdStringUtils;
 
 public class AdRespItem implements Comparable<AdRespItem> {
+
+    /**
+     * 权重
+     */
     private int widget;
+
+    /**
+     * 优先级
+     */
     private int sort;
 
+    /**
+     * SDK类型：SDK|API|Config
+     */
     private String type;
 
+    /**
+     * 广告合作商KEY：GDT|CSJ，人工配置时为NULL
+     */
     private String adPartnerKey;
 
+    /**
+     * APPID
+     */
     private String adPartnerAppId;
 
+    /**
+     * 广告ID
+     */
     private String adId;
 
+    /**
+     * 人工配置~标题
+     */
     private String title;
 
+    /**
+     * 人工配置~URL
+     */
     private String imageUrl;
 
+    /**
+     * 人工配置~跳转的URL
+     */
     private String url;
 
+    /**
+     * 人工配置~开始时间
+     */
     private String fire;
 
+    /**
+     * 人工配置~结束时间
+     */
     private String expire;
 
     public AdRespItem() {
