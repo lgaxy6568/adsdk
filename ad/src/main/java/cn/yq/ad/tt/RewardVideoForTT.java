@@ -75,9 +75,6 @@ public class RewardVideoForTT extends ADBaseImplByTT<TTAdNative> {
             Log.e(L_TAG(), "load(),mTTAdNative is null");
             return;
         }
-        if (videoADCallback != null) {
-            videoADCallback.onPreLoad();
-        }
         String uid = "";
         String mediaExtra;
         if (extra == null) {

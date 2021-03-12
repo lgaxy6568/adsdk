@@ -34,7 +34,7 @@ import okhttp3.RequestBody;
  */
 public class RewardAdActivity extends AppCompatActivity implements VideoADCallback, StatCallbackByRewardVideo {
     private static final String TAG = RewardAdActivity.class.getSimpleName();
-
+    private static final String TAG_STAT = "STAT_KAI_PING";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,11 +130,6 @@ public class RewardAdActivity extends AppCompatActivity implements VideoADCallba
     }
 
     @Override
-    public void onPreLoad() {
-        AdLogUtils.i(TAG,"onPreLoad()");
-    }
-
-    @Override
     public void onVideoStartPlay(@NonNull PresentModel model) {
         AdLogUtils.i(TAG,"onVideoStartPlay(),result="+model.getInfo());
     }
@@ -153,62 +148,57 @@ public class RewardAdActivity extends AppCompatActivity implements VideoADCallba
 
     @Override
     public void callBackByOnAdStartLoad(String adId, Adv_Type adType, AdRespItem item) {
-
+        AdLogUtils.i(TAG_STAT,"callBackByOnAdStartLoad(),开始加载广告,adId="+adId+",adType="+adType+",item.sort="+item.getSort());
     }
 
     @Override
     public void callBackByOnAdPresent(PresentModel pm) {
-
+        AdLogUtils.i(TAG_STAT,"callBackByOnAdPresent(),广告加载成功,pm="+pm.getInfo());
     }
 
     @Override
     public void callBackByOnAdFailed(FailModel fm) {
-
+        AdLogUtils.e(TAG_STAT,"callBackByOnAdFailed(),广告加载失败,fm="+fm.getInfo());
     }
 
     @Override
     public void callBackByOnADExposed(PresentModel pm) {
-
+        AdLogUtils.i(TAG_STAT,"callBackByOnADExposed(),广告曝光成功,pm="+pm.getInfo());
     }
 
     @Override
     public void callBackByOnAdClick(ClickModel cm) {
-
+        AdLogUtils.i(TAG_STAT,"callBackByOnAdClick(),点击了广告,cm="+cm.getInfo());
     }
 
     @Override
     public void callBackByOnAdDismissed(DismissModel dm) {
-
+        AdLogUtils.i(TAG_STAT,"callBackByOnAdDismissed(),广告已关闭,dm="+dm.getInfo());
     }
 
     @Override
     public void callBackByOnAdSkip(PresentModel pm) {
-
+        AdLogUtils.i(TAG_STAT,"callBackByOnAdSkip(),点击了跳过,pm="+pm.getInfo());
     }
 
     @Override
     public void callBackByOnDisLike(PresentModel pm) {
-
-    }
-
-    @Override
-    public void callBackByOnPreLoad() {
-
+        AdLogUtils.i(TAG_STAT,"callBackByOnDisLike(),点击了不喜欢,pm="+pm.getInfo());
     }
 
     @Override
     public void callBackOnVideoStartPlay(PresentModel model) {
-
+        AdLogUtils.i(TAG_STAT,"callBackOnVideoStartPlay(),广告开始播放,model="+model.getInfo());
     }
 
     @Override
     public void callBackOnVideoPlayComplete(PresentModel model) {
-
+        AdLogUtils.i(TAG_STAT,"callBackOnVideoPlayComplete(),广告播放完成,model="+model.getInfo());
     }
 
     @Override
     public void callBackOnRewardVerify(boolean rewardVerify, PresentModel model) {
-
+        AdLogUtils.i(TAG_STAT,"callBackOnRewardVerify(),本次广告观看是否有效,rewardVerify="+rewardVerify+",model="+model.getInfo());
     }
 
     //================================埋点统计回调 end=============================

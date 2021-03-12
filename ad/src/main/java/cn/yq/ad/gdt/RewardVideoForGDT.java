@@ -71,9 +71,6 @@ public class RewardVideoForGDT extends ADBaseImpl implements RewardVideoADListen
             Log.e(L_TAG(), "load(),mTTAdNative is null");
             return;
         }
-        if (videoADCallback != null) {
-            videoADCallback.onPreLoad();
-        }
 
         ServerSideVerificationOptions options = new ServerSideVerificationOptions.Builder()
                 .setCustomData("APP's custom data") // 设置激励视频服务端验证的自定义信息

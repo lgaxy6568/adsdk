@@ -527,15 +527,6 @@ public final class AdvProxyByRewardVideo extends AdvProxyAbstract implements Run
         }
 
         @Override
-        public void onPreLoad() {
-            AdLogUtils.e(TAG, "onPreLoad()");
-            if(statCallback != null) {
-                statCallback.callBackByOnPreLoad();
-            }
-            callback.onPreLoad();
-        }
-
-        @Override
         public void onVideoStartPlay(@NonNull PresentModel model) {
             AdLogUtils.e(TAG, "onVideoStartPlay(),pm="+model.getInfo());
             if(statCallback != null) {
