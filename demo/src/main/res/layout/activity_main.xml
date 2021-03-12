@@ -7,20 +7,21 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <TextView
+    <Button
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:onClick="handBtnBySplashAD"
         android:gravity="center"
-        android:text="开屏广告"
+        android:text="开屏广告~测试"
         />
 
-    <TextView
+    <Button
         android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
         android:layout_height="60dp"
         android:onClick="handBtnByRewardAD"
         android:gravity="center"
-        android:text="激励广告"
+        android:text="激励广告~测试"
         />
 
 </LinearLayout>

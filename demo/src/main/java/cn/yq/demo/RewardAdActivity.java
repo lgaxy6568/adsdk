@@ -1,6 +1,8 @@
 package cn.yq.demo;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +37,7 @@ import okhttp3.RequestBody;
 public class RewardAdActivity extends AppCompatActivity implements VideoADCallback, StatCallbackByRewardVideo {
     private static final String TAG = RewardAdActivity.class.getSimpleName();
     private static final String TAG_STAT = "STAT_KAI_PING";
+    private GetAdsResponseListApiResult apiResult;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,13 @@ public class RewardAdActivity extends AppCompatActivity implements VideoADCallba
         loadAdConfigs();
     }
 
+    public void handBtnStartReward(View vv){
+        if(apiResult == null){
+            Toast.makeText(this,"apiResult is null",Toast.LENGTH_LONG).show();
+            return;
+        }
+        startLoadAd(apiResult);
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -78,7 +88,7 @@ public class RewardAdActivity extends AppCompatActivity implements VideoADCallba
             protected void onSuccess(GetAdsResponseListApiResult result) {
                 super.onSuccess(result);
                 AdLogUtils.i(TAG,"onSuccess(),result="+ AdGsonUtils.getGson().toJson(result));
-                startLoadAd(result);
+                apiResult = result;
             }
 
         }.execute();
@@ -87,6 +97,9 @@ public class RewardAdActivity extends AppCompatActivity implements VideoADCallba
     private AdvProxyByRewardVideo adr = null;
     private void startLoadAd(GetAdsResponseListApiResult result){
         //步骤3：开始加载广告
+        if(adr != null){
+            adr.destroy();
+        }
        adr = new AdvProxyByRewardVideo(this,this,result,null,"AdvPos_test");
        adr.setStatCallback(this);
        adr.load();

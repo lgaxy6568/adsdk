@@ -1,7 +1,9 @@
 package cn.yq.demo;
 
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,11 +37,20 @@ import okhttp3.RequestBody;
 public class SplashAdActivity extends AppCompatActivity implements ADCallback, StatCallbackByKaiPing {
     private static final String TAG = SplashAdActivity.class.getSimpleName();
     private static final String TAG_STAT = "STAT_KAI_PING";
+    GetAdsResponseListApiResult apiResult;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ad_splash);
         loadAdConfigs();
+    }
+
+    public void handBtnStart(View vv){
+        if(apiResult == null){
+            Toast.makeText(this,"apiResult is null",Toast.LENGTH_LONG).show();
+            return;
+        }
+        startLoadAd(apiResult);
     }
 
     @Override
@@ -78,7 +89,7 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
             protected void onSuccess(GetAdsResponseListApiResult result) {
                 super.onSuccess(result);
                 AdLogUtils.i(TAG,"onSuccess(),result="+ AdGsonUtils.getGson().toJson(result));
-                startLoadAd(result);
+                apiResult = result;
             }
 
         }.execute();
