@@ -19,7 +19,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("gt.jks")
+            storeFile file("/Users/liguo/StudioProjects/days/app/gt.jks")
             storePassword "killers8y"
             keyAlias "gt"
             keyPassword "killers8y"
@@ -27,7 +27,7 @@ android {
             v2SigningEnabled true
         }
         debug {
-            storeFile file("gt.jks")
+            storeFile file("/Users/liguo/StudioProjects/days/app/gt.jks")
             storePassword "killers8y"
             keyAlias "gt"
             keyPassword "killers8y"

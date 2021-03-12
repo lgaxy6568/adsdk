@@ -3,7 +3,6 @@ package cn.yq.ad.tt;
 import android.app.Activity;
 import android.content.Context;
 
-
 import java.lang.ref.WeakReference;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -11,9 +10,9 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import cn.yq.ad.Adv_Type;
 import cn.yq.ad.AdConf;
 import cn.yq.ad.AdNativeResponse;
+import cn.yq.ad.Adv_Type;
 import cn.yq.ad.ShowModel;
 import cn.yq.ad.impl.ADBaseImpl;
 

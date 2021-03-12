@@ -18,7 +18,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import cn.yq.ad.ADCallback;
 import cn.yq.ad.ADRunnable;
-import cn.yq.ad.AdConf;
 import cn.yq.ad.AdNativeResponse;
 import cn.yq.ad.Adv_Type;
 import cn.yq.ad.ShowModel;

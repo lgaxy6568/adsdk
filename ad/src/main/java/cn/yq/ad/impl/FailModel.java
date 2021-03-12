@@ -1,10 +1,10 @@
 package cn.yq.ad.impl;
 
-import cn.yq.ad.Adv_Type;
-
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import cn.yq.ad.Adv_Type;
 
 public class FailModel extends BaseModel<FailModel> {
     private int code;
