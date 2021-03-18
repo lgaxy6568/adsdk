@@ -2,12 +2,12 @@ package cn.yq.ad.self;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,7 +18,6 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.google.gson.reflect.TypeToken;
 
 import java.lang.ref.WeakReference;
 import java.util.Locale;
@@ -30,11 +29,9 @@ import cn.yq.ad.R;
 import cn.yq.ad.impl.ADBaseImpl;
 import cn.yq.ad.impl.ClickModel;
 import cn.yq.ad.impl.DismissModel;
-import cn.yq.ad.impl.ExtraKey;
 import cn.yq.ad.impl.FailModel;
 import cn.yq.ad.impl.PresentModel;
 import cn.yq.ad.proxy.model.AdRespItem;
-import cn.yq.ad.util.AdGsonUtils;
 import cn.yq.ad.util.AdLogUtils;
 
 public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
@@ -69,15 +66,14 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
         defaultCallback.onAdClick(cm);
     }
 
-    private AdRespItem param;
-
     @Override
     public void load() {
-        Bundle bd = getExtra();
-        String str = bd.getString(ExtraKey.KP_AD_CONFIG);
-        param = AdGsonUtils.getGson().fromJson(str, new TypeToken<AdRespItem>() {}.getType());
-        AdLogUtils.i(TAG, "load(),param=" + AdGsonUtils.getGson().toJson(param));
-
+        AdRespItem param = getAdParamItem();
+        if(param == null){
+            AdLogUtils.i(TAG, "load(),param is null");
+            return;
+        }
+        AdLogUtils.i(TAG, "load()");
         layoutSplashForSelfIv.setOnClickListener(this);
         layoutSplashForSkipView.setOnClickListener(this);
         Glide.with(act).load(param.getImageUrl()).listener(new RequestListener<Drawable>() {
@@ -115,14 +111,23 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
 
     private AdShowTimer adShowTimer;
     private final AtomicBoolean isSkiped = new AtomicBoolean(false);
+    private final AtomicBoolean AD_VIEW_IS_ADD_FLAG = new AtomicBoolean(false);
     @Override
     public void show(View inView, Object obj) {
         if (gdtContainer == null) {
             Log.e(TAG, "show(),gdtContainer is null");
             return;
         }
+        if(AD_VIEW_IS_ADD_FLAG.get()){
+            return;
+        }
         Log.e(TAG, "show()");
+        ViewParent vp = rootView.getParent();
+        if(vp instanceof ViewGroup){
+            ((ViewGroup) vp).removeAllViews();
+        }
         gdtContainer.addView(rootView);
+        AD_VIEW_IS_ADD_FLAG.set(true);
         defaultCallback.onADExposed(PresentModel.getInstance(posId, getAdvType()).setAdRespItem(getAdParamItem()));
         if(adShowTimer != null){
             adShowTimer.cancel();

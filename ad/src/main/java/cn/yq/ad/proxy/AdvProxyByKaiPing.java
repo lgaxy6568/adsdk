@@ -34,6 +34,7 @@ import cn.yq.ad.impl.PresentModel;
 import cn.yq.ad.proxy.model.AdConstants;
 import cn.yq.ad.proxy.model.AdRespItem;
 import cn.yq.ad.proxy.model.AdResponse;
+import cn.yq.ad.proxy.model.ExtraParams;
 import cn.yq.ad.proxy.model.GetAdsResponse;
 import cn.yq.ad.proxy.model.GetAdsResponseListApiResult;
 import cn.yq.ad.self.AdFactoryImplBySelf;
@@ -54,19 +55,20 @@ public final class AdvProxyByKaiPing extends AdvProxyAbstract implements Runnabl
     private final TextView tvSkip;
     private final GetAdsResponseListApiResult result;
     private StatCallbackByKaiPing statCallback;
-
+    private final ExtraParams extraParams;
     public AdvProxyByKaiPing setStatCallback(StatCallbackByKaiPing statCallback) {
         this.statCallback = statCallback;
         return this;
     }
 
-    public AdvProxyByKaiPing(Activity act, ADCallback cb, ViewGroup adContainer, TextView tvSkip, GetAdsResponseListApiResult result) {
+    public AdvProxyByKaiPing(Activity act, ADCallback cb, ViewGroup adContainer, TextView tvSkip, GetAdsResponseListApiResult result,ExtraParams ep) {
         this.callback = cb;
         this.wrAct = new WeakReference<>(act);
         this.adParentContainer = adContainer;
         this.adRunnableMap = new LinkedHashMap<>();
         this.tvSkip = tvSkip;
         this.result = result;
+        this.extraParams = ep;
         initAd();
     }
 
@@ -112,7 +114,23 @@ public final class AdvProxyByKaiPing extends AdvProxyAbstract implements Runnabl
                 //不合法
                 continue;
             }
+            final boolean isVip = extraParams != null && extraParams.isVip();
             for (AdResponse ad : ads) {
+                if(ad == null){
+                    continue;
+                }
+                if(ad.getWidget() <= 0){
+                    continue;
+                }
+                if(isVip){
+                    final String adType = (""+ad.getType()).trim();
+                    if(AdConstants.SDK_TYPE_BY_SDK.equalsIgnoreCase(adType)){
+                        continue;
+                    }
+                    if(AdConstants.SDK_TYPE_BY_API.equalsIgnoreCase(adType)){
+                        continue;
+                    }
+                }
                 List<AdRespItem> tmpLst = ad.toLst();
                 if (tmpLst.size() > 0) {
                     AdLogUtils.d(TAG, "initAd(),partnerKey="+ad.getAdPartnerKey()+",ad.size="+tmpLst.size());
