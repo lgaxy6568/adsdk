@@ -410,7 +410,6 @@ public final class AdvProxyByKaiPing extends AdvProxyAbstract implements Runnabl
 
     private final Object tmp_lock = new Object();
     private volatile ADRunnable ar_last = null;
-    private volatile List<ADRunnable> arLoadSucLst;
 
     private final AtomicInteger coming_count = new AtomicInteger(0);
     private final AtomicBoolean ab_checked = new AtomicBoolean(false);
@@ -480,6 +479,9 @@ public final class AdvProxyByKaiPing extends AdvProxyAbstract implements Runnabl
                             public void run() {
                                 ar_last = adRunnableMap.get(sel_ad_id);
                                 if(ar_last != null) {
+                                    if(statCallback != null){
+                                        statCallback.callBackByOnAdAttachToWindow(pm);
+                                    }
                                     ar_last.show(null, null);
                                 }
                             }

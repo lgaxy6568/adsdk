@@ -2,6 +2,7 @@ package cn.yq.demo;
 
 import android.os.Bundle;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +21,7 @@ import cn.yq.ad.proxy.AdConfigs;
 import cn.yq.ad.proxy.AdvProxyByKaiPing;
 import cn.yq.ad.proxy.AsyncTask;
 import cn.yq.ad.proxy.model.AdRespItem;
+import cn.yq.ad.proxy.model.ExtraParams;
 import cn.yq.ad.proxy.model.GetAdsModel;
 import cn.yq.ad.proxy.model.GetAdsResponseListApiResult;
 import cn.yq.ad.util.AdGsonUtils;
@@ -74,6 +76,7 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
             protected void onException(Exception e) {
                 super.onException(e);
                 AdLogUtils.e(TAG,"onException(),errMsg="+e.getMessage());
+                Toast.makeText(getApplicationContext(),"广告配置加载失败",Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -88,7 +91,9 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
     AdvProxyByKaiPing adr = null;
     private void startLoadAd(GetAdsResponseListApiResult result){
         //步骤3：开始加载广告
-        adr = new AdvProxyByKaiPing(this,this,adContainer,null,result);
+        ExtraParams extraParams = new ExtraParams();
+        extraParams.setVip(false);
+        adr = new AdvProxyByKaiPing(this,this,adContainer,null,result,extraParams);
         adr.setStatCallback(this);
         adr.load();
     }
@@ -172,5 +177,11 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
     public void callBackByOnDisLike(PresentModel pm) {
         AdLogUtils.i(TAG_STAT,"callBackByOnDisLike(),点击了不喜欢,pm="+pm.getInfo());
     }
+
+    @Override
+    public void callBackByOnAdAttachToWindow(PresentModel pm) {
+        AdLogUtils.i(TAG_STAT,"callBackByOnAdAttachToWindow(),添加广告至窗口,pm="+pm.getInfo());
+    }
+
     //================================埋点统计回调 end=============================
 }

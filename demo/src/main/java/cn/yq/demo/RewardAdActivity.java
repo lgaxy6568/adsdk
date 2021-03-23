@@ -82,6 +82,7 @@ public class RewardAdActivity extends AppCompatActivity implements VideoADCallba
             protected void onException(Exception e) {
                 super.onException(e);
                 AdLogUtils.e(TAG,"onException(),errMsg="+e.getMessage());
+                Toast.makeText(getApplicationContext(),"广告配置加载失败",Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -212,6 +213,11 @@ public class RewardAdActivity extends AppCompatActivity implements VideoADCallba
     @Override
     public void callBackOnRewardVerify(boolean rewardVerify, PresentModel model) {
         AdLogUtils.i(TAG_STAT,"callBackOnRewardVerify(),本次广告观看是否有效,rewardVerify="+rewardVerify+",model="+model.getInfo());
+    }
+
+    @Override
+    public void callBackByOnAdAttachToWindow(PresentModel pm) {
+        AdLogUtils.i(TAG_STAT,"callBackByOnAdAttachToWindow(),添加广告至窗口,pm="+pm.getInfo());
     }
 
     //================================埋点统计回调 end=============================

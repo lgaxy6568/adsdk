@@ -5,5 +5,28 @@ package cn.yq.ad;
  * desc
  */
 public enum Adv_Status {
-    start,suc,fail,show,click,show_last
+    /**
+     * 开始拉取
+     */
+    start,
+
+    /**
+     * 拉取成功
+     */
+    suc,
+
+    /**
+     * 拉取失败
+     */
+    fail,
+
+    /**
+     * 曝光成功
+     */
+    show,
+
+    /**
+     * 点击
+     */
+    click
 }

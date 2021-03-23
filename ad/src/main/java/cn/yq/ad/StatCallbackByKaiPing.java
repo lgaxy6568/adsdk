@@ -23,4 +23,6 @@ public interface StatCallbackByKaiPing {
 
     void callBackByOnDisLike(PresentModel pm);
 
+    void callBackByOnAdAttachToWindow(PresentModel pm);
+
 }
