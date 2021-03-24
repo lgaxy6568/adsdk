@@ -301,7 +301,7 @@ public abstract class ADBaseImpl implements ADRunnable{
         return s != null && s.trim().length() > 0;
     }
 
-    public final String replaceTrim_R_N(String str){
+    public static final String replaceTrim_R_N(String str){
         if(str == null)
             return "";
         return str.replaceAll("\\s","");

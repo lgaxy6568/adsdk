@@ -461,11 +461,14 @@ public final class AdvProxyByKaiPing extends AdvProxyAbstract implements Runnabl
                     for (PresentModel pm : adPresentModeMap.values()) {
                         AdRespItem ap = adAdvPosMap.get(pm.getAdId());
                         if(ap == null){
+                            AdLogUtils.w(TAG,"ap is null,adId="+pm.getAdId());
                             continue;
                         }
                         tmpLst.add(ap);
                     }
-                    AdLogUtils.d(TAG, "checkResult(6_A),from=" + from + ",c1="+c1+",c2="+c2+",tmpLst="+ AdGsonUtils.getGson().toJson(tmpLst));
+                    if(AdConfigs.isDebugModel()) {
+                        AdLogUtils.d(TAG, "checkResult(6_A),from=" + from + ",c1=" + c1 + ",c2=" + c2 + ",adPresentModeMap.size()=" + adPresentModeMap.size() + ",adAdvPosMap.size()=" + adAdvPosMap.size() + ",tmpLst=" + AdGsonUtils.getGson().toJson(tmpLst));
+                    }
                     AdRespItem selectedAp = selectApBySortType(tmpLst);
                     final String sel_ad_id = selectedAp != null ? selectedAp.getAdId() : null;
                     final String sel_adv_type = selectedAp != null ? selectedAp.getAdv_type_name() : Adv_Type.none.name();

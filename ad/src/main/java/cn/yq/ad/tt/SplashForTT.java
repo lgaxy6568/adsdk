@@ -44,12 +44,12 @@ public class SplashForTT extends ADBaseImpl {
     private TTSplashAd respAd;
     SplashForTT(Activity act, String appId, String tmpAdId, ViewGroup ad_container) {
         this.act = getContextFromActivity(act);
-        this.appId = appId;
-        this.ids = tmpAdId;
+        this.appId = replaceTrim_R_N(appId);
+        this.ids = replaceTrim_R_N(tmpAdId);
         if(tmpAdId == null || tmpAdId.trim().length() == 0){
             throw new IllegalArgumentException("SplashForTT(),adId is empty");
         }
-        this.adId = tmpAdId;
+        this.adId = replaceTrim_R_N(tmpAdId);
         Log.e(TAG, "SplashForTT(),this.adId="+this.adId+",appId="+appId);
         this.mSplashContainer = ad_container;
     }

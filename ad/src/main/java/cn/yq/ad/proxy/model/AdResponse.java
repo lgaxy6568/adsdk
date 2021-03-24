@@ -3,6 +3,7 @@ package cn.yq.ad.proxy.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.yq.ad.impl.ADBaseImpl;
 import cn.yq.ad.util.AdStringUtils;
 
 public class AdResponse {
@@ -89,7 +90,7 @@ public class AdResponse {
     }
 
     public String getAdPartnerAppId() {
-        return adPartnerAppId;
+        return ADBaseImpl.replaceTrim_R_N(adPartnerAppId);
     }
 
     public void setAdPartnerAppId(String adPartnerAppId) {

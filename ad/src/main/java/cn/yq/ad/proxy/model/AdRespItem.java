@@ -3,6 +3,7 @@ package cn.yq.ad.proxy.model;
 import java.util.Random;
 
 import cn.yq.ad.Adv_Type;
+import cn.yq.ad.impl.ADBaseImpl;
 import cn.yq.ad.util.ADHelper;
 import cn.yq.ad.util.AdStringUtils;
 
@@ -132,7 +133,7 @@ public class AdRespItem implements Comparable<AdRespItem> {
     }
 
     public String getAdId() {
-        return adId;
+        return ADBaseImpl.replaceTrim_R_N(adId);
     }
 
     public void setAdId(String adId) {
@@ -263,6 +264,6 @@ public class AdRespItem implements Comparable<AdRespItem> {
     }
 
     public String getAppId() {
-        return adPartnerAppId;
+        return ADBaseImpl.replaceTrim_R_N(adPartnerAppId);
     }
 }
