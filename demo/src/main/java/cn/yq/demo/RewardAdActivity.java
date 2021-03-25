@@ -115,7 +115,8 @@ public class RewardAdActivity extends AppCompatActivity implements VideoADCallba
 
     @Override
     public void onAdFailed(@NonNull FailModel result) {
-        AdLogUtils.e(TAG,"onAdFailed(),广告加载失败,adId="+result.getAdId()+",adType="+result.getAdvType());
+        Toast.makeText(this, "广告加载失败~", Toast.LENGTH_SHORT).show();
+        AdLogUtils.e(TAG,"onAdFailed(),广告加载失败,adId="+result.getAdId()+",adType="+result.getAdvType()+",errMsg="+result.toFullMsg());
     }
 
     @Override
