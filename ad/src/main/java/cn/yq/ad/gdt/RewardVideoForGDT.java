@@ -160,6 +160,7 @@ public class RewardVideoForGDT extends ADBaseImpl implements RewardVideoADListen
     @Override
     public void onADShow() {
         AdLogUtils.i(L_TAG(),"onADShow()");
+        videoADCallback.onVideoStartPlay(PresentModel.getInstance(adId,getAdvType()).setAdRespItem(getAdParamItem()));
     }
 
     @Override
