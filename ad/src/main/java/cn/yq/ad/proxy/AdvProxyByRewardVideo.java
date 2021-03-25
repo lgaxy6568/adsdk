@@ -481,7 +481,22 @@ public final class AdvProxyByRewardVideo extends AdvProxyAbstract implements Run
                     int nextIndex = ad_load_index.incrementAndGet();
                     AdLogUtils.e(TAG, "onAdFailed(" + advType.name() + "_"+fm.getAdId()+"),开始加载下一个广告,nextIndex=" + nextIndex);
                     ADRunnable ar = adRunnableLst.get(nextIndex);
-                    ar.load();
+                    if(ar != null) {
+                        if(statCallback != null) {
+                            String adId = "unknown";
+                            Adv_Type adType = ar.getAdvType();
+                            AdConf cf = ar.getCfg();
+                            if(cf != null ){
+                                adId = ""+cf.getAdId();
+                            }
+                            if(adType == null){
+                                adType = Adv_Type.none;
+                            }
+                            AdRespItem adResp = ar.getCfg().getAdRespItem();
+                            statCallback.callBackByOnAdStartLoad(adId, adType, adResp);
+                        }
+                        ar.load();
+                    }
                 } else {
                     AdLogUtils.e(TAG, "onAdFailed(" + advType.name() + "_"+fm.getAdId()+"),没有下一个广告,ad_load_index=" + ad_load_index.get());
                     checkResult("onAdFailed(" + advType.name() + ")");
