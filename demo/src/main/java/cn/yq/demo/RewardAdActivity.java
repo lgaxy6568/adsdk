@@ -21,6 +21,7 @@ import cn.yq.ad.impl.ShowParam;
 import cn.yq.ad.proxy.AdConfigs;
 import cn.yq.ad.proxy.AdvProxyByRewardVideo;
 import cn.yq.ad.proxy.AsyncTask;
+import cn.yq.ad.proxy.model.AdConstants;
 import cn.yq.ad.proxy.model.AdRespItem;
 import cn.yq.ad.proxy.model.GetAdsModel;
 import cn.yq.ad.proxy.model.GetAdsResponseListApiResult;
@@ -101,7 +102,7 @@ public class RewardAdActivity extends AppCompatActivity implements VideoADCallba
         if(adr != null){
             adr.destroy();
         }
-       adr = new AdvProxyByRewardVideo(this,this,result,null,"AdvPos_test");
+       adr = new AdvProxyByRewardVideo(this,this,result,null, AdConstants.LOCATION_BY_JLSP);
        adr.setStatCallback(this);
        adr.load();
     }

@@ -26,7 +26,7 @@ public class ADFactoryImplByTT extends BaseADFactoryImpl {
     }
 
     @Override
-    public ADRunnable createTTRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra, String advPos) {
-        return new RewardVideoForTT(act,appId,adId,extra,advPos);
+    public ADRunnable createTTRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra) {
+        return new RewardVideoForTT(act,appId,adId,extra);
     }
 }

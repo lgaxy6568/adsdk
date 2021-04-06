@@ -50,21 +50,20 @@ public final class AdvProxyByRewardVideo extends AdvProxyAbstract implements Run
     private final List<ADRunnable> adRunnableLst;
     private final GetAdsResponseListApiResult result;
     private final Map<String, Object> extra;
-    private final String advPos;
     private StatCallbackByRewardVideo statCallback;
-
+    private final String adLocation;
     public AdvProxyByRewardVideo setStatCallback(StatCallbackByRewardVideo statCallback) {
         this.statCallback = statCallback;
         return this;
     }
 
-    public AdvProxyByRewardVideo(Activity act, VideoADCallback cb, GetAdsResponseListApiResult result, Map<String, Object> extra,String advPos) {
+    public AdvProxyByRewardVideo(Activity act, VideoADCallback cb, GetAdsResponseListApiResult result, Map<String, Object> extra,String adLocation) {
         callback = cb;
         wrAct = new WeakReference<>(act);
         adRunnableLst = new ArrayList<>();
         this.result = result;
         this.extra = extra;
-        this.advPos = advPos;
+        this.adLocation = adLocation;
         initAd();
     }
 
@@ -83,7 +82,7 @@ public final class AdvProxyByRewardVideo extends AdvProxyAbstract implements Run
         final List<AdRespItem> oldLst = new ArrayList<>();
         for (GetAdsResponse adsResponse : dataLst) {
             String location = adsResponse.getLocation();
-            if(!AdConstants.LOCATION_BY_JLSP.equalsIgnoreCase(location)){
+            if(!adLocation.equalsIgnoreCase(location)){
                 AdLogUtils.e(TAG,"当前配置不是激励视频~,location="+location);
                 continue;
             }
@@ -175,7 +174,7 @@ public final class AdvProxyByRewardVideo extends AdvProxyAbstract implements Run
             if (Adv_Type.tt.name().equalsIgnoreCase(ad_type)) {
                 AdLogUtils.e(TAG, "initAd(),穿山甲,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight());
                 try {
-                    ar = ADUtils.getTTRewardVideo(wrAct.get(), app_id, tmpIds, extra, null,advPos);
+                    ar = ADUtils.getTTRewardVideo(wrAct.get(), app_id, tmpIds, extra, null);
                     if (ar != null) {
                         ADCallbackImpl cb = new ADCallbackImpl(adRunnableLst.size(), Adv_Type.tt);
                         ar.addCallback(cb);
@@ -191,7 +190,7 @@ public final class AdvProxyByRewardVideo extends AdvProxyAbstract implements Run
                 }
             } else if (Adv_Type.gdt.name().equalsIgnoreCase(ad_type)) {
                 AdLogUtils.e(TAG, "initAd(),广点通,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight());
-                ar = ADUtils.getGDTRewardVideo(wrAct.get(), app_id, tmpIds, extra, null,advPos);
+                ar = ADUtils.getGDTRewardVideo(wrAct.get(), app_id, tmpIds, extra, null);
                 if (ar != null) {
                     ADCallbackImpl cb = new ADCallbackImpl(adRunnableLst.size(), Adv_Type.gdt);
                     ar.addCallback(cb);

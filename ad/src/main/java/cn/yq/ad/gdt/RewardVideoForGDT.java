@@ -44,16 +44,14 @@ public class RewardVideoForGDT extends ADBaseImpl implements RewardVideoADListen
 
     private final String appId ;
     private final String adId ;
-    private final String advPos ;
     protected WeakReference<Activity> wrAct;
     private RewardVideoAD rewardVideoAD;
-    RewardVideoForGDT(Activity activity, String appId, String adId, Map<String, Object> extra, String advPos) {
+    RewardVideoForGDT(Activity activity, String appId, String adId, Map<String, Object> extra) {
         this.wrAct = new WeakReference<>(activity);
         this.appId = appId;
         this.adId = adId;
         this.extra = extra;
-        this.advPos = advPos;
-        Log.e(L_TAG(), "实例创建,appId="+appId+",adId="+adId+",advPos="+advPos);
+        Log.e(L_TAG(), "实例创建,appId="+appId+",adId="+adId);
         boolean volumeOn = false;   //是否开启声音
         rewardVideoAD = new RewardVideoAD(activity, adId, this, volumeOn);
     }
@@ -123,7 +121,7 @@ public class RewardVideoForGDT extends ADBaseImpl implements RewardVideoADListen
             sm = (ShowParam)obj;
         }
         if (rewardVideoAD != null) {
-            Log.e(L_TAG(), "show(),开始展示,advPos="+advPos);
+            Log.e(L_TAG(), "show(),开始展示");
             show_status = 1;
             boolean play = true;
             if(sm != null && sm.getMode() == 2){

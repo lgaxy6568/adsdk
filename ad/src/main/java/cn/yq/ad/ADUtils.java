@@ -105,23 +105,23 @@ public class ADUtils {
     }
 
     /* 穿山甲~激励视频广告 */
-    public static ADRunnable getTTRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra, VideoADCallback cb, String advPos) {
+    public static ADRunnable getTTRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra, VideoADCallback cb) {
         ADFactory factory = ADUtils.getFactoryByTT();
         if(factory == null){
             return null;
         }
-        ADRunnable ar = factory.createTTRewardVideo(act, appId, adId, extra,advPos);
+        ADRunnable ar = factory.createTTRewardVideo(act, appId, adId, extra);
         ar.addCallback(cb);
         return ar;
     }
 
     /* 广点通~激励视频广告 */
-    public static ADRunnable getGDTRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra, VideoADCallback cb, String advPos) {
+    public static ADRunnable getGDTRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra, VideoADCallback cb) {
         ADFactory factory = ADUtils.getFactoryByGDT();
         if(factory == null){
             return null;
         }
-        ADRunnable ar = factory.createGDTRewardVideo(act, appId, adId, extra,advPos);
+        ADRunnable ar = factory.createGDTRewardVideo(act, appId, adId, extra);
         if(ar != null) {
             ar.addCallback(cb);
         }

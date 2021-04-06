@@ -31,12 +31,12 @@ public abstract class BaseADFactoryImpl implements ADFactory {
     }
 
     @Override
-    public ADRunnable createTTRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra, String advPos) {
+    public ADRunnable createTTRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra) {
         return null;
     }
 
     @Override
-    public ADRunnable createGDTRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra, String advPos) {
+    public ADRunnable createGDTRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra) {
         return null;
     }
 }

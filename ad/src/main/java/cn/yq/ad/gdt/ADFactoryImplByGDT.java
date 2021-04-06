@@ -30,7 +30,7 @@ public class ADFactoryImplByGDT extends BaseADFactoryImpl {
     }
 
     @Override
-    public ADRunnable createGDTRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra, String advPos) {
-        return new RewardVideoForGDT(act,appId,adId,extra,advPos);
+    public ADRunnable createGDTRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra) {
+        return new RewardVideoForGDT(act,appId,adId,extra);
     }
 }

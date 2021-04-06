@@ -52,17 +52,15 @@ public class RewardVideoForTT extends ADBaseImplByTT<TTAdNative> {
 
     private String mUUID;
 
-    private final String advPos ;
-    RewardVideoForTT(Activity activity, String appId, String adId, Map<String, Object> extra, String advPos) {
+    RewardVideoForTT(Activity activity, String appId, String adId, Map<String, Object> extra) {
         super(activity,appId,adId);
         this.extra = extra;
-        this.advPos = advPos;
         TTAdManager tam = TTUtil.get().getAdManager();
         tam.setAppId(appId);
         final Context ctx = ADBaseImpl.getContextFromActivity(activity);
 //        tam.requestPermissionIfNecessary(ctx);
         mTTAdNative = tam.createAdNative(ctx);
-        Log.e(L_TAG(), "实例创建,appId="+appId+",adId="+adId+",advPos="+advPos);
+        Log.e(L_TAG(), "实例创建,appId="+appId+",adId="+adId);
     }
 
     @Override
@@ -93,7 +91,7 @@ public class RewardVideoForTT extends ADBaseImplByTT<TTAdNative> {
                 .setSupportDeepLink(true)
                 .setAdCount(1)
                 .setImageAcceptedSize(1080, 1920)
-                .setRewardName(advPos)
+//                .setRewardName(advPos)
                 .setRewardAmount(1)
                 .setUserID(uid)
                 .setMediaExtra(mediaExtra)
@@ -128,7 +126,7 @@ public class RewardVideoForTT extends ADBaseImplByTT<TTAdNative> {
                     return;
                 }
                 mTmpVideo = ttRewardVideoAd;
-                Log.e(L_TAG(), "onRewardVideoAdLoad(),advPos="+advPos);
+                Log.e(L_TAG(), "onRewardVideoAdLoad()");
             }
 
             @Override
@@ -157,7 +155,7 @@ public class RewardVideoForTT extends ADBaseImplByTT<TTAdNative> {
         // FIXME: 2020/3/25 特别注意 最后的会把前面的覆盖掉
         ttRewardVideoAd.setRewardAdInteractionListener(tmpListener);
         mTTRewardVideoAd = ttRewardVideoAd;
-        Log.e(L_TAG(), "setCallbackToReward(),advPos="+advPos+",tmpListener="+tmpListener.hashCode()+",mTTRewardVideoAd="+mTTRewardVideoAd.hashCode());
+        Log.e(L_TAG(), "setCallbackToReward(),tmpListener="+tmpListener.hashCode()+",mTTRewardVideoAd="+mTTRewardVideoAd.hashCode());
     }
 
     @Override
@@ -173,8 +171,9 @@ public class RewardVideoForTT extends ADBaseImplByTT<TTAdNative> {
         TTRewardVideoAd.RewardAdInteractionListener tmpListener = new TTRewardVideoAd.RewardAdInteractionListener() {
             @Override
             public void onAdShow() {
-                Log.e(L_TAG(), "onAdShow(),advPos="+advPos);
+                Log.e(L_TAG(), "onAdShow()");
                 if (videoADCallback != null) {
+                    videoADCallback.onADExposed(PresentModel.getInstance(adId, Adv_Type.tt));
                     videoADCallback.onVideoStartPlay(PresentModel.getInstance(adId, Adv_Type.tt));
                 }
             }
@@ -197,7 +196,7 @@ public class RewardVideoForTT extends ADBaseImplByTT<TTAdNative> {
 
             @Override
             public void onVideoComplete() {
-                Log.e(L_TAG(), "onVideoComplete(),advPos="+advPos);
+                Log.e(L_TAG(), "onVideoComplete()");
                 if (videoADCallback != null) {
                     videoADCallback.onVideoPlayComplete(PresentModel.getInstance(adId, Adv_Type.tt));
                 }
@@ -266,7 +265,7 @@ public class RewardVideoForTT extends ADBaseImplByTT<TTAdNative> {
             sm = (ShowParam)obj;
         }
         if (mTTRewardVideoAd != null) {
-            Log.e(L_TAG(), "show(),开始展示,advPos="+advPos);
+            Log.e(L_TAG(), "show(),开始展示");
             show_status = 1;
             boolean play = true;
             if(sm != null && sm.getMode() == 2){
