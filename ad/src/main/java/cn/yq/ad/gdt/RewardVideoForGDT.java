@@ -80,6 +80,7 @@ public class RewardVideoForGDT extends ADBaseImpl implements RewardVideoADListen
 
     @Override
     public void destroy() {
+        AdLogUtils.i(L_TAG(),"destroy()");
         if (videoADCallback != null) {
             videoADCallback = null;
         }
@@ -91,6 +92,7 @@ public class RewardVideoForGDT extends ADBaseImpl implements RewardVideoADListen
     @Override
     public void addCallback(ADCallback callback) {
         if (callback instanceof VideoADCallback) {
+            AdLogUtils.i(L_TAG(),"addCallback()");
             videoADCallback = (VideoADCallback) callback;
         }
     }
@@ -121,7 +123,7 @@ public class RewardVideoForGDT extends ADBaseImpl implements RewardVideoADListen
             sm = (ShowParam)obj;
         }
         if (rewardVideoAD != null) {
-            Log.e(L_TAG(), "show(),开始展示");
+            AdLogUtils.i(L_TAG(), "show(),开始展示");
             show_status = 1;
             boolean play = true;
             if(sm != null && sm.getMode() == 2){
@@ -152,19 +154,25 @@ public class RewardVideoForGDT extends ADBaseImpl implements RewardVideoADListen
     @Override
     public void onVideoCached() {
         AdLogUtils.i(L_TAG(),"onVideoCached()");
-        videoADCallback.onAdPresent(PresentModel.getInstance(adId,getAdvType()).setAdRespItem(getAdParamItem()));
+        if(videoADCallback != null) {
+            videoADCallback.onAdPresent(PresentModel.getInstance(adId, getAdvType()).setAdRespItem(getAdParamItem()));
+        }
     }
 
     @Override
     public void onADShow() {
         AdLogUtils.i(L_TAG(),"onADShow()");
-        videoADCallback.onVideoStartPlay(PresentModel.getInstance(adId,getAdvType()).setAdRespItem(getAdParamItem()));
+        if(videoADCallback != null) {
+            videoADCallback.onVideoStartPlay(PresentModel.getInstance(adId, getAdvType()).setAdRespItem(getAdParamItem()));
+        }
     }
 
     @Override
     public void onADExpose() {
         AdLogUtils.i(L_TAG(),"onADExpose()");
-        videoADCallback.onADExposed(PresentModel.getInstance(adId,getAdvType()).setAdRespItem(getAdParamItem()));
+        if(videoADCallback != null) {
+            videoADCallback.onADExposed(PresentModel.getInstance(adId, getAdvType()).setAdRespItem(getAdParamItem()));
+        }
     }
 
     @Override
@@ -172,31 +180,41 @@ public class RewardVideoForGDT extends ADBaseImpl implements RewardVideoADListen
         String mapStr = (map != null && map.size() > 0) ? AdGsonUtils.getGson().toJson(map) : "null";
         AdLogUtils.i(L_TAG(),"onReward(),mapStr="+mapStr);
         PresentModel pm = PresentModel.getInstance(adId,getAdvType()).setAdRespItem(getAdParamItem());
-        videoADCallback.onRewardVerify(true,pm);
+        if(videoADCallback != null) {
+            videoADCallback.onRewardVerify(true, pm);
+        }
     }
 
     @Override
     public void onADClick() {
         AdLogUtils.i(L_TAG(),"onADClick()");
-        videoADCallback.onAdClick(ClickModel.getInstance(1,-1,adId,getAdvType()).setAdRespItem(getAdParamItem()));
+        if(videoADCallback != null) {
+            videoADCallback.onAdClick(ClickModel.getInstance(1, -1, adId, getAdvType()).setAdRespItem(getAdParamItem()));
+        }
     }
 
     @Override
     public void onVideoComplete() {
         AdLogUtils.i(L_TAG(),"onVideoComplete()");
-        videoADCallback.onVideoPlayComplete(PresentModel.getInstance(adId,getAdvType()).setAdRespItem(getAdParamItem()));
+        if(videoADCallback != null) {
+            videoADCallback.onVideoPlayComplete(PresentModel.getInstance(adId, getAdvType()).setAdRespItem(getAdParamItem()));
+        }
     }
 
     @Override
     public void onADClose() {
         AdLogUtils.i(L_TAG(),"onADClose()");
-        videoADCallback.onAdDismissed(DismissModel.newInstance(adId,getAdvType()).setAdRespItem(getAdParamItem()));
+        if(videoADCallback != null) {
+            videoADCallback.onAdDismissed(DismissModel.newInstance(adId, getAdvType()).setAdRespItem(getAdParamItem()));
+        }
     }
 
     @Override
     public void onError(AdError adError) {
-        AdLogUtils.i(L_TAG(),"onError()");
-        videoADCallback.onAdFailed(FailModel.toStr(adError.getErrorCode(),adError.getErrorMsg(),adId,getAdvType()).setAdRespItem(getAdParamItem()));
+        AdLogUtils.e(L_TAG(),"onError()");
+        if(videoADCallback != null) {
+            videoADCallback.onAdFailed(FailModel.toStr(adError.getErrorCode(), adError.getErrorMsg(), adId, getAdvType()).setAdRespItem(getAdParamItem()));
+        }
     }
 
 }

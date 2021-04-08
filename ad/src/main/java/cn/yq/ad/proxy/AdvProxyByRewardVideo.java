@@ -174,11 +174,9 @@ public final class AdvProxyByRewardVideo extends AdvProxyAbstract implements Run
             if (Adv_Type.tt.name().equalsIgnoreCase(ad_type)) {
                 AdLogUtils.e(TAG, "initAd(),穿山甲,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight());
                 try {
-                    ar = ADUtils.getTTRewardVideo(wrAct.get(), app_id, tmpIds, extra, null);
+                    ADCallbackImpl cb = new ADCallbackImpl(adRunnableLst.size(), Adv_Type.tt);
+                    ar = ADUtils.getTTRewardVideo(wrAct.get(), app_id, tmpIds, extra, cb);
                     if (ar != null) {
-                        ADCallbackImpl cb = new ADCallbackImpl(adRunnableLst.size(), Adv_Type.tt);
-                        ar.addCallback(cb);
-
                         Bundle bd = new Bundle();
                         bd.putInt(ExtraKey.KP_AD_REQUEST_TIME_OUT, REQUEST_TIME_OUT_BY_GDT());
                         bd.putString(ExtraKey.KP_AD_CONFIG, AdGsonUtils.getGson().toJson(ap));
@@ -190,11 +188,9 @@ public final class AdvProxyByRewardVideo extends AdvProxyAbstract implements Run
                 }
             } else if (Adv_Type.gdt.name().equalsIgnoreCase(ad_type)) {
                 AdLogUtils.e(TAG, "initAd(),广点通,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight());
-                ar = ADUtils.getGDTRewardVideo(wrAct.get(), app_id, tmpIds, extra, null);
+                ADCallbackImpl cb = new ADCallbackImpl(adRunnableLst.size(), Adv_Type.gdt);
+                ar = ADUtils.getGDTRewardVideo(wrAct.get(), app_id, tmpIds, extra, cb);
                 if (ar != null) {
-                    ADCallbackImpl cb = new ADCallbackImpl(adRunnableLst.size(), Adv_Type.gdt);
-                    ar.addCallback(cb);
-
                     Bundle bd = new Bundle();
                     bd.putInt(ExtraKey.KP_AD_REQUEST_TIME_OUT, REQUEST_TIME_OUT_BY_GDT());
                     bd.putString(ExtraKey.KP_AD_CONFIG, AdGsonUtils.getGson().toJson(ap));

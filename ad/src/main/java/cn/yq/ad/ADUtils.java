@@ -111,7 +111,9 @@ public class ADUtils {
             return null;
         }
         ADRunnable ar = factory.createTTRewardVideo(act, appId, adId, extra);
-        ar.addCallback(cb);
+        if(ar != null && cb != null) {
+            ar.addCallback(cb);
+        }
         return ar;
     }
 
@@ -122,7 +124,7 @@ public class ADUtils {
             return null;
         }
         ADRunnable ar = factory.createGDTRewardVideo(act, appId, adId, extra);
-        if(ar != null) {
+        if(ar != null && cb != null) {
             ar.addCallback(cb);
         }
         return ar;
