@@ -1,6 +1,7 @@
 package cn.yq.ad.proxy;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,8 +123,9 @@ public final class AdvProxyByKaiPing extends AdvProxyAbstract implements Runnabl
                 if(ad.getWidget() <= 0){
                     continue;
                 }
+                final String adType = (""+ad.getType()).trim();
+                //VIP用户跳过API广告及SDK广告
                 if(isVip){
-                    final String adType = (""+ad.getType()).trim();
                     if(AdConstants.SDK_TYPE_BY_SDK.equalsIgnoreCase(adType)){
                         continue;
                     }
@@ -138,6 +140,22 @@ public final class AdvProxyByKaiPing extends AdvProxyAbstract implements Runnabl
                         if(item.getWidget() <= 0){
                             AdLogUtils.w(TAG, "initAd(),adType="+item.getAdv_type_name()+",adId="+ad.getAdPartnerAdId()+",ad.weight=0");
                             continue;
+                        }
+                        //DeepLink唤醒，如果未安装则跳过此广告
+                        if(AdConstants.SDK_TYPE_BY_SELF.equalsIgnoreCase(adType)){
+                            final String url = item.getUrl();
+                            if(AdStringUtils.isNotEmpty(url)){
+                                Uri uri = Uri.parse(url);
+                                String action = uri.getQueryParameter("action");
+                                if("OtherApp".equalsIgnoreCase(action)){
+                                    String pkg = uri.getQueryParameter("pkg");
+                                    //没有安装的则跳过
+                                    if(!ADUtils.isAppInstalled(pkg,wrAct.get())){
+                                        AdLogUtils.w(TAG, "initAd(),未安装["+pkg+"],adType="+item.getAdv_type_name()+",adId="+ad.getAdPartnerAdId());
+                                        continue;
+                                    }
+                                }
+                            }
                         }
                         apLst.add(item);
                     }

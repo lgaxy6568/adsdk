@@ -2,6 +2,7 @@ package cn.yq.ad;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -9,6 +10,7 @@ import java.util.Map;
 
 import cn.yq.ad.gdt.ADFactoryImplByGDT;
 import cn.yq.ad.tt.ADFactoryImplByTT;
+import cn.yq.ad.util.AdStringUtils;
 
 /**
  * Created by liguo on 2018/10/17.
@@ -128,5 +130,24 @@ public class ADUtils {
             ar.addCallback(cb);
         }
         return ar;
+    }
+
+    public static boolean isAppInstalled(final String pkgName,Context ctx) {
+        if (AdStringUtils.isEmpty(pkgName)) {
+            return false;
+        }
+        if(ctx == null){
+            return false;
+        }
+
+        try {
+            PackageManager pm = ctx.getPackageManager();
+            if(pm == null){
+                return false;
+            }
+            return pm.getApplicationInfo(pkgName, 0).enabled;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

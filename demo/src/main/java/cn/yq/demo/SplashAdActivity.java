@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.reflect.TypeToken;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import cn.yq.ad.ADCallback;
 import cn.yq.ad.Adv_Type;
 import cn.yq.ad.StatCallbackByKaiPing;
@@ -38,6 +40,16 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
     private static final String TAG = SplashAdActivity.class.getSimpleName();
     private static final String TAG_STAT = "STAT_KAI_PING";
     private ViewGroup adContainer;
+    private static final AtomicBoolean abUseTestMode = new AtomicBoolean(true);
+    public static String getConfigUrl(){
+        final String url;
+        if(abUseTestMode.get()){
+            url = "http://adservice-test.sxyj.com/api/Ad/GetAds";
+        }else{
+            url = "https://adservice.sxyj.com/api/Ad/GetAds";
+        }
+        return url;
+    }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,10 +74,10 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
         new AsyncTask<GetAdsResponseListApiResult>(){
             @Override
             public GetAdsResponseListApiResult doInBackground() throws Exception {
-                final String url = "https://adservice.sxyj.com/api/Ad/GetAds";
+                final String url = SplashAdActivity.getConfigUrl();
                 GetAdsModel am = new GetAdsModel();
                 am.setAppId("ecb693649cef10af");
-                am.setVersion("1.1.5");
+                am.setVersion("1.1.7");
                 am.setBrand("normol");
                 String ps = AdGsonUtils.getGson().toJson(am);
                 Request req = new Request.Builder().url(url).post(RequestBody.create(ps,MediaType.parse("application/json"))).build();

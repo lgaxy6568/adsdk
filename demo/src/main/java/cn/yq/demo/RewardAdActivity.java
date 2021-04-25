@@ -69,7 +69,7 @@ public class RewardAdActivity extends AppCompatActivity implements VideoADCallba
         new AsyncTask<GetAdsResponseListApiResult>(){
             @Override
             public GetAdsResponseListApiResult doInBackground() throws Exception {
-                final String url = "https://adservice.sxyj.com/api/Ad/GetAds";
+                final String url = SplashAdActivity.getConfigUrl();
                 GetAdsModel am = new GetAdsModel();
                 am.setAppId("ecb693649cef10af");
                 am.setVersion("1.1.5");

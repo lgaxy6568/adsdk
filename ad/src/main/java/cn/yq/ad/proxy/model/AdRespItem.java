@@ -237,6 +237,10 @@ public class AdRespItem implements Comparable<AdRespItem> {
         return Adv_Type.none.name();
     }
 
+    /**
+     * 广告是否无效：[true：表示无效，false：有效]
+     * @return
+     */
     public boolean isNotValid() {
         boolean valid = false;
         if (AdStringUtils.isNotEmpty(type)) {
