@@ -32,6 +32,7 @@ import cn.yq.ad.impl.DismissModel;
 import cn.yq.ad.impl.ExtraKey;
 import cn.yq.ad.impl.FailModel;
 import cn.yq.ad.impl.PresentModel;
+import cn.yq.ad.ms.ADFactoryImplByMS;
 import cn.yq.ad.proxy.model.AdConstants;
 import cn.yq.ad.proxy.model.AdRespItem;
 import cn.yq.ad.proxy.model.AdResponse;
@@ -180,6 +181,7 @@ public final class AdvProxyByKaiPing extends AdvProxyAbstract implements Runnabl
                 boolean c = Adv_Type.tt.name().equalsIgnoreCase(ad_type);   //穿山甲~全屏
                 boolean d = Adv_Type.api_magic_mobile.name().equalsIgnoreCase(ad_type);   //API~全屏
                 boolean e = Adv_Type.self.name().equalsIgnoreCase(ad_type);   //运营配置~全屏
+                boolean f = Adv_Type.ms.name().equalsIgnoreCase(ad_type);   //运营配置~全屏
                 if(AdConstants.is_test_gdt_adv()){
                     if(!a){
                         AdLogUtils.d(TAG, "initAd(),跳过_A,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight()+",sort="+ap.getSort());
@@ -197,11 +199,16 @@ public final class AdvProxyByKaiPing extends AdvProxyAbstract implements Runnabl
                     }
                 }else if(AdConstants.is_test_api_adv()){
                     if(!d){
-                        AdLogUtils.d(TAG, "initAd(),跳过_C,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight()+",sort="+ap.getSort());
+                        AdLogUtils.d(TAG, "initAd(),跳过_D,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight()+",sort="+ap.getSort());
+                        continue;
+                    }
+                }else if(AdConstants.is_test_ms_adv()){
+                    if(!f){
+                        AdLogUtils.d(TAG, "initAd(),跳过_F,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight()+",sort="+ap.getSort());
                         continue;
                     }
                 }else{
-                    if(a || c || b || d || e){
+                    if(a || c || b || d || e || f){
 
                     }else{
                         AdLogUtils.d(TAG, "initAd(),跳过,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight()+",sort="+ap.getSort());
@@ -244,6 +251,18 @@ public final class AdvProxyByKaiPing extends AdvProxyAbstract implements Runnabl
                 ar = new AdFactoryImplBySelf().createSplashForSelf(wrAct.get(), app_id, tmpIds, adParentContainer);
                 if (ar != null) {
                     ADCallbackImpl cb = new ADCallbackImpl(Adv_Type.self, ap);
+                    ar.addCallback(cb);
+
+                    Bundle bd = new Bundle();
+                    bd.putInt(ExtraKey.KP_AD_REQUEST_TIME_OUT, REQUEST_TIME_OUT_BY_GDT());
+                    bd.putString(ExtraKey.KP_AD_CONFIG, AdGsonUtils.getGson().toJson(ap));
+                    ar.setExtra(bd);
+                }
+            }else if (Adv_Type.ms.name().equalsIgnoreCase(ad_type)) {
+                AdLogUtils.i(TAG, "initAd(),美数,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight()+",sort=" + ap.getSort());
+                ar = new ADFactoryImplByMS().createSplashForMS(wrAct.get(), app_id, tmpIds, adParentContainer);
+                if (ar != null) {
+                    ADCallbackImpl cb = new ADCallbackImpl(Adv_Type.ms, ap);
                     ar.addCallback(cb);
 
                     Bundle bd = new Bundle();

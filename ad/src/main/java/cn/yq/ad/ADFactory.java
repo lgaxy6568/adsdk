@@ -17,6 +17,7 @@ public interface ADFactory {
     ADRunnable createSplashForGDT(Activity act, ViewGroup gdtContainer, TextView tvSkip, String appId, String posId);
     ADRunnable createSplashForTT(Activity act, String appId, String adId, ViewGroup adContainer);
     ADRunnable createSplashForSelf(Activity act, String appId, String adId, ViewGroup adContainer);
+    ADRunnable createSplashForMS(Activity act, String appId, String adId, ViewGroup adContainer);
 
     /* tt reward video ad */
     ADRunnable createTTRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra);

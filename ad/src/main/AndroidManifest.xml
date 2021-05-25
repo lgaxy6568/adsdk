@@ -59,6 +59,19 @@
                 android:resource="@xml/gdt_file_path" />
         </provider>
         <!-- 广点通 end -->
+
+        <!-- msad begin -->
+        <provider
+            android:name="com.meishu.sdk.core.service.MeishuFileProvider"
+            android:authorities="${applicationId}.MeishuFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/meishu_file_path" />
+        </provider>
+        <!-- msad end -->
+
     </application>
 
 

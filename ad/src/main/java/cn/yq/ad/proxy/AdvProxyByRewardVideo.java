@@ -141,6 +141,7 @@ public final class AdvProxyByRewardVideo extends AdvProxyAbstract implements Run
                 boolean b = Adv_Type.bai_du.name().equalsIgnoreCase(ad_type);   //百度~全屏
                 boolean c = Adv_Type.tt.name().equalsIgnoreCase(ad_type);   //穿山甲~全屏
                 boolean d = Adv_Type.api_magic_mobile.name().equalsIgnoreCase(ad_type);   //API~全屏
+                boolean f = Adv_Type.ms.name().equalsIgnoreCase(ad_type);   //ms~全屏
                 if(AdConstants.is_test_gdt_adv()){
                     if(!a){
                         AdLogUtils.e(TAG, "initAd(),跳过_A,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight());
@@ -158,11 +159,16 @@ public final class AdvProxyByRewardVideo extends AdvProxyAbstract implements Run
                     }
                 }else if(AdConstants.is_test_api_adv()){
                     if(!d){
-                        AdLogUtils.e(TAG, "initAd(),跳过_C,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight());
+                        AdLogUtils.e(TAG, "initAd(),跳过_D,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight());
+                        continue;
+                    }
+                }else if(AdConstants.is_test_ms_adv()){
+                    if(!f){
+                        AdLogUtils.e(TAG, "initAd(),跳过_F,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight());
                         continue;
                     }
                 }else{
-                    if(a || c || b || d){
+                    if(a || c || b || d || f){
 
                     }else{
                         AdLogUtils.e(TAG, "initAd(),跳过,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight());

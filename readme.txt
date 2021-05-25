@@ -39,3 +39,7 @@
         -keep enum com.bumptech.** {*;}
         -keep public class * implements com.bumptech.glide.module.GlideModule {*;}
         -keep class * extends com.bumptech.glide.module.AppGlideModule {*;}
+(3)美术SDK
+    a：SDK依懒
+    b：oaid依懒 + supplierconfig.json
+    c：混淆配置 https://git.adxdata.com/meishu/sdk-android-demo/-/wikis/%E6%B7%B7%E6%B7%86%E9%85%8D%E7%BD%AE

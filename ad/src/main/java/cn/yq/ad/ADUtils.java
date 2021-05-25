@@ -9,6 +9,7 @@ import android.widget.TextView;
 import java.util.Map;
 
 import cn.yq.ad.gdt.ADFactoryImplByGDT;
+import cn.yq.ad.ms.ADFactoryImplByMS;
 import cn.yq.ad.tt.ADFactoryImplByTT;
 import cn.yq.ad.util.AdStringUtils;
 
@@ -63,6 +64,25 @@ public class ADUtils {
         return mFactory_tt;
     }
 
+    /** 美数 */
+    private static volatile ADFactory mFactory_ms = null;
+    public static ADFactory getFactoryByMS(){
+        if(mFactory_ms != null){
+            return mFactory_ms;
+        }
+        if(mFactory_ms == null){
+            synchronized (ADUtils.class){
+                if(mFactory_ms == null){
+                    try {
+                        mFactory_ms = new ADFactoryImplByMS();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return mFactory_ms;
+    }
     public static boolean textEmpty(String text) {
         return text == null || text.trim().length() == 0;
     }
@@ -98,6 +118,14 @@ public class ADUtils {
         }
         try {
             ADFactory af = ADUtils.getFactoryByTT();
+            if(af != null){
+                af.init(mCtx);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            ADFactory af = ADUtils.getFactoryByMS();
             if(af != null){
                 af.init(mCtx);
             }

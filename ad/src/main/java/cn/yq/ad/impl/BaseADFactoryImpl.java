@@ -31,6 +31,11 @@ public abstract class BaseADFactoryImpl implements ADFactory {
     }
 
     @Override
+    public ADRunnable createSplashForMS(Activity act, String appId, String adId, ViewGroup adContainer) {
+        return null;
+    }
+
+    @Override
     public ADRunnable createTTRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra) {
         return null;
     }

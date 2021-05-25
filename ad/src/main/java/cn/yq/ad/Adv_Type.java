@@ -5,7 +5,7 @@ package cn.yq.ad;
  * desc
  */
 public enum Adv_Type {
-    gdt(2),bai_du(3),self(1),tt(4),sig_mob(5),fb(6),api_magic_mobile(81),none(-1);
+    gdt(2),bai_du(3),self(1),tt(4),sig_mob(5),fb(6),ms(7),api_magic_mobile(81),none(-1);
 
     Adv_Type(int value) {
         this.value = value;
@@ -17,26 +17,28 @@ public enum Adv_Type {
         return value;
     }
 
-    public static cn.yq.ad.Adv_Type intValueOf(int value){
+    public static Adv_Type intValueOf(int value){
         switch (value) {
             case 1:
-                return cn.yq.ad.Adv_Type.self;
+                return Adv_Type.self;
             case 2:
-                return cn.yq.ad.Adv_Type.gdt;
+                return Adv_Type.gdt;
             case 3:
-                return cn.yq.ad.Adv_Type.bai_du;
+                return Adv_Type.bai_du;
             case 4:
-                return cn.yq.ad.Adv_Type.tt;
+                return Adv_Type.tt;
             case 5:
-                return cn.yq.ad.Adv_Type.sig_mob;
+                return Adv_Type.sig_mob;
+            case 7:
+                return Adv_Type.ms;
             case 81:
-                return cn.yq.ad.Adv_Type.api_magic_mobile;
+                return Adv_Type.api_magic_mobile;
             default:
-                return cn.yq.ad.Adv_Type.none;
+                return Adv_Type.none;
         }
     }
 
-    public static String getAdSource(cn.yq.ad.Adv_Type type) {
+    public static String getAdSource(Adv_Type type) {
         switch (type) {
             case fb:
                 return "4";
@@ -48,6 +50,8 @@ public enum Adv_Type {
                 return "1";
             case sig_mob:
                 return "5";
+            case ms:
+                return "10";
             default:
                 return "-1";
         }
