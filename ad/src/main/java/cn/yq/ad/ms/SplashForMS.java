@@ -20,6 +20,7 @@ import cn.yq.ad.impl.FailModel;
 import cn.yq.ad.impl.PresentModel;
 
 /**
+ * SDK文档地址：https://git.adxdata.com/meishu/sdk-android-demo/-/wikis/home
  * 1003907 普通网页
  * 100424024 下载 开屏（640x960）
  * 100424025 Deeplink 唤起

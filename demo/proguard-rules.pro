@@ -121,3 +121,7 @@ public static final android.os.Parcelable$Creator *;
 -keep class com.samsung.android.deviceidservice.** { *; }
 -keep class a.** { *; }
 -keep class XI.** { *; }
+
+#jd
+-keep class com.jd.ad.** {*;}
+-keep interface com.jd.ad.**
