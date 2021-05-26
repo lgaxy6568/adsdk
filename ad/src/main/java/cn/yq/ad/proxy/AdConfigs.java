@@ -9,7 +9,7 @@ public class AdConfigs {
 
     private static final AtomicReference<String> APP_ID_BY_CSJ = new AtomicReference<>("5133118");
     private static final AtomicReference<String> APP_ID_BY_GDT = new AtomicReference<>("1111386088");
-    private static final AtomicReference<String> APP_ID_BY_MS = new AtomicReference<>("0");
+    private static final AtomicReference<String> APP_ID_BY_MS = new AtomicReference<>("104395");
     public static String getAppIdByType(Adv_Type at){
         if(at == Adv_Type.gdt){
             return APP_ID_BY_GDT.get();

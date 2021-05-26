@@ -107,3 +107,17 @@ public static final android.os.Parcelable$Creator *;
 -keep enum com.bumptech.** {*;}
 -keep public class * implements com.bumptech.glide.module.GlideModule {*;}
 -keep class * extends com.bumptech.glide.module.AppGlideModule {*;}
+
+# 美数
+# msad
+-keep class com.meishu.sdk.** { *; }
+
+# OAID
+-keep class com.bun.miitmdid.** { *; }
+-keep class com.bun.lib.** { *; }
+-keep class com.asus.msa.** { *; }
+-keep class com.huawei.hms.ads.identifier.** { *; }
+-keep class com.netease.nis.sdkwrapper.** { *; }
+-keep class com.samsung.android.deviceidservice.** { *; }
+-keep class a.** { *; }
+-keep class XI.** { *; }

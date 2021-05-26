@@ -21,8 +21,8 @@ public class ADFactoryImplByMS extends BaseADFactoryImpl {
     public void init(Context ctx, String... args) {
         MSAdConfig sdkConfig = new MSAdConfig.Builder()
                 .appId(AdConfigs.getAppIdByType(Adv_Type.ms))
-                .isTest(true)       //测试环境
-                .enableDebug(true)  //开启DEBUG模式，打印内部LOG
+                .isTest(false)       //测试环境
+                .enableDebug(false)  //开启DEBUG模式，打印内部LOG
                 .downloadConfirm(MSAdConfig.DOWNLOAD_CONFIRM_AUTO)  //下载提示模式
                 .build();
 
