@@ -163,7 +163,17 @@ public class SplashForMS extends ADBaseImpl implements SplashAdListener,Interact
     @Override
     public void onAdPlatformError(AdPlatformError err) {
         LogUtil.e(TAG,"onAdPlatformError()");
-        FailModel fm = FailModel.toStr(err.getCode(),err.getMessage(),posId,getAdvType());
+        int errCode = -1;
+        String errMsg = "第三方平台回调出错";
+        if(err != null){
+            Integer errCodeObj = err.getCode();
+            if(errCodeObj != null){
+                errCode = errCodeObj;
+            }
+            errMsg = err.getPlatform()+"_"+err.getMessage();
+        }
+
+        FailModel fm = FailModel.toStr(errCode,errMsg,posId,getAdvType());
         defaultCallback.onAdFailed(fm.setAdRespItem(getAdParamItem()));
     }
 }
