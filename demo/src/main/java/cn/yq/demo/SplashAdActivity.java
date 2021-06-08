@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.reflect.TypeToken;
+import com.meishu.sdk.core.utils.LogUtil;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -40,7 +41,7 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
     private static final String TAG = SplashAdActivity.class.getSimpleName();
     private static final String TAG_STAT = "STAT_KAI_PING";
     private ViewGroup adContainer;
-    private static final AtomicBoolean abUseTestMode = new AtomicBoolean(true);
+    private static final AtomicBoolean abUseTestMode = new AtomicBoolean(false);
     public static String getConfigUrl(){
         final String url;
         if(abUseTestMode.get()){
@@ -107,6 +108,11 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
         extraParams.setVip(false);
         adr = new AdvProxyByKaiPing(this,this,adContainer,null,result,extraParams);
         adr.setStatCallback(this);
+        if(adr.isInited()){
+
+        }else{
+            LogUtil.e(TAG,"startLoadAd(),广告SDK初始化失败,errMsg="+adr.getErrMsg());
+        }
         adr.load();
     }
 

@@ -17,7 +17,7 @@ public class SuperApplication extends Application {
         AdConfigs.setAppIdByMS("104395");   //测试ID=101343
         AdConfigs.setDebugModel(true);
         //单独调试某个SDK，0：调试所有，1：只调试广点通，2：只调试穿山甲
-        AdConstants.setDebugAdPlatform(5);  // 1:gdt 2:csj
+        AdConstants.setDebugAdPlatform(0);  // 1:gdt 2:csj
         ADUtils.init(this);
     }
 }

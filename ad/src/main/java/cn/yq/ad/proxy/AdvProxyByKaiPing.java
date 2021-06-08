@@ -291,14 +291,14 @@ public final class AdvProxyByKaiPing extends AdvProxyAbstract implements Runnabl
             }
         }
         AdLogUtils.i(TAG, "initAd(),apLst.size()=" + apLst.size());
-        if(apLst.size() > 0){
-            tmpErrMsg = "未初成功始化SDK";
-            AdLogUtils.e(TAG,"initAd(),tmpStrBuilder="+tmpStrBuilder.toString());
-        }
         if (es == null) {
             es = Executors.newScheduledThreadPool(1);
         }
         int sz = adRunnableMap.size();
+        if(sz == 0 && apLst.size() > 0){
+            tmpErrMsg = "未初始化成功任何SDK";
+            AdLogUtils.e(TAG,"initAd(),tmpStrBuilder="+tmpStrBuilder.toString());
+        }
         inited.set(sz > 0);
         if(findKpAd) {
             initErrMsg.set(tmpErrMsg);
