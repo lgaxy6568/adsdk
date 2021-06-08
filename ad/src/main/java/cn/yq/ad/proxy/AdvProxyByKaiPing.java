@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 import cn.yq.ad.ADCallback;
 import cn.yq.ad.ADRunnable;
@@ -78,11 +79,12 @@ public final class AdvProxyByKaiPing extends AdvProxyAbstract implements Runnabl
         return wrAct.get();
     }
 
-    private boolean inited = false;
+    private final AtomicBoolean inited = new AtomicBoolean(false);
 
     private final Map<String, AdRespItem> adAdvPosMap = new LinkedHashMap<>();
     private final Map<String, PresentModel> adPresentModeMap = new LinkedHashMap<>();
     private final Map<String, FailModel> adFailModeMap = new LinkedHashMap<>();
+    private final AtomicReference<String> initErrMsg = new AtomicReference<>("");
     private void initAd() {
         List<GetAdsResponse> dataLst = (result != null) ? result.getData() : null;
         if(dataLst == null || dataLst.size() == 0){
@@ -90,20 +92,26 @@ public final class AdvProxyByKaiPing extends AdvProxyAbstract implements Runnabl
             return;
         }
         final List<AdRespItem> apLst = new ArrayList<>();
+        boolean findKpAd = false;
+        String tmpErrMsg = "";
+        final StringBuilder tmpStrBuilder = new StringBuilder();
         for (GetAdsResponse adsResponse : dataLst) {
             String location = adsResponse.getLocation();
             if(!AdConstants.LOCATION_BY_KAI_PING.equalsIgnoreCase(location)){
                 continue;
             }
+            findKpAd = true;
             List<AdResponse> ads = adsResponse.getAds();
             if(ads == null || ads.size() == 0){
                 AdLogUtils.e(TAG, "initAd(),ads is empty");
+                tmpErrMsg = "没有配置广告";
                 continue;
             }
             //60 广告占量
-            int probability = adsResponse.getProbability();
+            final int probability = adsResponse.getProbability();
             if(probability <= 0){
                 AdLogUtils.e(TAG, "initAd(),probability=["+probability+"] < 0");
+                tmpErrMsg = "广告占量小于0";
                 continue;
             }
             int maxNum = Math.max(100,probability);
@@ -114,32 +122,36 @@ public final class AdvProxyByKaiPing extends AdvProxyAbstract implements Runnabl
             }else{
                 AdLogUtils.e(TAG, "initAd(),probability=["+probability+"],ran="+ran+",本次不展示");
                 //不合法
+                tmpErrMsg = "本次不展示占量-"+probability;
                 continue;
             }
-            final boolean isVip = extraParams != null && extraParams.isVip();
+//            final boolean isVip = extraParams != null && extraParams.isVip();
             for (AdResponse ad : ads) {
                 if(ad == null){
+                    tmpStrBuilder.append(",ad is null");
                     continue;
                 }
                 if(ad.getWidget() <= 0){
+                    tmpStrBuilder.append(",ad widget is 0");
                     continue;
                 }
                 final String adType = (""+ad.getType()).trim();
                 //VIP用户跳过API广告及SDK广告
-                if(isVip){
-                    if(AdConstants.SDK_TYPE_BY_SDK.equalsIgnoreCase(adType)){
-                        continue;
-                    }
-                    if(AdConstants.SDK_TYPE_BY_API.equalsIgnoreCase(adType)){
-                        continue;
-                    }
-                }
+//                if(isVip){
+//                    if(AdConstants.SDK_TYPE_BY_SDK.equalsIgnoreCase(adType)){
+//                        continue;
+//                    }
+//                    if(AdConstants.SDK_TYPE_BY_API.equalsIgnoreCase(adType)){
+//                        continue;
+//                    }
+//                }
                 List<AdRespItem> tmpLst = ad.toLst();
                 if (tmpLst.size() > 0) {
                     AdLogUtils.d(TAG, "initAd(),partnerKey="+ad.getAdPartnerKey()+",ad.size="+tmpLst.size());
                     for (AdRespItem item : tmpLst) {
                         if(item.getWidget() <= 0){
                             AdLogUtils.w(TAG, "initAd(),adType="+item.getAdv_type_name()+",adId="+ad.getAdPartnerAdId()+",ad.weight=0");
+                            tmpStrBuilder.append(",item widget is 0");
                             continue;
                         }
                         //DeepLink唤醒，如果未安装则跳过此广告
@@ -166,6 +178,10 @@ public final class AdvProxyByKaiPing extends AdvProxyAbstract implements Runnabl
         }
         AdLogUtils.d(TAG, "initAd(),=============================================================");
         adAdvPosMap.clear();
+        if(apLst.size() == 0){
+            tmpErrMsg = "未筛选到合适广告";
+            AdLogUtils.e(TAG,"initAd(),tmpStrBuilder="+tmpStrBuilder.toString());
+        }
         for (AdRespItem ap : apLst) {
             String app_id = ap.getAppId();
             String tmpIds = ap.getAdId();
@@ -219,7 +235,6 @@ public final class AdvProxyByKaiPing extends AdvProxyAbstract implements Runnabl
 
             if (Adv_Type.tt.name().equalsIgnoreCase(ad_type)) {
                 AdLogUtils.i(TAG, "initAd(),穿山甲,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight()+",sort=" + ap.getSort());
-                try {
                     ar = ADUtils.getSplashADForTT(wrAct.get(), app_id, tmpIds, adParentContainer, null);
                     if (ar != null) {
                         ADCallbackImpl cb = new ADCallbackImpl(Adv_Type.tt, ap);
@@ -230,10 +245,6 @@ public final class AdvProxyByKaiPing extends AdvProxyAbstract implements Runnabl
                         bd.putString(ExtraKey.KP_AD_CONFIG, AdGsonUtils.getGson().toJson(ap));
                         ar.setExtra(bd);
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    AdLogUtils.e(TAG, "initAd(),初始化出错~，errMsg=" + e.getMessage());
-                }
             } else if (Adv_Type.gdt.name().equalsIgnoreCase(ad_type)) {
                 AdLogUtils.i(TAG, "initAd(),广点通,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight()+",sort=" + ap.getSort());
                 ar = ADUtils.getSplashADForGDT(wrAct.get(), app_id, tmpIds, adParentContainer, null,tvSkip);
@@ -280,19 +291,31 @@ public final class AdvProxyByKaiPing extends AdvProxyAbstract implements Runnabl
             }
         }
         AdLogUtils.i(TAG, "initAd(),apLst.size()=" + apLst.size());
-
+        if(apLst.size() > 0){
+            tmpErrMsg = "未初成功始化SDK";
+            AdLogUtils.e(TAG,"initAd(),tmpStrBuilder="+tmpStrBuilder.toString());
+        }
         if (es == null) {
             es = Executors.newScheduledThreadPool(1);
         }
         int sz = adRunnableMap.size();
-        inited = sz > 0;
+        inited.set(sz > 0);
+        if(findKpAd) {
+            initErrMsg.set(tmpErrMsg);
+        }else{
+            initErrMsg.set("未找到开屏广告");
+        }
         AdLogUtils.i(TAG, "initAd(),adRunnableLst.size()=" + sz);
 
     }
 
     @Override
     public boolean isInited() {
-        return inited;
+        return inited.get();
+    }
+
+    public String getErrMsg(){
+        return initErrMsg.get();
     }
 
     private final AtomicLong start_load_time = new AtomicLong(0);
