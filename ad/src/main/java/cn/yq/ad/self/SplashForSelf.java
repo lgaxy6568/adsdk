@@ -76,23 +76,11 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
         AdLogUtils.i(TAG, "load()");
         layoutSplashForSelfIv.setOnClickListener(this);
         layoutSplashForSkipView.setOnClickListener(this);
-        Glide.with(act).load(param.getImageUrl()).listener(new RequestListener<Drawable>() {
-            @Override
-            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                FailModel fm = FailModel.toStr(-1,"图片加载失败~",posId,getAdvType());
-                Log.e(TAG,"onLoadFailed(),err_msg="+fm.toFullMsg());
-                defaultCallback.onAdFailed(fm.setAdRespItem(getAdParamItem()));
-                return false;
-            }
-
-            @Override
-            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                Log.e(TAG,"onResourceReady()");
-                layoutSplashForSelfIv.setImageDrawable(resource);
-                defaultCallback.onAdPresent(PresentModel.getInstance(posId, getAdvType()).setAdRespItem(getAdParamItem()));
-                return false;
-            }
-        }).preload();
+        Glide.with(act).load(param.getImageUrl())
+                .skipMemoryCache(true)
+//                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .listener(new TempRequestListener(this))
+                .preload();
     }
 
     @Override
@@ -121,7 +109,7 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
         if(AD_VIEW_IS_ADD_FLAG.get()){
             return;
         }
-        Log.e(TAG, "show()");
+        Log.i(TAG, "show()");
         ViewParent vp = rootView.getParent();
         if(vp instanceof ViewGroup){
             ((ViewGroup) vp).removeAllViews();
@@ -139,6 +127,12 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
             adShowTimer.start();
         });
 
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        layoutSplashForSelfIv.setImageBitmap(null);
     }
 
     private static final String SKIP_TEXT = "%d s 跳过";
@@ -190,6 +184,38 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
                 isCalledDismissedMethod = true;
                 sfs.defaultCallback.onAdDismissed(DismissModel.newInstance(sfs.posId, sfs.getAdvType()).setAdRespItem(sfs.getAdParamItem()));
             }
+        }
+    }
+
+    private static class TempRequestListener implements RequestListener<Drawable>{
+        private final WeakReference<SplashForSelf> wr;
+
+        public TempRequestListener(SplashForSelf self) {
+            this.wr = new WeakReference<>(self);
+        }
+
+        @Override
+        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+            SplashForSelf self = wr.get();
+            if(self != null){
+                FailModel fm = FailModel.toStr(-1,"图片加载失败~",self.posId,self.getAdvType());
+                Log.e(TAG,"onLoadFailed(),err_msg="+fm.toFullMsg());
+                self.defaultCallback.onAdFailed(fm.setAdRespItem(self.getAdParamItem()));
+            }
+
+            return false;
+        }
+
+        @Override
+        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+            Log.i(TAG,"onResourceReady()");
+            SplashForSelf self = wr.get();
+            if(self != null){
+                self.layoutSplashForSelfIv.setImageDrawable(resource);
+                self.defaultCallback.onAdPresent(PresentModel.getInstance(self.posId, self.getAdvType()).setAdRespItem(self.getAdParamItem()));
+            }
+
+            return false;
         }
     }
 }

@@ -124,7 +124,7 @@ public abstract class ADBaseImpl implements ADRunnable{
 
     @Override
     public void destroy() {
-        Log.e(getClass().getSimpleName(),"destroy()");
+        Log.i(getClass().getSimpleName(),"destroy()");
         removeAll();
     }
 
