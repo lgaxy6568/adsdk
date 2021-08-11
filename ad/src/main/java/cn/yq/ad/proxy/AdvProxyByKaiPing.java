@@ -218,6 +218,11 @@ public final class AdvProxyByKaiPing extends AdvProxyAbstract implements Runnabl
                         AdLogUtils.d(TAG, "initAd(),跳过_D,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight()+",sort="+ap.getSort());
                         continue;
                     }
+                }else if(AdConstants.is_test_self_adv()){
+                    if(!e){
+                        AdLogUtils.d(TAG, "initAd(),跳过_E,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight()+",sort="+ap.getSort());
+                        continue;
+                    }
                 }else if(AdConstants.is_test_ms_adv()){
                     if(!f){
                         AdLogUtils.d(TAG, "initAd(),跳过_F,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight()+",sort="+ap.getSort());

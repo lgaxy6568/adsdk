@@ -6,7 +6,7 @@ import cn.yq.ad.proxy.AdConfigs;
 
 public class AdConstants {
     /**
-     * 0：none | 1：广点通 | 2：穿山甲 | 3：百度 | 4：API | 5：美数
+     * 0：none | 1：广点通 | 2：穿山甲 | 3：百度 | 4：API | 5：美数 | 6：人工配置
      */
     private static final AtomicInteger ab_test_ad_platform = new AtomicInteger(0);
     public static final String LOCATION_BY_KAI_PING = "KP";
@@ -54,6 +54,13 @@ public class AdConstants {
     public static boolean is_test_ms_adv() {
         if (AdConfigs.isDebugModel()) {
             return ab_test_ad_platform.get() == 5;
+        }
+        return false;
+    }
+
+    public static boolean is_test_self_adv() {
+        if (AdConfigs.isDebugModel()) {
+            return ab_test_ad_platform.get() == 6;
         }
         return false;
     }
