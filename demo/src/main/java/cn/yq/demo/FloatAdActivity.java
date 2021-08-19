@@ -8,7 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.dhcw.sdk.BDAdvanceFloatIconAd;
 import com.google.gson.reflect.TypeToken;
+
+import java.util.Map;
 
 import cn.yq.ad.ADCallback;
 import cn.yq.ad.ADRunnable;
@@ -25,6 +28,7 @@ import cn.yq.ad.proxy.model.GetAdsModel;
 import cn.yq.ad.proxy.model.GetAdsResponseListApiResult;
 import cn.yq.ad.util.AdGsonUtils;
 import cn.yq.ad.util.AdLogUtils;
+import cn.yq.demo.bxm.TestPlayVideo;
 import cn.yq.demo.http.OKHttpUtil;
 import okhttp3.MediaType;
 import okhttp3.Request;
@@ -37,10 +41,11 @@ public class FloatAdActivity extends AppCompatActivity implements ADCallback {
     private static final String TAG = FloatAdActivity.class.getSimpleName();
     private static final String TAG_STAT = "STAT_FLOAT";
     private ViewGroup adContainer;
-
+    private TestPlayVideo tpv;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        tpv = TestPlayVideo.getNewInstance();
         setContentView(R.layout.activity_ad_float);
         adContainer = findViewById(R.id.fl_ad_container);
         loadAdConfigs();
@@ -112,6 +117,20 @@ public class FloatAdActivity extends AppCompatActivity implements ADCallback {
     @Override
     public void onAdClick(@NonNull ClickModel result) {
         AdLogUtils.i(TAG,"onAdClick(),广告点击,adId="+result.getAdId()+",adType="+result.getAdvType());
+        Object data = result.getData();
+        Map<String,String> extMap = result.getExtMap();
+        if(extMap != null && (data instanceof BDAdvanceFloatIconAd)){
+            int type = Integer.parseInt(extMap.get("type"));
+            //type=1 加载视频 type=2 播放视频
+            if (type == 1) {
+                //加载视频 绑定激励视频回调
+                tpv.load(this, (BDAdvanceFloatIconAd)data);
+            } else if (type == 2) {
+                //播放视频
+                tpv.play(this);
+            }
+        }
+
     }
 
     @Override

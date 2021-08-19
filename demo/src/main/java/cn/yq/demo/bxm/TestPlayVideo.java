@@ -1,4 +1,4 @@
-package cn.yq.ad.bxm;
+package cn.yq.demo.bxm;
 
 import android.app.Activity;
 
@@ -12,11 +12,11 @@ import com.dhcw.sdk.BDAdvanceBaseAppNative;
 import com.meishu.sdk.core.utils.LogUtil;
 
 public class TestPlayVideo {
-    static TestPlayVideo instance = new TestPlayVideo();
-    public static TestPlayVideo getInstance(){
-        return instance;
+    public static TestPlayVideo getNewInstance(){
+        return new TestPlayVideo();
     }
     private static final String TAG = TestPlayVideo.class.getSimpleName();
+    // FIXME: 2021/8/19 WAIT_LIGUO 这里面的广告ID用服务器返回的,由外部传入
     final String appid = "5133118"; // "5060085";
     final String adspotid = "946566999";    // "945132252";
 

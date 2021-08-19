@@ -10,6 +10,9 @@ import com.dhcw.sdk.BDAdvanceFloatIconAd;
 import com.dhcw.sdk.BDAdvanceFloatIconListener;
 import com.dhcw.sdk.BDAppNativeOnClickListener;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import cn.yq.ad.AdConf;
 import cn.yq.ad.Adv_Type;
 import cn.yq.ad.impl.ADBaseImpl;
@@ -82,15 +85,12 @@ public class FloatAdForBXM extends ADBaseImpl implements BDAdvanceFloatIconListe
     @Override
     public void onClick(int type, String adid) {
         Log.e(TAG, "onClick(),type="+type+",adid="+adid);
-//        defaultCallback.onAdClick(ClickModel.getInstance(0,-1,posId,getAdvType()).setAdRespItem(getAdParamItem()));
-        //type=1 加载视频 type=2 播放视频
-        if (type == 1) {
-            //加载视频 绑定激励视频回调
-            TestPlayVideo.getInstance().load(act, ad);
-        } else if (type == 2) {
-            //播放视频
-            TestPlayVideo.getInstance().play(act);
-        }
+        ClickModel cm = ClickModel.getInstance(0,-1,posId,getAdvType()).setAdRespItem(getAdParamItem());
+        Map<String,String> mmp = new LinkedHashMap<>();
+        mmp.put("type",String.valueOf(type));
+        cm.setExtMap(mmp);
+        cm.setData(ad);
+        defaultCallback.onAdClick(cm);
     }
 
     @Override
