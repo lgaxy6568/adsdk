@@ -72,7 +72,7 @@ public class RewardAdActivity extends AppCompatActivity implements VideoADCallba
                 final String url = SplashAdActivity.getConfigUrl();
                 GetAdsModel am = new GetAdsModel();
                 am.setAppId("ecb693649cef10af");
-                am.setVersion("1.1.5");
+                am.setVersion("1.2.6");
                 am.setBrand("normol");
                 String ps = AdGsonUtils.getGson().toJson(am);
                 Request req = new Request.Builder().url(url).post(RequestBody.create(ps,MediaType.parse("application/json"))).build();
@@ -102,7 +102,7 @@ public class RewardAdActivity extends AppCompatActivity implements VideoADCallba
         if(adr != null){
             adr.destroy();
         }
-       adr = new AdvProxyByRewardVideo(this,this,result,null, AdConstants.LOCATION_BY_JLSP);
+       adr = new AdvProxyByRewardVideo(this,this,result,null,"GRZXJLSP");//AdConstants.LOCATION_BY_JLSP
        adr.setStatCallback(this);
        adr.load();
     }

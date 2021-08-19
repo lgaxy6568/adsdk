@@ -21,5 +21,13 @@
         android:gravity="center"
         android:text="激励广告~测试"
         />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="60dp"
+        android:onClick="handBtnByFloatAD"
+        android:gravity="center"
+        android:text="浮标广告~测试"
+        />
 
 </LinearLayout>

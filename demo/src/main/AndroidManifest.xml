@@ -29,6 +29,9 @@
         <activity android:name=".RewardAdActivity">
 
         </activity>
+        <activity android:name=".FloatAdActivity">
+
+        </activity>
     </application>
 
 </manifest>

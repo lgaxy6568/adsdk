@@ -5,7 +5,7 @@ package cn.yq.ad;
  * desc
  */
 public enum Adv_Type {
-    gdt(2),bai_du(3),self(1),tt(4),sig_mob(5),fb(6),ms(7),api_magic_mobile(81),none(-1);
+    gdt(2),bai_du(3),self(1),tt(4),sig_mob(5),fb(6),ms(7),bxm(8),api_magic_mobile(81),none(-1);
 
     Adv_Type(int value) {
         this.value = value;
@@ -23,6 +23,8 @@ public enum Adv_Type {
                 return Adv_Type.self;
             case 2:
                 return Adv_Type.gdt;
+            case 8:
+                return Adv_Type.bxm;
             case 3:
                 return Adv_Type.bai_du;
             case 4:
@@ -46,6 +48,8 @@ public enum Adv_Type {
                 return "2";
             case gdt:
                 return "0";
+            case bxm:
+                return "11";
             case bai_du:
                 return "1";
             case sig_mob:

@@ -234,6 +234,9 @@ public class AdRespItem implements Comparable<AdRespItem> {
         if (AdConstants.PARTNER_KEY_BY_GDT.equalsIgnoreCase(adPartnerKey)) {
             return Adv_Type.gdt.name();
         }
+        if (AdConstants.PARTNER_KEY_BY_BXM.equalsIgnoreCase(adPartnerKey)) {
+            return Adv_Type.bxm.name();
+        }
         if (AdConstants.PARTNER_KEY_BY_MS.equalsIgnoreCase(adPartnerKey)) {
             return Adv_Type.ms.name();
         }

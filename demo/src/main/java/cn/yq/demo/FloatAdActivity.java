@@ -9,13 +9,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.reflect.TypeToken;
-import com.meishu.sdk.core.utils.LogUtil;
-
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import cn.yq.ad.ADCallback;
-import cn.yq.ad.Adv_Type;
-import cn.yq.ad.StatCallbackByKaiPing;
+import cn.yq.ad.ADRunnable;
+import cn.yq.ad.ADUtils;
 import cn.yq.ad.impl.ClickModel;
 import cn.yq.ad.impl.DismissModel;
 import cn.yq.ad.impl.FailModel;
@@ -23,7 +20,6 @@ import cn.yq.ad.impl.PresentModel;
 import cn.yq.ad.proxy.AdConfigs;
 import cn.yq.ad.proxy.AdvProxyByKaiPing;
 import cn.yq.ad.proxy.AsyncTask;
-import cn.yq.ad.proxy.model.AdRespItem;
 import cn.yq.ad.proxy.model.ExtraParams;
 import cn.yq.ad.proxy.model.GetAdsModel;
 import cn.yq.ad.proxy.model.GetAdsResponseListApiResult;
@@ -35,27 +31,18 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 /**
- * 【开屏广告】测试
+ * 【浮标广告】测试
  */
-public class SplashAdActivity extends AppCompatActivity implements ADCallback, StatCallbackByKaiPing {
-    private static final String TAG = SplashAdActivity.class.getSimpleName();
-    private static final String TAG_STAT = "STAT_KAI_PING";
+public class FloatAdActivity extends AppCompatActivity implements ADCallback {
+    private static final String TAG = FloatAdActivity.class.getSimpleName();
+    private static final String TAG_STAT = "STAT_FLOAT";
     private ViewGroup adContainer;
-    private static final AtomicBoolean abUseTestMode = new AtomicBoolean(false);
-    public static String getConfigUrl(){
-        final String url;
-        if(abUseTestMode.get()){
-            url = "http://adservice-test.sxyj.com/api/Ad/GetAds";
-        }else{
-            url = "https://adservice.sxyj.com/api/Ad/GetAds";
-        }
-        return url;
-    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ad_splash);
-        adContainer = findViewById(R.id.act_ad_splash_container_view);
+        setContentView(R.layout.activity_ad_float);
+        adContainer = findViewById(R.id.fl_ad_container);
         loadAdConfigs();
     }
 
@@ -101,18 +88,13 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
 
         }.execute();
     }
-    AdvProxyByKaiPing adr = null;
+    ADRunnable adr = null;
     private void startLoadAd(GetAdsResponseListApiResult result){
         //步骤3：开始加载广告
         ExtraParams extraParams = new ExtraParams();
         extraParams.setVip(false);
         adr = new AdvProxyByKaiPing(this,this,adContainer,null,result,extraParams);
-        adr.setStatCallback(this);
-        if(adr.isInited()){
-
-        }else{
-            LogUtil.e(TAG,"startLoadAd(),广告SDK初始化失败,errMsg="+adr.getErrMsg());
-        }
+        adr = ADUtils.getFloatAdByBXM(this,adContainer,"020c269c50a64688ae6c204dd83f572f","807028001001",this);
         adr.load();
     }
 
@@ -154,52 +136,4 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
         finish();
     }
 
-    //================================埋点统计回调 begin=============================
-
-    @Override
-    public void callBackByOnAdStartLoad(String adId, Adv_Type adType, AdRespItem item) {
-        AdLogUtils.i(TAG_STAT,"callBackByOnAdStartLoad(),开始加载广告,adId="+adId+",adType="+adType+",item.sort="+item.getSort());
-    }
-
-    @Override
-    public void callBackByOnAdPresent(PresentModel pm) {
-        AdLogUtils.i(TAG_STAT,"callBackByOnAdPresent(),广告加载成功,pm="+pm.getInfo());
-    }
-
-    @Override
-    public void callBackByOnAdFailed(FailModel fm) {
-        AdLogUtils.e(TAG_STAT,"callBackByOnAdFailed(),广告加载失败,fm="+fm.getInfo());
-    }
-
-    @Override
-    public void callBackByOnADExposed(PresentModel pm) {
-        AdLogUtils.i(TAG_STAT,"callBackByOnADExposed(),广告曝光成功,pm="+pm.getInfo());
-    }
-
-    @Override
-    public void callBackByOnAdClick(ClickModel cm) {
-        AdLogUtils.i(TAG_STAT,"callBackByOnAdClick(),点击了广告,cm="+cm.getInfo());
-    }
-
-    @Override
-    public void callBackByOnAdDismissed(DismissModel dm) {
-        AdLogUtils.i(TAG_STAT,"callBackByOnAdDismissed(),广告已关闭,dm="+dm.getInfo());
-    }
-
-    @Override
-    public void callBackByOnAdSkip(PresentModel pm) {
-        AdLogUtils.i(TAG_STAT,"callBackByOnAdSkip(),点击了跳过,pm="+pm.getInfo());
-    }
-
-    @Override
-    public void callBackByOnDisLike(PresentModel pm) {
-        AdLogUtils.i(TAG_STAT,"callBackByOnDisLike(),点击了不喜欢,pm="+pm.getInfo());
-    }
-
-    @Override
-    public void callBackByOnAdAttachToWindow(PresentModel pm) {
-        AdLogUtils.i(TAG_STAT,"callBackByOnAdAttachToWindow(),添加广告至窗口,pm="+pm.getInfo());
-    }
-
-    //================================埋点统计回调 end=============================
 }

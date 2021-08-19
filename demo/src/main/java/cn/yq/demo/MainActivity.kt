@@ -72,4 +72,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(it)
         }
     }
+
+    fun handBtnByFloatAD(v:View){
+        Intent(this,FloatAdActivity::class.java).let {
+            startActivity(it)
+        }
+    }
 }

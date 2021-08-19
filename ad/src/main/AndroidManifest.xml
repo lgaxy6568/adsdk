@@ -72,6 +72,18 @@
         </provider>
         <!-- msad end -->
 
+        <!-- 变现猫begin -->
+        <provider
+            android:name="com.wgs.sdk.WgsFileProvider"
+            android:authorities="${applicationId}.wgs.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/bxm_file_paths" />
+        </provider>
+        <!-- 变现猫end -->
+
     </application>
 
 

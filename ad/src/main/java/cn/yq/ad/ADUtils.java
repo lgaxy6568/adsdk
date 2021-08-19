@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
+import cn.yq.ad.bxm.ADFactoryImplByBXM;
 import cn.yq.ad.gdt.ADFactoryImplByGDT;
 import cn.yq.ad.ms.ADFactoryImplByMS;
 import cn.yq.ad.tt.ADFactoryImplByTT;
@@ -83,6 +85,30 @@ public class ADUtils {
         }
         return mFactory_ms;
     }
+
+    /** 变现猫 */
+    private static volatile ADFactory mFactory_bxm = null;
+    private static final AtomicBoolean inited_bxm = new AtomicBoolean(false);
+    public static ADFactory getFactoryByBXM(){
+        if(inited_bxm.get()){
+            return mFactory_bxm;
+        }
+        if(mFactory_bxm == null){
+            synchronized (ADUtils.class){
+                if(mFactory_bxm == null){
+                    try {
+                        mFactory_bxm = new ADFactoryImplByBXM();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }finally {
+                        inited_bxm.set(true);
+                    }
+                }
+            }
+        }
+        return mFactory_bxm;
+    }
+
     public static boolean textEmpty(String text) {
         return text == null || text.trim().length() == 0;
     }
@@ -132,6 +158,14 @@ public class ADUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        try {
+            ADFactory af = ADUtils.getFactoryByBXM();
+            if(af != null){
+                af.init(mCtx);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /* 穿山甲~激励视频广告 */
@@ -154,6 +188,32 @@ public class ADUtils {
             return null;
         }
         ADRunnable ar = factory.createGDTRewardVideo(act, appId, adId, extra);
+        if(ar != null && cb != null) {
+            ar.addCallback(cb);
+        }
+        return ar;
+    }
+
+    /* 变现猫~激励视频广告 */
+    public static ADRunnable getBXMRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra, VideoADCallback cb) {
+        ADFactory factory = ADUtils.getFactoryByBXM();
+        if(factory == null){
+            return null;
+        }
+        ADRunnable ar = factory.createBXMRewardVideo(act, appId, adId, extra);
+        if(ar != null && cb != null) {
+            ar.addCallback(cb);
+        }
+        return ar;
+    }
+
+    /* 变现猫~浮标广告 */
+    public static ADRunnable getFloatAdByBXM(Activity act, ViewGroup adContainer,String appId, String adId, ADCallback cb) {
+        ADFactory factory = ADUtils.getFactoryByBXM();
+        if(factory == null){
+            return null;
+        }
+        ADRunnable ar = factory.createFloatAdForBXM(act, appId, adId, adContainer);
         if(ar != null && cb != null) {
             ar.addCallback(cb);
         }
