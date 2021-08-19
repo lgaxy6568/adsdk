@@ -98,7 +98,6 @@ public class FloatAdActivity extends AppCompatActivity implements ADCallback {
         //步骤3：开始加载广告
         ExtraParams extraParams = new ExtraParams();
         extraParams.setVip(false);
-        adr = new AdvProxyByKaiPing(this,this,adContainer,null,result,extraParams);
         adr = ADUtils.getFloatAdByBXM(this,adContainer,"020c269c50a64688ae6c204dd83f572f","807028001001",this);
         adr.load();
     }

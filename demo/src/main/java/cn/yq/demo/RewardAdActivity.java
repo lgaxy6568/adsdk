@@ -102,7 +102,7 @@ public class RewardAdActivity extends AppCompatActivity implements VideoADCallba
         if(adr != null){
             adr.destroy();
         }
-       adr = new AdvProxyByRewardVideo(this,this,result,null,"GRZXJLSP");//AdConstants.LOCATION_BY_JLSP
+       adr = new AdvProxyByRewardVideo(this,this,result,null,AdConstants.LOCATION_BY_JLSP);
        adr.setStatCallback(this);
        adr.load();
     }
