@@ -49,6 +49,7 @@ public class FloatAdForBXM extends ADBaseImpl implements BDAdvanceFloatIconListe
     @Override
     public void onAdShow() {
         Log.e(TAG,"onAdShow()");
+        defaultCallback.onAdPresent(PresentModel.getInstance(posId,getAdvType()).setAdRespItem(getAdParamItem()));
         defaultCallback.onADExposed(PresentModel.getInstance(posId,getAdvType()).setAdRespItem(getAdParamItem()));
     }
 

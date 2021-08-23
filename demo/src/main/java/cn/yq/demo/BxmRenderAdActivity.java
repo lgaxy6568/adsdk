@@ -21,7 +21,6 @@ import cn.yq.ad.impl.DismissModel;
 import cn.yq.ad.impl.FailModel;
 import cn.yq.ad.impl.PresentModel;
 import cn.yq.ad.proxy.AdConfigs;
-import cn.yq.ad.proxy.AdvProxyByKaiPing;
 import cn.yq.ad.proxy.AsyncTask;
 import cn.yq.ad.proxy.model.ExtraParams;
 import cn.yq.ad.proxy.model.GetAdsModel;
@@ -37,8 +36,8 @@ import okhttp3.RequestBody;
 /**
  * 【浮标广告】测试
  */
-public class FloatAdActivity extends AppCompatActivity implements ADCallback {
-    private static final String TAG = FloatAdActivity.class.getSimpleName();
+public class BxmRenderAdActivity extends AppCompatActivity implements ADCallback {
+    private static final String TAG = BxmRenderAdActivity.class.getSimpleName();
     private static final String TAG_STAT = "STAT_FLOAT";
     private ViewGroup adContainer;
     private TestPlayVideo tpv;
@@ -49,6 +48,14 @@ public class FloatAdActivity extends AppCompatActivity implements ADCallback {
         setContentView(R.layout.activity_ad_float);
         adContainer = findViewById(R.id.fl_ad_container);
         loadAdConfigs();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(adr != null) {
+            adr.resume(null);
+        }
     }
 
     @Override
@@ -98,7 +105,7 @@ public class FloatAdActivity extends AppCompatActivity implements ADCallback {
         //步骤3：开始加载广告
         ExtraParams extraParams = new ExtraParams();
         extraParams.setVip(false);
-        adr = ADUtils.getFloatAdByBXM(this,adContainer,"020c269c50a64688ae6c204dd83f572f","807028001001",this);
+        adr = ADUtils.getRenderAdByBXM(this,adContainer,"020c269c50a64688ae6c204dd83f572f","807028001006",this);
         adr.load();
     }
 

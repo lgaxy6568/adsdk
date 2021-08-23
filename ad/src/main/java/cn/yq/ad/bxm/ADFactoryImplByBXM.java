@@ -37,4 +37,9 @@ public class ADFactoryImplByBXM extends BaseADFactoryImpl {
     public ADRunnable createFloatAdForBXM(Activity act, String appId, String adId, ViewGroup adContainer) {
         return new FloatAdForBXM(act, adContainer,appId,adId);
     }
+
+    @Override
+    public ADRunnable createRenderAdForBXM(Activity act, String appId, String adId, ViewGroup adContainer) {
+        return new RenderAdForBXM(act,adContainer,appId,adId);
+    }
 }

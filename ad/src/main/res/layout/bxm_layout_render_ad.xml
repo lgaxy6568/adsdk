@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="63dp"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:paddingStart="19dp"
+    android:paddingEnd="25dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/bxm_render_left_tmp1_layout"
+            android:layout_width="26dp"
+            android:layout_centerVertical="true"
+            android:layout_height="26dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/bxm_render_left_iv"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_centerVertical="true" />
+
+            <View
+                android:id="@+id/bxm_render_red_point_view"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/bxm_render_arrow_right_iv"
+            android:layout_width="5dp"
+            android:layout_height="10dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:id="@+id/bxm_render_title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_marginStart="4dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/bxm_render_arrow_right_iv"
+            android:layout_toEndOf="@id/bxm_render_left_tmp1_layout"
+            android:gravity="center_vertical"
+            android:textColor="#000000"
+            android:textSize="16dp"
+            tools:text="TextView" />
+
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/bxm_render_divider_b_tv"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#f4f4f4"
+        tools:ignore="suspicious0dp" />
+</LinearLayout>

@@ -220,6 +220,19 @@ public class ADUtils {
         return ar;
     }
 
+    /* 变现猫~自渲染广告 */
+    public static ADRunnable getRenderAdByBXM(Activity act, ViewGroup adContainer,String appId, String adId, ADCallback cb) {
+        ADFactory factory = ADUtils.getFactoryByBXM();
+        if(factory == null){
+            return null;
+        }
+        ADRunnable ar = factory.createRenderAdForBXM(act, appId, adId, adContainer);
+        if(ar != null && cb != null) {
+            ar.addCallback(cb);
+        }
+        return ar;
+    }
+
     public static boolean isAppInstalled(final String pkgName,Context ctx) {
         if (AdStringUtils.isEmpty(pkgName)) {
             return false;

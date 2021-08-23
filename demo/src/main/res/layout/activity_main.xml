@@ -30,4 +30,13 @@
         android:text="浮标广告~测试"
         />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="60dp"
+        android:onClick="handBtnByRenderAD"
+        android:gravity="center"
+        android:text="自渲染广告~测试"
+        />
+
 </LinearLayout>

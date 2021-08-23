@@ -28,4 +28,5 @@ public interface ADFactory {
     /* bxm reward video ad */
     ADRunnable createBXMRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra);
     ADRunnable createFloatAdForBXM(Activity act, String appId, String adId, ViewGroup adContainer);
+    ADRunnable createRenderAdForBXM(Activity act, String appId, String adId, ViewGroup adContainer);
 }

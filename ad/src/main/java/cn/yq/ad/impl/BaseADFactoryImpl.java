@@ -55,4 +55,9 @@ public abstract class BaseADFactoryImpl implements ADFactory {
     public ADRunnable createFloatAdForBXM(Activity act, String appId, String adId, ViewGroup adContainer) {
         return null;
     }
+
+    @Override
+    public ADRunnable createRenderAdForBXM(Activity act, String appId, String adId, ViewGroup adContainer) {
+        return null;
+    }
 }
