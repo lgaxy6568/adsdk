@@ -175,7 +175,7 @@ public class RenderAdForBXM extends ADBaseImpl implements BDAdvanceNativeRenderL
         Map<String,String> mmp = new LinkedHashMap<>();
         mmp.put("type",String.valueOf(type));
         cm.setExtMap(mmp);
-        cm.setData(ad);
+        cm.setData(bdAdvanceNativeRenderItem);
         defaultCallback.onAdClick(cm);
     }
 
