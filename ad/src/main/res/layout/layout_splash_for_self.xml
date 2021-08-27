@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
 
-   <ImageView
+   <cn.yq.ad.self.SelfImageView
        android:id="@+id/layout_splash_for_self_iv"
        android:scaleType="centerCrop"
        android:layout_width="match_parent"

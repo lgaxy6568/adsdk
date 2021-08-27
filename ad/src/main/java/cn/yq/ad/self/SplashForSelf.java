@@ -45,7 +45,7 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
     private static final String TAG = SplashForSelf.class.getSimpleName();
 
     private final TextView layoutSplashForSkipView;
-    private final ImageView layoutSplashForSelfIv;
+    private final SelfImageView layoutSplashForSelfIv;
     private final View rootView;
     public SplashForSelf(Activity act, ViewGroup gdtContainer, String appId, String posId) {
         this.gdtContainer = gdtContainer;
@@ -55,6 +55,17 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
         this.rootView = LayoutInflater.from(act).inflate(R.layout.layout_splash_for_self,null);
         this.layoutSplashForSelfIv = rootView.findViewById(R.id.layout_splash_for_self_iv);
         this.layoutSplashForSkipView = rootView.findViewById(R.id.layout_splash_for_skip_view);
+    }
+
+    private boolean checkActIsDestroyed(){
+        Activity act = wrAct.get();
+        if(act == null){
+            return true;
+        }
+        if(act.isDestroyed() || act.isFinishing()){
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -143,6 +154,7 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
     }
 
     private void clearDrawable(){
+        layoutSplashForSelfIv.destroy();
         layoutSplashForSelfIv.setImageDrawable(null);
     }
 
@@ -175,6 +187,10 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
             if(sfs == null){
                 return;
             }
+            if(sfs.checkActIsDestroyed()){
+                sfs.clearDrawable();
+                return;
+            }
             sfs.updateSkipViewText(num);
             if(sfs.isSkiped.get()){
                 sfs.clearDrawable();
@@ -190,6 +206,10 @@ public class SplashForSelf extends ADBaseImpl implements View.OnClickListener {
         public void onFinish() {
             SplashForSelf sfs =  wrAdImpl.get();
             if(sfs == null){
+                return;
+            }
+            if(sfs.checkActIsDestroyed()){
+                sfs.clearDrawable();
                 return;
             }
             if(!isDismissed()){

@@ -81,7 +81,7 @@ dependencies {
     implementation project(":ad")
 //    implementation 'com.github.lgaxy6568:adsdk:1.0.7'
     implementation (name: 'open_ad_sdk', ext: 'aar')
-    implementation (name: 'GDTSDK_unionNormal_4_332_1202', ext: 'aar')
+    implementation (name: 'GDTSDK_unionNormal_4_400_1270', ext: 'aar')
 
     //美数广告SDK依懒
     implementation (name: 'ms_sdk_0727', ext: 'aar')

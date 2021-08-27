@@ -45,7 +45,7 @@ dependencies {
     api "com.github.bumptech.glide:glide:4.11.0"
 
     compileOnly (name: 'open_ad_sdk', ext: 'aar')
-    compileOnly (name: 'GDTSDK_unionNormal_4_332_1202', ext: 'aar')
+    compileOnly (name: 'GDTSDK_unionNormal_4_400_1270', ext: 'aar')
     compileOnly (name: 'ms_sdk_0727', ext: 'aar')
     compileOnly (name: 'bxmsdk_release_352', ext: 'aar')
 

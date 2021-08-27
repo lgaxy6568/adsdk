@@ -11,8 +11,6 @@ import com.qq.e.ads.splash.SplashAD;
 import com.qq.e.ads.splash.SplashADListener;
 import com.qq.e.comm.util.AdError;
 
-import java.util.Locale;
-
 import cn.yq.ad.AdConf;
 import cn.yq.ad.Adv_Type;
 import cn.yq.ad.R;
@@ -29,7 +27,7 @@ import cn.yq.ad.impl.PresentModel;
  */
 public class SplashForGDT extends ADBaseImpl {
     private ViewGroup gdtContainer;
-    private TextView tvSkip;
+//    private TextView tvSkip;
     private final String appId;
     private final String posId;
     private Activity act;
@@ -38,7 +36,7 @@ public class SplashForGDT extends ADBaseImpl {
     private int valid_height;
     SplashForGDT(Activity act, ViewGroup gdtContainer, TextView tvSkip, String appId, String posId) {
         this.gdtContainer = gdtContainer;
-        this.tvSkip = tvSkip;
+//        this.tvSkip = tvSkip;
         this.appId = replaceTrim_R_N(appId);
         this.posId = replaceTrim_R_N(posId);
         this.act = act;
@@ -61,7 +59,7 @@ public class SplashForGDT extends ADBaseImpl {
         }
         final int AD_TIME_OUT = getRequestTimeOutFromExtra();
         Log.e(TAG, "load(),超时时间="+AD_TIME_OUT);
-        ad = new SplashAD(act, tvSkip, posId, a_splashAdListener , AD_TIME_OUT);
+        ad = new SplashAD(act, posId, a_splashAdListener , AD_TIME_OUT);
         ad.fetchAdOnly();
     }
 
@@ -95,11 +93,11 @@ public class SplashForGDT extends ADBaseImpl {
        public void onADTick(long l) {
            lastAdTick = Math.round(l / 1000f);
            Log.e(TAG,"onADTick(),lastAdTick="+lastAdTick);
-           if(tvSkip != null){
-               String SKIP_TEXT = "%d s 跳过";
-               String txt = String.format(Locale.getDefault(),SKIP_TEXT, Math.round(l / 1000f));
-               tvSkip.setText(txt);
-           }
+//           if(tvSkip != null){
+//               String SKIP_TEXT = "%d s 跳过";
+//               String txt = String.format(Locale.getDefault(),SKIP_TEXT, Math.round(l / 1000f));
+//               tvSkip.setText(txt);
+//           }
        }
 
        @Override
