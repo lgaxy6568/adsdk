@@ -95,6 +95,7 @@ public class RewardVideoForTT extends ADBaseImplByTT<TTAdNative> {
                 .setUserID(uid)
                 .setMediaExtra(mediaExtra)
                 .setOrientation(TTAdConstant.VERTICAL)
+                .setDownloadType(TTAdConstant.DOWNLOAD_TYPE_POPUP)
                 .build();
         Log.e(L_TAG(), "load(),appId="+appId+",adId="+adId+",uid="+uid+",uuid="+mUUID);
         mTTAdNative.loadRewardVideoAd(adSlot, new TTAdNative.RewardVideoAdListener() {
