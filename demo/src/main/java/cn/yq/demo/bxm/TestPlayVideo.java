@@ -79,6 +79,11 @@ public class TestPlayVideo {
                 public void onRewardVideoCached() {
                     LogUtil.e(TAG,"onRewardVideoCached()");
                 }
+
+                @Override
+                public void onRewardVideoCached(TTRewardVideoAd ttRewardVideoAd) {
+                    LogUtil.e(TAG,"onRewardVideoCached()");
+                }
             });
         } catch (Throwable e) {
             LogUtil.e(TAG,"load(),err="+e.getMessage());

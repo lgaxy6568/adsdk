@@ -30,11 +30,26 @@ public class TTAdManagerHolder {
                 if(adManager == null){
                     try {
                         TTAdConfig adConfig = buildAdConfig(context);
-                        adManager = TTAdSdk.init(context,adConfig);
-                        if(adManager != null) {
-                            String sdkVer = adManager.getSDKVersion();
-                            Log.e(TAG, "getInstance(),appId=" + adConfig.getAppId()+",appName="+adConfig.getAppName()+",sdkVer="+sdkVer);
-                        }
+                        TTAdSdk.init(context, adConfig, new TTAdSdk.InitCallback() {
+                            @Override
+                            public void success() {
+                                StringBuilder sb = new StringBuilder();
+                                String str = "getInstance_success(),appId=" + adConfig.getAppId()+",appName="+adConfig.getAppName();
+                                sb.append(str);
+                                adManager = TTAdSdk.getAdManager();
+                                if(adManager != null) {
+                                    String sdkVer = adManager.getSDKVersion();
+                                    sb.append(",sdkVer=").append(sdkVer);
+                                }
+                                Log.i(TAG,sb.toString());
+                            }
+
+                            @Override
+                            public void fail(int code, String msg) {
+                                Log.i(TAG,"getInstance_fail(),errCode="+code+",errMsg="+msg);
+                            }
+                        });
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }finally {

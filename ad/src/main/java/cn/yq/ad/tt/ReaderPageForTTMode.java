@@ -240,7 +240,6 @@ public class ReaderPageForTTMode extends ADBaseImplByTT<TTNativeExpressAd> imple
             LOAD_INDEX.incrementAndGet();
             Log.e(getTAG(), "==========startRequest(),index=" + LOAD_INDEX.get() + ",from=" + from + ",mainId=" + adId+",width="+request_width+",height="+request_height);
             TTAdManager tam = TTUtil.get().getAdManager();
-            tam.setAppId(appId);
             TTAdNative mTTAdNative = tam.createAdNative(getWeakActivity());
             AdSlot adSlot = new AdSlot.Builder()
                     .setCodeId(adId)
@@ -414,7 +413,7 @@ public class ReaderPageForTTMode extends ADBaseImplByTT<TTNativeExpressAd> imple
         }
         if (customStyle) {
             //使用自定义样式
-            List<FilterWord> words = ad.getFilterWords();
+            List<FilterWord> words = ad.getDislikeInfo().getFilterWords();
             if (words == null || words.isEmpty()) {
                 Log.e(getTAG(), "bindDislike(),words == null");
                 return;
@@ -432,19 +431,35 @@ public class ReaderPageForTTMode extends ADBaseImplByTT<TTNativeExpressAd> imple
         }
         //使用默认个性化模板中默认dislike弹出样式
         ad.setDislikeCallback(act, new TTAdDislike.DislikeInteractionCallback() {
+//            @Override
+//            public void onSelected(int position, String value) {
+//                handOnDisLike(value);
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//                TToast.show(getAct(), "点击取消 ");
+//            }
+//
+//            @Override
+//            public void onRefuse() {
+//
+//            }
+
             @Override
-            public void onSelected(int position, String value) {
+            public void onShow() {
+                Log.i(getTAG(), "bindDislike_onShow()");
+            }
+
+            @Override
+            public void onSelected(int position, String value, boolean enforce) {
+                Log.i(getTAG(), "bindDislike_onSelected()");
                 handOnDisLike(value);
             }
 
             @Override
             public void onCancel() {
-                TToast.show(getAct(), "点击取消 ");
-            }
-
-            @Override
-            public void onRefuse() {
-
+                Log.i(getTAG(), "bindDislike_onCancel()");
             }
         });
         Log.e(getTAG(), "bindDislike(),end");

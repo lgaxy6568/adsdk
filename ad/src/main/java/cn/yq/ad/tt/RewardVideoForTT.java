@@ -56,7 +56,6 @@ public class RewardVideoForTT extends ADBaseImplByTT<TTAdNative> {
         super(activity,appId,adId);
         this.extra = extra;
         TTAdManager tam = TTUtil.get().getAdManager();
-        tam.setAppId(appId);
         final Context ctx = ADBaseImpl.getContextFromActivity(activity);
 //        tam.requestPermissionIfNecessary(ctx);
         mTTAdNative = tam.createAdNative(ctx);
@@ -130,7 +129,7 @@ public class RewardVideoForTT extends ADBaseImplByTT<TTAdNative> {
             }
 
             @Override
-            public void onRewardVideoCached() {
+            public void onRewardVideoCached(TTRewardVideoAd ttRewardVideoAd) {
                 if(ab_load_status.get() ==1){
                     Log.e(L_TAG(), "onRewardVideoCached(), 已经报错了，will return");
                     return;
@@ -142,6 +141,11 @@ public class RewardVideoForTT extends ADBaseImplByTT<TTAdNative> {
                 Log.e(L_TAG(), "onRewardVideoCached()");
                 setCallbackToReward(mTmpVideo);
                 videoADCallback.onAdPresent(PresentModel.getInstance(adId, Adv_Type.tt).setData(extra));
+            }
+
+            @Override
+            public void onRewardVideoCached() {
+                Log.e(L_TAG(), "onRewardVideoCached()");
             }
         });
     }

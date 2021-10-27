@@ -15,7 +15,7 @@ public class SuperApplication extends Application {
 
         CrashUtils.init();
         //初始化广告SDK
-        AdConfigs.setAppIdByCSJ("5133118");
+        AdConfigs.setAppIdByCSJ("5228676"); //5133118
         AdConfigs.setAppIdByGDT("1111386088");
         AdConfigs.setAppIdByMS("104395");   //测试ID=101343
         AdConfigs.setAppIdByBXM("020c269c50a64688ae6c204dd83f572f");

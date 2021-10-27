@@ -91,10 +91,10 @@ public class DislikeDialog extends TTDislikeDialogAbstract {
         return null;
     }
 
-    @Override
-    public int[] getPersonalizationPromptIds() {
-        return new int[0];
-    }
+//    @Override
+//    public int[] getPersonalizationPromptIds() {
+//        return new int[0];
+//    }
 
     class MyDislikeAdapter extends BaseAdapter {
 

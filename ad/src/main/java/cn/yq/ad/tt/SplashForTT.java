@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
+import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdManager;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTSplashAd;
@@ -66,6 +67,8 @@ public class SplashForTT extends ADBaseImpl {
                 .setCodeId(adId)
                 .setSupportDeepLink(true)
                 .setImageAcceptedSize(accept_width, accept_height)
+                .setSplashButtonType(TTAdConstant.SPLASH_BUTTON_TYPE_DOWNLOAD_BAR)
+                .setDownloadType(TTAdConstant.DOWNLOAD_TYPE_POPUP)
                 .build();
         TTAdManager tam = TTUtil.get().getAdManager();
 //        tam.setAppId(appId);

@@ -217,7 +217,6 @@ public class ReaderPageForTT extends ADBaseImplByTT<TTFeedAd> {
             LOAD_INDEX.incrementAndGet();
             Log.e(getTAG(),"==========startRequest(),index="+LOAD_INDEX.get()+",from="+from+",mainId="+adId);
             TTAdManager tam = TTUtil.get().getAdManager();
-            tam.setAppId(appId);
             TTAdNative mTTAdNative = tam.createAdNative(getWeakActivity());
             AdSlot adSlot = new AdSlot.Builder()
                     .setCodeId(adId)
