@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import cn.yq.ad.util.AdLogUtils
+import com.bytedance.tools.ui.ToolsActivity
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
@@ -54,6 +55,9 @@ class MainActivity : AppCompatActivity() {
 //        }
     }
 
+    fun handBtnByCheckCSJ(v:View){
+        startActivity(Intent(this,ToolsActivity::class.java))
+    }
     fun handBtnBySplashAD(v:View){
         Intent(this,SplashAdActivity::class.java).let {
             startActivity(it)

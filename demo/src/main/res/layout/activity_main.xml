@@ -8,6 +8,15 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:onClick="handBtnByCheckCSJ"
+        android:gravity="center"
+        android:text="穿山甲SDK集成~检测"
+        />
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:onClick="handBtnBySplashAD"
         android:gravity="center"
         android:text="开屏广告~测试"
