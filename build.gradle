@@ -1,15 +1,15 @@
 buildscript {
     ext {
-        kotlin_version = '1.5.20'
+        kotlin_version = '1.6.0'
     }
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven { url 'https://jitpack.io' }
         maven { url 'https://artifact.bytedance.com/repository/pangle' }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.2.2"
+        classpath 'com.android.tools.build:gradle:7.0.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -17,7 +17,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven { url 'https://jitpack.io' }
         maven { url 'https://artifact.bytedance.com/repository/pangle' }
     }
@@ -30,8 +30,8 @@ task clean(type: Delete) {
 ext {
     minSdkVersion = 21
     targetSdkVersion = 26
-    compileSdkVersion = 29
-    buildToolsSdkVersion = "29.0.2"
+    compileSdkVersion = 30
+    buildToolsSdkVersion = "30.0.3"
     COMMON_MODULE_DIR_PATH = [
             projectDir.getPath() + "/ad/libs"
     ]
