@@ -95,6 +95,18 @@ dependencies {
     implementation 'com.github.razerdp:BasePopup:2.2.1'
     implementation 'com.googlecode.android-query:android-query:0.25.9'
 
+    //小满广告SDK依懒
+    implementation ("com.bx:xmsdk:1.5.3.10"){
+        // 如果出现oaid类冲突，请排除下库
+        exclude group:"com.miit.sdk"
+        // 如果出现gson库冲突，请排除下库
+        exclude group:"com.google.code.gson"
+        transitive = true
+        changing = true
+    }
+    // x5依赖，如果有了不用重复添加
+    api 'com.tencent.tbs.tbssdk:sdk:43993'
+
     //内存泄漏
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 }

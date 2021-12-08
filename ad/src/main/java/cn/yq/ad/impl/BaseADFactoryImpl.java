@@ -44,4 +44,8 @@ public abstract class BaseADFactoryImpl implements ADFactory {
     public ADRunnable createGDTRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra) {
         return null;
     }
+    @Override
+    public ADRunnable createRenderAdForXM(Activity act, String appId, String adId, ViewGroup adContainer) {
+        return null;
+    }
 }

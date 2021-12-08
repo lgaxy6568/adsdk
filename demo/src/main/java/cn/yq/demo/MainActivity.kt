@@ -70,4 +70,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 小满 自渲染广告
+     */
+    fun handBtnByRenderAD_XM(v:View){
+        Intent(this, XmRenderAdActivity::class.java).let {
+            startActivity(it)
+        }
+    }
 }

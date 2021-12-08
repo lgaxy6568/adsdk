@@ -81,4 +81,7 @@ dependencies {
     implementation (name: 'GDTSDK_unionNormal_4_400_1270', ext: 'aar')
     implementation (name: 'ms_sdk_0727', ext: 'aar')
     implementation (name: 'open_ad_sdk_4_1_0_2',ext: 'aar')
+
+    implementation ("com.bx:xmsdk:1.5.3.10"){
+    }
 }

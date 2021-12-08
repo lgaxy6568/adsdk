@@ -10,6 +10,7 @@ public class AdConfigs {
     private static final AtomicReference<String> APP_ID_BY_CSJ = new AtomicReference<>("5133118");
     private static final AtomicReference<String> APP_ID_BY_GDT = new AtomicReference<>("1111386088");
     private static final AtomicReference<String> APP_ID_BY_MS = new AtomicReference<>("104395");
+    private static final AtomicReference<String> APP_ID_BY_XM = new AtomicReference<>("ds321-az-hdgj_lqkrcg#9VwK88c37w501910");
     public static String getAppIdByType(Adv_Type at){
         if(at == Adv_Type.gdt){
             return APP_ID_BY_GDT.get();
@@ -19,6 +20,9 @@ public class AdConfigs {
         }
         if(at == Adv_Type.ms){
             return APP_ID_BY_MS.get();
+        }
+        if(at == Adv_Type.xm){
+            return APP_ID_BY_XM.get();
         }
         return "unknown_"+at.name();
     }
@@ -30,6 +34,9 @@ public class AdConfigs {
     }
     public static void setAppIdByMS(String appId){
         APP_ID_BY_MS.set(appId);
+    }
+    public static void setAppIdByXM(String appId){
+        APP_ID_BY_XM.set(appId);
     }
 
     /** 是否为Debug模式 */

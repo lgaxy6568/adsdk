@@ -30,4 +30,12 @@
         android:gravity="center"
         android:text="激励广告~测试"
         />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="60dp"
+        android:onClick="handBtnByRenderAD_XM"
+        android:gravity="center"
+        android:text="小满~自渲染广告~测试"
+        />
 </LinearLayout>

@@ -24,4 +24,7 @@ public interface ADFactory {
 
     /* gdt reward video ad */
     ADRunnable createGDTRewardVideo(Activity act, String appId, String adId, Map<String, Object> extra);
+
+    /* xm ad */
+    ADRunnable createRenderAdForXM(Activity act, String appId, String adId, ViewGroup adContainer);
 }
