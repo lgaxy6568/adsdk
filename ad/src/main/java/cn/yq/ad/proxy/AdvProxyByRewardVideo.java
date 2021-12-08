@@ -142,7 +142,6 @@ public final class AdvProxyByRewardVideo extends AdvProxyAbstract implements Run
                 boolean c = Adv_Type.tt.name().equalsIgnoreCase(ad_type);   //穿山甲~全屏
                 boolean d = Adv_Type.api_magic_mobile.name().equalsIgnoreCase(ad_type);   //API~全屏
                 boolean f = Adv_Type.ms.name().equalsIgnoreCase(ad_type);   //ms~全屏
-                boolean g = Adv_Type.bxm.name().equalsIgnoreCase(ad_type);   //变现猫
                 if(AdConstants.is_test_gdt_adv()){
                     if(!a){
                         AdLogUtils.e(TAG, "initAd(),跳过_A,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight());
@@ -168,13 +167,8 @@ public final class AdvProxyByRewardVideo extends AdvProxyAbstract implements Run
                         AdLogUtils.e(TAG, "initAd(),跳过_F,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight());
                         continue;
                     }
-                }else if(AdConstants.is_test_bxm_adv()){
-                    if(!g){
-                        AdLogUtils.e(TAG, "initAd(),跳过_G,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight());
-                        continue;
-                    }
                 }else{
-                    if(a || c || b || d || f || g){
+                    if(a || c || b || d || f){
 
                     }else{
                         AdLogUtils.e(TAG, "initAd(),跳过,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight());
@@ -202,16 +196,6 @@ public final class AdvProxyByRewardVideo extends AdvProxyAbstract implements Run
                 AdLogUtils.e(TAG, "initAd(),广点通,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight());
                 ADCallbackImpl cb = new ADCallbackImpl(adRunnableLst.size(), Adv_Type.gdt);
                 ar = ADUtils.getGDTRewardVideo(wrAct.get(), app_id, tmpIds, extra, cb);
-                if (ar != null) {
-                    Bundle bd = new Bundle();
-                    bd.putInt(ExtraKey.KP_AD_REQUEST_TIME_OUT, REQUEST_TIME_OUT_BY_GDT());
-                    bd.putString(ExtraKey.KP_AD_CONFIG, AdGsonUtils.getGson().toJson(ap));
-                    ar.setExtra(bd);
-                }
-            } else if (Adv_Type.bxm.name().equalsIgnoreCase(ad_type)) {
-                AdLogUtils.e(TAG, "initAd(),变现猫,appId=" + app_id + ",tmpIds=" + tmpIds + ",weight=" + ap.getWeight());
-                ADCallbackImpl cb = new ADCallbackImpl(adRunnableLst.size(), Adv_Type.bxm);
-                ar = ADUtils.getBXMRewardVideo(wrAct.get(), app_id, tmpIds, extra, cb);
                 if (ar != null) {
                     Bundle bd = new Bundle();
                     bd.putInt(ExtraKey.KP_AD_REQUEST_TIME_OUT, REQUEST_TIME_OUT_BY_GDT());

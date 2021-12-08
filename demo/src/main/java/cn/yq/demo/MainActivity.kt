@@ -70,21 +70,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * 变现猫浮标广告
-     */
-    fun handBtnByFloatAD(v:View){
-        Intent(this, BxmFloatAdActivity::class.java).let {
-            startActivity(it)
-        }
-    }
-
-    /**
-     * 变现猫 自渲染广告
-     */
-    fun handBtnByRenderAD(v:View){
-        Intent(this, BxmRenderAdActivity::class.java).let {
-            startActivity(it)
-        }
-    }
 }

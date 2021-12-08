@@ -29,12 +29,6 @@
         <activity android:name=".RewardAdActivity">
 
         </activity>
-        <activity android:name=".BxmFloatAdActivity">
-
-        </activity>
-        <activity android:name=".BxmRenderAdActivity">
-
-        </activity>
     </application>
 
 </manifest>
