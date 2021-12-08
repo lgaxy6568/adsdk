@@ -84,11 +84,11 @@ dependencies {
     implementation("com.squareup.okio:okio:2.10.0")
 
     implementation project(":ad")
-//    implementation 'com.github.lgaxy6568:adsdk:1.0.7'
     implementation (name: 'GDTSDK_unionNormal_4_400_1270', ext: 'aar')
     implementation (name: 'ms_sdk_0727', ext: 'aar')
-    implementation (name: 'tools_release', ext: 'aar')
+    implementation (name: 'open_ad_sdk_4_1_0_2', ext: 'aar')
 
+    implementation (name: 'tools_release', ext: 'aar')
     //美数广告SDK依懒
     implementation (name: 'jad_yun_sdk_v1.2.0', ext: 'aar')
     implementation (name: 'oaid_sdk_1.0.23', ext: 'aar')

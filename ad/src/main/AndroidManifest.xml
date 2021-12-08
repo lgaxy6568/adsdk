@@ -47,11 +47,6 @@
             android:name="com.qq.e.ads.PortraitADActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
-        <activity
-            tools:replace="android:screenOrientation"
-            android:name="com.qq.e.ads.LandscapeADActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:screenOrientation="landscape" />
 
         <provider
             android:name="com.qq.e.comm.GDTFileProvider"
