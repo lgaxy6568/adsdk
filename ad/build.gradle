@@ -77,6 +77,6 @@ dependencies {
     api "com.github.bumptech.glide:glide:4.12.0"
     api 'com.pangle.cn:ads-sdk-pro:4.0.2.2'
 
-    compileOnly (name: 'GDTSDK_unionNormal_4_400_1270', ext: 'aar')
-    compileOnly (name: 'ms_sdk_0727', ext: 'aar')
+    api (name: 'GDTSDK_unionNormal_4_400_1270', ext: 'aar')
+    api (name: 'ms_sdk_0727', ext: 'aar')
 }
