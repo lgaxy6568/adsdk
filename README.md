@@ -1,0 +1,1 @@
+[![](https://jitpack.io/v/lgaxy6568/adsdk.svg)](https://jitpack.io/#lgaxy6568/adsdk)
