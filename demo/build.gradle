@@ -85,6 +85,8 @@ dependencies {
 
     implementation project(":ad")
 //    implementation 'com.github.lgaxy6568:adsdk:1.0.7'
+    implementation (name: 'GDTSDK_unionNormal_4_400_1270', ext: 'aar')
+    implementation (name: 'ms_sdk_0727', ext: 'aar')
     implementation (name: 'tools_release', ext: 'aar')
 
     //美数广告SDK依懒
