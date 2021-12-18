@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         testCalc()
+        testOnly()
     }
 
     private fun testCalc(){
@@ -76,6 +77,12 @@ class MainActivity : AppCompatActivity() {
     fun handBtnByRenderAD_XM(v:View){
         Intent(this, XmRenderAdActivity::class.java).let {
             startActivity(it)
+        }
+    }
+    private fun testOnly(){
+        try {
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }

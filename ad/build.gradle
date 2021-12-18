@@ -72,16 +72,22 @@ repositories{
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation "com.github.bumptech.glide:glide:4.12.0"
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    //noinspection GradleDependency
+    api ("androidx.appcompat:appcompat:1.3.1")
+    api ('com.google.code.gson:gson:2.8.9')
+    api ("com.github.bumptech.glide:glide:4.12.0")
 
-    implementation (name: 'GDTSDK_unionNormal_4_400_1270', ext: 'aar')
+    api 'com.pangle.cn:ads-sdk-pro:4.2.0.2'
+    api 'com.qq.e.union:union:4.431.1301'
+    //美术
     implementation (name: 'ms_sdk_0727', ext: 'aar')
-    implementation (name: 'open_ad_sdk_4_1_0_2',ext: 'aar')
 
-    implementation ("com.bx:xmsdk:1.5.3.10"){
+    //小满
+    api ("com.bx:xmsdk:1.5.3.10"){
+        exclude group : "com.google.code.gson"
+        exclude group : "com.miit.sdk"
+        transitive = true
+        changing = true
     }
 }

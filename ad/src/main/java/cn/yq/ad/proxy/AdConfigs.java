@@ -4,9 +4,17 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import cn.yq.ad.Adv_Type;
+import cn.yq.ad.proxy.model.ExtraParams;
 
 public class AdConfigs {
 
+    private static final AtomicReference<ExtraParams> mExtParams = new AtomicReference<>(new ExtraParams());
+    public static void setExtParams(ExtraParams params){
+        mExtParams.set(params);
+    }
+    public static ExtraParams getExtParams(){
+        return mExtParams.get();
+    }
     private static final AtomicReference<String> APP_ID_BY_CSJ = new AtomicReference<>("5133118");
     private static final AtomicReference<String> APP_ID_BY_GDT = new AtomicReference<>("1111386088");
     private static final AtomicReference<String> APP_ID_BY_MS = new AtomicReference<>("104395");

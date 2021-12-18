@@ -91,7 +91,7 @@ public class RewardVideoForTT extends ADBaseImplByTT<TTAdNative> {
                 .setAdCount(1)
                 .setImageAcceptedSize(1080, 1920)
 //                .setRewardName(advPos)
-                .setRewardAmount(1)
+//                .setRewardAmount(1)
                 .setUserID(uid)
                 .setMediaExtra(mediaExtra)
                 .setOrientation(TTAdConstant.VERTICAL)

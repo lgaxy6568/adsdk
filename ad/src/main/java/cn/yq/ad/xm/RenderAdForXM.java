@@ -2,6 +2,7 @@ package cn.yq.ad.xm;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -21,6 +22,7 @@ import com.bumptech.glide.request.target.Target;
 import com.bx.xmsdk.XMSdk;
 import com.bx.xmsdk.bean.MaterialBean;
 import com.bx.xmsdk.util.MaterialTm;
+import com.meishu.sdk.core.utils.GsonUtils;
 
 import java.lang.ref.WeakReference;
 
@@ -31,6 +33,7 @@ import cn.yq.ad.impl.ADBaseImpl;
 import cn.yq.ad.impl.ClickModel;
 import cn.yq.ad.impl.FailModel;
 import cn.yq.ad.impl.PresentModel;
+import cn.yq.ad.util.AdGsonUtils;
 import cn.yq.ad.util.AdStringUtils;
 
 
@@ -60,12 +63,12 @@ public class RenderAdForXM extends ADBaseImpl implements MaterialTm.Callback ,Vi
     }
 
     // TODO: 2021/12/7 确认UserID WAIT_LIGUO
-    private String consumerId = "xxx"; 
+    private String consumerId = "123456789";
     
     @Override
     public void load() {
         final int AD_TIME_OUT = getRequestTimeOutFromExtra();
-        Log.e(TAG,"load(),appId=["+appId+"],adId=["+posId+"],超时时间="+AD_TIME_OUT);
+        Log.i(TAG,"load(),appId=["+appId+"],adId=["+posId+"],超时时间="+AD_TIME_OUT);
         Activity act = wrAct.get();
         if(isValidAct(act)) {
             tm.loadMaterialData(consumerId,posId,this);
@@ -93,7 +96,7 @@ public class RenderAdForXM extends ADBaseImpl implements MaterialTm.Callback ,Vi
             Log.e(TAG, "show(),gdtContainer is null");
             return;
         }
-        Log.e(TAG, "show()");
+        Log.i(TAG, "show()");
     }
 
     @Override
@@ -110,42 +113,64 @@ public class RenderAdForXM extends ADBaseImpl implements MaterialTm.Callback ,Vi
     @Override
     public void onSuccess(MaterialBean mb) {
         if(mb == null){
+            Log.e(TAG, "onSuccess(),mb is null");
             return;
         }
         this.adMb = mb;
         String imgUrl = mb.materialPath;
         if(AdStringUtils.isEmpty(imgUrl)){
+            Log.e(TAG, "onSuccess(),imgUrl is null,mb="+ AdGsonUtils.getGson().toJson(mb));
+            FailModel fm = FailModel.toStr(-1,"materialPath is null",posId,getAdvType());
+            defaultCallback.onAdFailed(fm);
             return;
         }
         Activity act = wrAct.get();
-        if(act != null){
-            Context ctx = act.getApplicationContext();
-            if(ctx != null){
-                Glide.with(ctx).load(imgUrl)
-                        .listener(new TempRequestListener(this))
-                        .preload();
-            }
+        if(act == null || act.isDestroyed() || act.isFinishing()){
+            Log.e(TAG, "onSuccess(),act is null");
+            return;
         }
+        Context ctx = act.getApplicationContext();
+        if(ctx == null){
+            Log.e(TAG, "onSuccess(),ctx is null");
+            return;
+        }
+        defaultCallback.onAdPresent(PresentModel.getInstance(posId, getAdvType()).setAdRespItem(getAdParamItem()));
+        Log.i(TAG, "onSuccess(),imgUrl="+imgUrl);
+        Glide.with(ctx).load(imgUrl)
+                .listener(new TempRequestListener(this))
+                .preload();
     }
 
     @Override
     public void onFailure(String code, String errMsg) {
-
+        FailModel fm = FailModel.toStr(-1,"素材加载失败,errCode="+code+",errMsg="+errMsg,posId,getAdvType());
+        Log.e(TAG,"onFailure(),err_msg="+fm.toFullMsg());
+        defaultCallback.onAdFailed(fm.setAdRespItem(getAdParamItem()));
     }
 
     @Override
     public void onClick(View v) {
+        Log.i(TAG,"onClick()");
         if(adMb == null){
             return;
         }
         XMSdk.click(consumerId,posId,adMb.placeMaterialId,adMb.materialId);
         defaultCallback.onAdClick(ClickModel.getInstance(0,-1,posId,getAdvType()).setAdRespItem(getAdParamItem()));
+        Activity act = wrAct.get();
+        if(act == null || act.isFinishing() || act.isDestroyed()){
+            return;
+        }
+        Intent intent = new Intent(act, XmAdActivity.class);
+        intent.putExtra("placeId", posId);
+        act.startActivity(intent);
     }
 
     private void bindAd(Drawable resource){
         if(adMb == null || resource == null){
+            Log.e(TAG,"bindAd(),adMb is null or resource is null");
             return;
         }
+        Log.i(TAG,"bindAd()");
         gdtContainer.removeAllViews();
         View inflateView = LayoutInflater.from(wrAct.get()).inflate(R.layout.layout_adv_for_xm_render, gdtContainer);
         ImageView iv = inflateView.findViewById(R.id.layout_adv_for_xm_render_iv);
@@ -182,10 +207,9 @@ public class RenderAdForXM extends ADBaseImpl implements MaterialTm.Callback ,Vi
                     BitmapDrawable bd = (BitmapDrawable)resource;
                     Bitmap bmp = bd.getBitmap();
                     if(bmp == null || bmp.isRecycled()){
-
+                        Log.e(TAG,"onResourceReady(),bmp is null");
                     }else{
                         self.bindAd(resource);
-                        self.defaultCallback.onAdPresent(PresentModel.getInstance(self.posId, self.getAdvType()).setAdRespItem(self.getAdParamItem()));
                     }
                 }
             }

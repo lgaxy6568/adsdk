@@ -69,43 +69,37 @@ repositories{
 }
 
 dependencies {
-
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.6.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
+
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation "com.github.bumptech.glide:glide:4.12.0"
 
-    implementation "com.blankj:utilcodex:1.30.6"
+    implementation ("com.blankj:utilcodex:1.30.6"){
+        exclude group:"com.google.code.gson"
+    }
 
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
     implementation("com.squareup.okio:okio:2.10.0")
 
     implementation project(":ad")
-    implementation (name: 'GDTSDK_unionNormal_4_400_1270', ext: 'aar')
-    implementation (name: 'ms_sdk_0727', ext: 'aar')
-    implementation (name: 'open_ad_sdk_4_1_0_2', ext: 'aar')
 
+    //穿山甲SDK~拓展依懒
     implementation (name: 'tools_release', ext: 'aar')
-    //美数广告SDK依懒
+
+    //美术广告SDK~核心依懒
+    implementation (name: 'ms_sdk_0727', ext: 'aar')
+    //美数广告SDK~拓展依懒
     implementation (name: 'jad_yun_sdk_v1.2.0', ext: 'aar')
     implementation (name: 'oaid_sdk_1.0.23', ext: 'aar')
     implementation 'com.github.razerdp:BasePopup:2.2.1'
     implementation 'com.googlecode.android-query:android-query:0.25.9'
-
-    //小满广告SDK依懒
-    implementation ("com.bx:xmsdk:1.5.3.10"){
-        // 如果出现oaid类冲突，请排除下库
-        exclude group:"com.miit.sdk"
-        // 如果出现gson库冲突，请排除下库
-        exclude group:"com.google.code.gson"
-        transitive = true
-        changing = true
-    }
-    // x5依赖，如果有了不用重复添加
-    api 'com.tencent.tbs.tbssdk:sdk:43993'
 
     //内存泄漏
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'

@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.dhcw.sdk.BDAdvanceFloatIconAd;
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.Map;
@@ -27,7 +27,6 @@ import cn.yq.ad.proxy.model.GetAdsModel;
 import cn.yq.ad.proxy.model.GetAdsResponseListApiResult;
 import cn.yq.ad.util.AdGsonUtils;
 import cn.yq.ad.util.AdLogUtils;
-import cn.yq.demo.bxm.TestPlayVideo;
 import cn.yq.demo.http.OKHttpUtil;
 import okhttp3.MediaType;
 import okhttp3.Request;
@@ -40,11 +39,9 @@ public class XmRenderAdActivity extends AppCompatActivity implements ADCallback 
     private static final String TAG = XmRenderAdActivity.class.getSimpleName();
     private static final String TAG_STAT = "STAT_FLOAT";
     private ViewGroup adContainer;
-    private TestPlayVideo tpv;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tpv = TestPlayVideo.getNewInstance();
         setContentView(R.layout.activity_ad_float);
         adContainer = findViewById(R.id.fl_ad_container);
         loadAdConfigs();
@@ -103,12 +100,12 @@ public class XmRenderAdActivity extends AppCompatActivity implements ADCallback 
     ADRunnable adr = null;
     private void startLoadAd(GetAdsResponseListApiResult result){
         //步骤3：开始加载广告
-        ExtraParams extraParams = new ExtraParams();
-        extraParams.setVip(false);
         // TODO: 2021/12/7 确认广告ID WAIT_LIGUO
-        String adId = "xxx";
+        String adId = "8860";
         adr = ADUtils.getRenderAdByXM(this,adContainer,"",adId,this);
-        adr.load();
+        if(adr != null) {
+            adr.load();
+        }
     }
 
     @Override
@@ -119,7 +116,7 @@ public class XmRenderAdActivity extends AppCompatActivity implements ADCallback 
     @Override
     public void onAdFailed(@NonNull FailModel result) {
         AdLogUtils.e(TAG,"onAdFailed(),广告加载失败,adId="+result.getAdId()+",adType="+result.getAdvType());
-        finish();
+        ToastUtils.showShort("加载失败(),errMsg="+result.getMsg());
     }
 
     @Override
@@ -127,17 +124,6 @@ public class XmRenderAdActivity extends AppCompatActivity implements ADCallback 
         AdLogUtils.i(TAG,"onAdClick(),广告点击,adId="+result.getAdId()+",adType="+result.getAdvType());
         Object data = result.getData();
         Map<String,String> extMap = result.getExtMap();
-        if(extMap != null && (data instanceof BDAdvanceFloatIconAd)){
-            int type = Integer.parseInt(extMap.get("type"));
-            //type=1 加载视频 type=2 播放视频
-            if (type == 1) {
-                //加载视频 绑定激励视频回调
-                tpv.load(this, (BDAdvanceFloatIconAd)data);
-            } else if (type == 2) {
-                //播放视频
-                tpv.play(this);
-            }
-        }
 
     }
 

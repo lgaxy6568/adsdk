@@ -171,4 +171,19 @@ public static final android.os.Parcelable$Creator *;
 -keep class android.support.v4.app.FragmentActivity{}
 -keep class androidx.fragment.app.FragmentActivity{}
 
+#小满
+-keep class com.bx.xmsdk.** { *; }
+-keep interface com.bx.xmsdk.** { *; }
+-keep enum com.bx.xmsdk.** { *; }
+-dontwarn dalvik.**
+-dontwarn com.tencent.smtt.**
+
+-keep class com.tencent.smtt.** {
+    *;
+}
+
+-keep class com.tencent.tbs.** {
+    *;
+}
+
 

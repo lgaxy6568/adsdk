@@ -67,9 +67,16 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/meishu_file_path" />
+                android:resource="@xml/ms_ad_file_path" />
         </provider>
         <!-- msad end -->
+
+        <!-- xm begin -->
+        <activity
+            android:name="cn.yq.ad.xm.XmAdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <!-- xm end -->
 
     </application>
 
