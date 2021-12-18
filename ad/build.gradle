@@ -36,7 +36,7 @@ android {
 
     afterEvaluate {
         publishing {
-            def versionName = "1.3.5" // 当前版本依赖库版本号，这个jitpack不会使用到，只是我们开发者自己查看
+            def versionName = "1.3.7" // 当前版本依赖库版本号，这个jitpack不会使用到，只是我们开发者自己查看
             publications {
                 release(MavenPublication) {
                     from components.release
@@ -44,23 +44,23 @@ android {
                     artifactId = 'ad'
                     version = versionName
                 }
-                debug(MavenPublication) {
-                    from components.debug
-                    groupId = 'cn.yq.ad'
-                    artifactId = 'ad'
-                    version = versionName
-                }
+//                debug(MavenPublication) {
+//                    from components.debug
+//                    groupId = 'cn.yq.ad'
+//                    artifactId = 'ad'
+//                    version = versionName
+//                }
             }
-            repositories {
-                // 下面这部分，不是很清楚加不加，但是最后加上
-                maven {
-                    // change URLs to point to your repos, e.g. http://my.org/repo
-                    def baseUrl = buildDir.getParent()
-                    def releasesRepoUrl = "$baseUrl/repos/releases"
-                    def snapshotsRepoUrl = "$baseUrl/repos/snapshots"
-                    url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-                }
-            }
+//            repositories {
+//                // 下面这部分，不是很清楚加不加，但是最后加上
+//                maven {
+//                    // change URLs to point to your repos, e.g. http://my.org/repo
+//                    def baseUrl = buildDir.getParent()
+//                    def releasesRepoUrl = "$baseUrl/repos/releases"
+//                    def snapshotsRepoUrl = "$baseUrl/repos/snapshots"
+//                    url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+//                }
+//            }
         }
     }
 }
@@ -81,7 +81,7 @@ dependencies {
     api 'com.pangle.cn:ads-sdk-pro:4.2.0.2'
     api 'com.qq.e.union:union:4.431.1301'
     //美术
-    implementation (name: 'ms_sdk_0727', ext: 'aar')
+    compileOnly (name: 'ms_sdk_0727', ext: 'aar')
 
     //小满
     api ("com.bx:xmsdk:1.5.3.10"){
