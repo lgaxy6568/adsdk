@@ -21,12 +21,6 @@ public class SuperApplication extends Application {
         AdConfigs.setAppIdByGDT("1111386088");
         AdConfigs.setAppIdByMS("104395");   //测试ID=101343
 
-        //小满
-        AdConfigs.setAppIdByXM("ds321-az-hdgj_lqkrcg#9VwK88c37w501910");
-        ExtraParams extraParams = new ExtraParams();
-        extraParams.setUsrId(DeviceUtils.getAndroidID());
-        AdConfigs.setExtParams(extraParams);
-
         AdConfigs.setDebugModel(true);
         //单独调试某个SDK，0：所有 | 1：广点通 | 2：穿山甲 | 3：百度 | 4：API | 5：美数 | 6：人工配置
         AdConstants.setDebugAdPlatform(0);

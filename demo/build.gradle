@@ -102,12 +102,6 @@ dependencies {
     implementation 'com.github.razerdp:BasePopup:2.2.1'
     implementation 'com.googlecode.android-query:android-query:0.25.9'
 
-    //小满sdk( tbs_sdk_44136.jar)
-    implementation ("com.bx:xmsdk:1.5.3.10"){
-        exclude group : "com.google.code.gson"
-        exclude group : "com.miit.sdk"
-    }
-
     //内存泄漏
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 }

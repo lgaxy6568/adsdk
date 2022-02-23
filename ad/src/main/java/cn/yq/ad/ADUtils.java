@@ -12,7 +12,6 @@ import cn.yq.ad.gdt.ADFactoryImplByGDT;
 import cn.yq.ad.ms.ADFactoryImplByMS;
 import cn.yq.ad.tt.ADFactoryImplByTT;
 import cn.yq.ad.util.AdStringUtils;
-import cn.yq.ad.xm.ADFactoryImplByXM;
 
 /**
  * Created by liguo on 2018/10/17.
@@ -84,25 +83,6 @@ public class ADUtils {
         }
         return mFactory_ms;
     }
-    /** 小满 */
-    private static volatile ADFactory mFactory_xiao_man = null;
-    public static ADFactory getFactoryByXM(){
-        if(mFactory_xiao_man != null){
-            return mFactory_xiao_man;
-        }
-        if(mFactory_xiao_man == null){
-            synchronized (ADUtils.class){
-                if(mFactory_xiao_man == null){
-                    try {
-                        mFactory_xiao_man = new ADFactoryImplByXM();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-        return mFactory_xiao_man;
-    }
 
     public static boolean textEmpty(String text) {
         return text == null || text.trim().length() == 0;
@@ -153,14 +133,6 @@ public class ADUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        try {
-            ADFactory af = ADUtils.getFactoryByXM();
-            if(af != null){
-                af.init(mCtx);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /* 穿山甲~激励视频广告 */
@@ -183,19 +155,6 @@ public class ADUtils {
             return null;
         }
         ADRunnable ar = factory.createGDTRewardVideo(act, appId, adId, extra);
-        if(ar != null && cb != null) {
-            ar.addCallback(cb);
-        }
-        return ar;
-    }
-
-    /* 小满~自渲染广告 */
-    public static ADRunnable getRenderAdByXM(Activity act, ViewGroup adContainer,String appId, String adId, ADCallback cb) {
-        ADFactory factory = ADUtils.getFactoryByXM();
-        if(factory == null){
-            return null;
-        }
-        ADRunnable ar = factory.createRenderAdForXM(act, appId, adId, adContainer);
         if(ar != null && cb != null) {
             ar.addCallback(cb);
         }

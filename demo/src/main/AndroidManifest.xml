@@ -29,9 +29,6 @@
         <activity android:name=".RewardAdActivity">
 
         </activity>
-        <activity android:name=".XmRenderAdActivity">
-
-        </activity>
     </application>
 
 </manifest>

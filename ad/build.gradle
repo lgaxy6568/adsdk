@@ -83,9 +83,4 @@ dependencies {
     //美术
     compileOnly (name: 'ms_sdk_0727', ext: 'aar')
 
-    //小满
-    compileOnly ("com.bx:xmsdk:1.5.3.10"){
-        exclude group : "com.google.code.gson"
-        exclude group : "com.miit.sdk"
-    }
 }

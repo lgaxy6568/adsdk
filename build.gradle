@@ -7,11 +7,6 @@ buildscript {
         mavenCentral()
         maven { url 'https://jitpack.io' }
         maven { url 'https://artifact.bytedance.com/repository/pangle' }
-        maven {
-            url "http://47.97.184.214:8081/nexus/content/groups/public"
-            allowInsecureProtocol = true
-        }
-        maven { url "https://maven.linzhuxin.com/repository/lzoom_read_sdk_prd/"}
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.3'
@@ -25,11 +20,6 @@ allprojects {
         mavenCentral()
         maven { url 'https://jitpack.io' }
         maven { url 'https://artifact.bytedance.com/repository/pangle' }
-        maven {
-            url "http://47.97.184.214:8081/nexus/content/groups/public"
-            allowInsecureProtocol = true
-        }
-        maven { url "https://maven.linzhuxin.com/repository/lzoom_read_sdk_prd/"}
     }
 }
 
