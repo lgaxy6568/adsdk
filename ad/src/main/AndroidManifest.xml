@@ -71,13 +71,6 @@
         </provider>
         <!-- msad end -->
 
-        <!-- xm begin -->
-        <activity
-            android:name="cn.yq.ad.xm.XmAdActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait" />
-        <!-- xm end -->
-
     </application>
 
 
