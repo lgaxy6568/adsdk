@@ -68,8 +68,8 @@ public class SplashForTT extends ADBaseImpl {
                 .setCodeId(adId)
                 .setSupportDeepLink(true)
                 .setImageAcceptedSize(accept_width, accept_height)
-                .setSplashButtonType(TTAdConstant.SPLASH_BUTTON_TYPE_DOWNLOAD_BAR)
-                .setDownloadType(TTAdConstant.DOWNLOAD_TYPE_POPUP)
+//                .setSplashButtonType(TTAdConstant.SPLASH_BUTTON_TYPE_DOWNLOAD_BAR)
+//                .setDownloadType(TTAdConstant.DOWNLOAD_TYPE_POPUP)
                 .build();
         TTAdManager tam = TTUtil.get().getAdManager();
 //        tam.setAppId(appId);
