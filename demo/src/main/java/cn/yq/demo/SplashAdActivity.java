@@ -72,13 +72,14 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
      */
     private void loadAdConfigs(){
         AdConfigs.setDebugModel(true);
+        AdLogUtils.e(TAG,"loadAdConfigs_begin()");
         new AsyncTask<GetAdsResponseListApiResult>(){
             @Override
             public GetAdsResponseListApiResult doInBackground() throws Exception {
                 final String url = SplashAdActivity.getConfigUrl();
                 GetAdsModel am = new GetAdsModel();
                 am.setAppId("ecb693649cef10af");
-                am.setVersion("1.2.9");
+                am.setVersion("2.1.4");
                 am.setBrand("normol");
                 String ps = AdGsonUtils.getGson().toJson(am);
                 Request req = new Request.Builder().url(url).post(RequestBody.create(ps,MediaType.parse("application/json"))).build();
@@ -88,14 +89,14 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
             @Override
             protected void onException(Exception e) {
                 super.onException(e);
-                AdLogUtils.e(TAG,"onException(),errMsg="+e.getMessage());
+                AdLogUtils.e(TAG,"loadAdConfigs_onException(),errMsg="+e.getMessage());
                 Toast.makeText(getApplicationContext(),"广告配置加载失败",Toast.LENGTH_LONG).show();
             }
 
             @Override
             protected void onSuccess(GetAdsResponseListApiResult result) {
                 super.onSuccess(result);
-                AdLogUtils.i(TAG,"onSuccess(),result="+ AdGsonUtils.getGson().toJson(result));
+                AdLogUtils.i(TAG,"loadAdConfigs_onSuccess(),result="+ AdGsonUtils.getGson().toJson(result));
                 startLoadAd(result);
             }
 

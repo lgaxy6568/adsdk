@@ -176,4 +176,14 @@ public class SplashForMS extends ADBaseImpl implements SplashAdListener,Interact
         FailModel fm = FailModel.toStr(errCode,errMsg,posId,getAdvType());
         defaultCallback.onAdFailed(fm.setAdRespItem(getAdParamItem()));
     }
+
+    @Override
+    public void onAdReady(ISplashAd iSplashAd) {
+        LogUtil.i(TAG,"onAdReady()");
+    }
+
+    @Override
+    public void onAdRenderFail(String s, int i) {
+        LogUtil.e(TAG,"onAdRenderFail(),errMsg="+s+",errCode="+i);
+    }
 }

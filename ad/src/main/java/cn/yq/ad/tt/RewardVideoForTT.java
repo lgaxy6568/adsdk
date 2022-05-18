@@ -2,6 +2,7 @@ package cn.yq.ad.tt;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -237,6 +238,11 @@ public class RewardVideoForTT extends ADBaseImplByTT<TTAdNative> {
             @Override
             public void onSkippedVideo() {
                 Log.e(L_TAG(), "onSkippedVideo()");
+            }
+
+            @Override
+            public void onRewardArrived(boolean b, int i, Bundle bundle) {
+                Log.e(L_TAG(), "onRewardArrived()");
             }
         };
         return tmpListener;

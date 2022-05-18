@@ -5,7 +5,7 @@ import android.content.Context;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.qq.e.comm.managers.GDTADManager;
+import com.qq.e.comm.managers.GDTAdSdk;
 
 import java.util.Map;
 
@@ -21,7 +21,7 @@ import cn.yq.ad.proxy.AdConfigs;
 public class ADFactoryImplByGDT extends BaseADFactoryImpl {
     @Override
     public void init(Context ctx, String... args) {
-        GDTADManager.getInstance().initWith(ctx, AdConfigs.getAppIdByType(Adv_Type.gdt));
+        GDTAdSdk.init(ctx, AdConfigs.getAppIdByType(Adv_Type.gdt));
     }
 
     @Override

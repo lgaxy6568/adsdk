@@ -126,50 +126,38 @@ public static final android.os.Parcelable$Creator *;
 -keep class com.jd.ad.** {*;}
 -keep interface com.jd.ad.**
 
-#穿山甲
--keepclassmembers class * {
-    *** getContext(...);
-    *** getActivity(...);
-    *** getResources(...);
-    *** startActivity(...);
-    *** startActivityForResult(...);
-    *** registerReceiver(...);
-    *** unregisterReceiver(...);
-    *** query(...);
-    *** getType(...);
-    *** insert(...);
-    *** delete(...);
-    *** update(...);
-    *** call(...);
-    *** setResult(...);
-    *** startService(...);
-    *** stopService(...);
-    *** bindService(...);
-    *** unbindService(...);
-    *** requestPermissions(...);
-    *** getIdentifier(...);
-   }
-
--keep class com.bytedance.pangle.** {*;}
+# 穿山甲
 -keep class com.bytedance.sdk.openadsdk.** { *; }
+-keep public interface com.bytedance.sdk.openadsdk.downloadnew.** { *; }
+-keep class com.pgl.sys.ces.* { *; }
 
--keep class ms.bd.c.Pgl.**{*;}
--keep class com.bytedance.mobsec.metasec.ml.**{*;}
+# 广点通
+-keep class android.support.v4.** { public *; }
+-keep class android.support.v7.** { public *; }
+-keep class * extends java.lang.annotation.Annotation { *; }
+-keep interface * extends java.lang.annotation.Annotation { *; }
+-keepclasseswithmembers,includedescriptorclasses class * { native <methods>; }
+-keep class com.qq.e.** { public protected *; }
+-keep class yaq.gdtadv { *; }
+-keep class com.qq.e.** { *; }
+-keep class com.tencent.** { *; }
+-keep class cn.mmachina.JniClient { *; }
+-keep class c.t.m.li.tsa.** { *; }
+-keep, allowobfuscation class com.qq.e.comm.plugin.services.SDKServerService { *; }
+-keepclassmembers, allowobfuscation class com.qq.e.comm.plugin.net.SecurePackager { public *; }
+-keep class * extends com.qq.e.mediation.interfaces.BaseNativeUnifiedAd { *; }
+-keep class * extends com.qq.e.mediation.interfaces.BaseSplashAd { *; }
+-keep class * extends com.qq.e.mediation.interfaces.BaseRewardAd { *; }
 
--keep class com.bytedance.embedapplog.** {*;}
--keep class com.bytedance.embed_dr.** {*;}
-
--keep class com.bykv.vk.** {*;}
-
--keep class com.lynx.** { *; }
-
--keep class com.ss.android.**{*;}
-
--keep class android.support.v4.app.FragmentActivity{}
--keep class androidx.fragment.app.FragmentActivity{}
-
--keep class android.support.v4.app.FragmentActivity{}
--keep class androidx.fragment.app.FragmentActivity{}
+# 快手
+-keep class org.chromium.** {*;}
+-keep class org.chromium.** { *; }
+-keep class aegon.chrome.** { *; }
+-keep class com.kwai.**{ *; }
+-dontwarn com.kwai.**
+-dontwarn com.kwad.**
+-dontwarn com.ksad.**
+-dontwarn aegon.chrome.**
 
 #小满
 -keep class com.bx.xmsdk.** { *; }

@@ -89,6 +89,7 @@ public final class AdvProxyByKaiPing extends AdvProxyAbstract implements Runnabl
         List<GetAdsResponse> dataLst = (result != null) ? result.getData() : null;
         if(dataLst == null || dataLst.size() == 0){
             AdLogUtils.w(TAG, "initAd(),dataLst is null");
+            initErrMsg.set("dataLst is null or empty");
             return;
         }
         final List<AdRespItem> apLst = new ArrayList<>();
