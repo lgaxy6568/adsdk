@@ -50,9 +50,9 @@ public class SplashForMS extends ADBaseImpl implements SplashAdListener,Interact
 
     @Override
     public void load() {
-        SplashAdLoader splashAdLoader = new SplashAdLoader(act, adContainer, posId, this, 3000);
-        splashAdLoader.loadAdOnly();
         LogUtil.i(TAG,"load()");
+        SplashAdLoader splashAdLoader = new SplashAdLoader(act, adContainer, posId, this, 5000);
+        splashAdLoader.loadAdOnly();
     }
 
     @SuppressWarnings("ALL")

@@ -38,7 +38,7 @@ import okhttp3.RequestBody;
  * 【开屏广告】测试
  */
 public class SplashAdActivity extends AppCompatActivity implements ADCallback, StatCallbackByKaiPing {
-    private static final String TAG = SplashAdActivity.class.getSimpleName();
+    private static final String TAG = "Splash_Ad_Activity";
     private static final String TAG_STAT = "STAT_KAI_PING";
     private ViewGroup adContainer;
     private static final AtomicBoolean abUseTestMode = new AtomicBoolean(false);
@@ -72,7 +72,7 @@ public class SplashAdActivity extends AppCompatActivity implements ADCallback, S
      */
     private void loadAdConfigs(){
         AdConfigs.setDebugModel(true);
-        AdLogUtils.e(TAG,"loadAdConfigs_begin()");
+        AdLogUtils.i(TAG,"loadAdConfigs_begin()");
         new AsyncTask<GetAdsResponseListApiResult>(){
             @Override
             public GetAdsResponseListApiResult doInBackground() throws Exception {
