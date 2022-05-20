@@ -9,7 +9,6 @@ import com.meishu.sdk.core.ad.splash.SplashAdListener;
 import com.meishu.sdk.core.ad.splash.SplashAdLoader;
 import com.meishu.sdk.core.loader.AdPlatformError;
 import com.meishu.sdk.core.loader.InteractionListener;
-import com.meishu.sdk.core.utils.LogUtil;
 
 import cn.yq.ad.AdConf;
 import cn.yq.ad.Adv_Type;
@@ -18,6 +17,7 @@ import cn.yq.ad.impl.ClickModel;
 import cn.yq.ad.impl.DismissModel;
 import cn.yq.ad.impl.FailModel;
 import cn.yq.ad.impl.PresentModel;
+import cn.yq.ad.util.AdLogUtils;
 
 /**
  * SDK文档地址：https://git.adxdata.com/meishu/sdk-android-demo/-/wikis/home
@@ -50,7 +50,7 @@ public class SplashForMS extends ADBaseImpl implements SplashAdListener,Interact
 
     @Override
     public void load() {
-        LogUtil.i(TAG,"load()");
+        AdLogUtils.i(TAG,"load()");
         SplashAdLoader splashAdLoader = new SplashAdLoader(act, adContainer, posId, this, 5000);
         splashAdLoader.loadAdOnly();
     }
@@ -59,7 +59,7 @@ public class SplashForMS extends ADBaseImpl implements SplashAdListener,Interact
     @Override
     public void show(View view, Object obj) {
         super.show(view, obj);
-        LogUtil.i(TAG,"show()");
+        AdLogUtils.i(TAG,"show()");
         if(ad == null){
             return;
         }
@@ -79,7 +79,7 @@ public class SplashForMS extends ADBaseImpl implements SplashAdListener,Interact
 
     @Override
     public void onAdClicked() {
-        LogUtil.i(TAG,"onAdClicked()");
+        AdLogUtils.i(TAG,"onAdClicked()");
         defaultCallback.onAdClick(ClickModel.getInstance(0,-1,posId,getAdvType()).setAdRespItem(getAdParamItem()));
     }
 
@@ -89,7 +89,7 @@ public class SplashForMS extends ADBaseImpl implements SplashAdListener,Interact
      */
     @Override
     public void onAdPresent(ISplashAd iSplashAd) {
-        LogUtil.i(TAG,"onAdPresent()");
+        AdLogUtils.i(TAG,"onAdPresent()");
     }
 
     /**
@@ -98,7 +98,7 @@ public class SplashForMS extends ADBaseImpl implements SplashAdListener,Interact
      */
     @Override
     public void onAdSkip(ISplashAd iSplashAd) {
-        LogUtil.i(TAG,"onAdSkip()");
+        AdLogUtils.i(TAG,"onAdSkip()");
         defaultCallback.onAdSkip(PresentModel.getInstance(posId, getAdvType()).setAdRespItem(getAdParamItem()));
     }
 
@@ -108,7 +108,7 @@ public class SplashForMS extends ADBaseImpl implements SplashAdListener,Interact
      */
     @Override
     public void onAdTimeOver(ISplashAd iSplashAd) {
-        LogUtil.i(TAG,"onAdTimeOver()");
+        AdLogUtils.i(TAG,"onAdTimeOver()");
     }
 
     /**
@@ -117,7 +117,7 @@ public class SplashForMS extends ADBaseImpl implements SplashAdListener,Interact
      */
     @Override
     public void onAdTick(long millis) {
-        LogUtil.i(TAG,"onAdTick()");
+        AdLogUtils.i(TAG,"onAdTick()");
     }
 
     /**
@@ -126,7 +126,7 @@ public class SplashForMS extends ADBaseImpl implements SplashAdListener,Interact
      */
     @Override
     public void onAdLoaded(ISplashAd iSplashAd) {
-        LogUtil.i(TAG,"onAdLoaded()");
+        AdLogUtils.i(TAG,"onAdLoaded()");
         this.ad = iSplashAd;
         defaultCallback.onAdPresent(PresentModel.getInstance(posId, getAdvType()).setAdRespItem(getAdParamItem()));
     }
@@ -136,7 +136,7 @@ public class SplashForMS extends ADBaseImpl implements SplashAdListener,Interact
      */
     @Override
     public void onAdError() {
-        LogUtil.e(TAG,"onAdError(),posId="+posId);
+        AdLogUtils.e(TAG,"onAdError(),posId="+posId);
         FailModel fm = FailModel.toStr(-1,"",posId,getAdvType());
         defaultCallback.onAdFailed(fm.setAdRespItem(getAdParamItem()));
     }
@@ -146,13 +146,13 @@ public class SplashForMS extends ADBaseImpl implements SplashAdListener,Interact
      */
     @Override
     public void onAdExposure() {
-        LogUtil.e(TAG,"onAdExposure()");
+        AdLogUtils.i(TAG,"onAdExposure()");
         defaultCallback.onADExposed(PresentModel.getInstance(posId, getAdvType()).setAdRespItem(getAdParamItem()));
     }
 
     @Override
     public void onAdClosed() {
-        LogUtil.e(TAG,"onAdClosed()");
+        AdLogUtils.e(TAG,"onAdClosed()");
         defaultCallback.onAdDismissed(DismissModel.newInstance(posId, getAdvType()).setAdRespItem(getAdParamItem()));
     }
 
@@ -162,7 +162,7 @@ public class SplashForMS extends ADBaseImpl implements SplashAdListener,Interact
      */
     @Override
     public void onAdPlatformError(AdPlatformError err) {
-        LogUtil.e(TAG,"onAdPlatformError()");
+        AdLogUtils.e(TAG,"onAdPlatformError(),errCode="+err.getCode()+",platform="+err.getPlatform()+",msg="+err.getMessage());
         int errCode = -1;
         String errMsg = "第三方平台回调出错";
         if(err != null){
@@ -174,16 +174,16 @@ public class SplashForMS extends ADBaseImpl implements SplashAdListener,Interact
         }
 
         FailModel fm = FailModel.toStr(errCode,errMsg,posId,getAdvType());
-        defaultCallback.onAdFailed(fm.setAdRespItem(getAdParamItem()));
+        //defaultCallback.onAdFailed(fm.setAdRespItem(getAdParamItem()));
     }
 
     @Override
     public void onAdReady(ISplashAd iSplashAd) {
-        LogUtil.i(TAG,"onAdReady()");
+        AdLogUtils.i(TAG,"onAdReady()");
     }
 
     @Override
     public void onAdRenderFail(String s, int i) {
-        LogUtil.e(TAG,"onAdRenderFail(),errMsg="+s+",errCode="+i);
+        AdLogUtils.e(TAG,"onAdRenderFail(),errMsg="+s+",errCode="+i);
     }
 }

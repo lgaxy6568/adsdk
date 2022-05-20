@@ -38,6 +38,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
+                tools:replace="android:resource"
                 android:resource="@xml/meishu_file_path" />
         </provider>
         <!-- msad end -->
