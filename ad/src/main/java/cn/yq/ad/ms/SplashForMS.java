@@ -18,6 +18,8 @@ import cn.yq.ad.impl.DismissModel;
 import cn.yq.ad.impl.FailModel;
 import cn.yq.ad.impl.PresentModel;
 import cn.yq.ad.util.AdLogUtils;
+import cn.yq.ad.util.AdSize;
+import cn.yq.ad.util.SizeUtil;
 
 /**
  * SDK文档地址：https://git.adxdata.com/meishu/sdk-android-demo/-/wikis/home
@@ -52,6 +54,8 @@ public class SplashForMS extends ADBaseImpl implements SplashAdListener,Interact
     public void load() {
         AdLogUtils.i(TAG,"load()");
         SplashAdLoader splashAdLoader = new SplashAdLoader(act, adContainer, posId, this, 5000);
+        AdSize size = SizeUtil.getScreenSize(act);
+        splashAdLoader.setAdSize(size.getWidth(),size.getHeight());
         splashAdLoader.loadAdOnly();
     }
 
@@ -127,8 +131,6 @@ public class SplashForMS extends ADBaseImpl implements SplashAdListener,Interact
     @Override
     public void onAdLoaded(ISplashAd iSplashAd) {
         AdLogUtils.i(TAG,"onAdLoaded()");
-        this.ad = iSplashAd;
-        defaultCallback.onAdPresent(PresentModel.getInstance(posId, getAdvType()).setAdRespItem(getAdParamItem()));
     }
 
     /**
@@ -180,6 +182,8 @@ public class SplashForMS extends ADBaseImpl implements SplashAdListener,Interact
     @Override
     public void onAdReady(ISplashAd iSplashAd) {
         AdLogUtils.i(TAG,"onAdReady()");
+        this.ad = iSplashAd;
+        defaultCallback.onAdPresent(PresentModel.getInstance(posId, getAdvType()).setAdRespItem(getAdParamItem()));
     }
 
     @Override
