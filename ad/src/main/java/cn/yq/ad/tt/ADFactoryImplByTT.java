@@ -22,7 +22,7 @@ public class ADFactoryImplByTT extends BaseADFactoryImpl {
 
     @Override
     public ADRunnable createSplashForTT(Activity act, String appId, String adId, ViewGroup adContainer) {
-        return new SplashForTT(act, appId, adId, adContainer);
+        return new SplashForCSJ(act, appId, adId, adContainer);
     }
 
     @Override
